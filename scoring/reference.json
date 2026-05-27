@@ -5,8 +5,21 @@
       "weight": 0.6,
       "primary_metric": "block_efficiency",
       "metrics": {
-        "block_efficiency": {"higher_is_better": true, "coefficient": 1.0},
-        "total_variation": {"higher_is_better": false, "coefficient": -1.0},
+        "block_efficiency": {
+          "higher_is_better": true,
+          "coefficient": 1.0,
+          "description": "Generated tokens per serial target-model step, the paper's efficiency benefit."
+        },
+        "total_variation": {
+          "higher_is_better": false,
+          "coefficient": -1.0,
+          "description": "Empirical total variation from the exact target sequence distribution, the losslessness constraint."
+        },
+        "prefix_conditional_l1": {
+          "higher_is_better": false,
+          "coefficient": -0.5,
+          "description": "Weighted next-token conditional L1 error on the active train/test prefix slice, catching local autoregressive shortcuts hidden by aggregate sequence mass."
+        },
         "slice_total_variation": {
           "higher_is_better": false,
           "coefficient": -0.6,
@@ -28,8 +41,21 @@
       "weight": 0.2,
       "primary_metric": "block_efficiency",
       "metrics": {
-        "block_efficiency": {"higher_is_better": true, "coefficient": 1.0},
-        "total_variation": {"higher_is_better": false, "coefficient": -1.0},
+        "block_efficiency": {
+          "higher_is_better": true,
+          "coefficient": 1.0,
+          "description": "Generated tokens per serial target-model step, the paper's efficiency benefit."
+        },
+        "total_variation": {
+          "higher_is_better": false,
+          "coefficient": -1.0,
+          "description": "Empirical total variation from the exact target sequence distribution, the losslessness constraint."
+        },
+        "prefix_conditional_l1": {
+          "higher_is_better": false,
+          "coefficient": -0.5,
+          "description": "Weighted next-token conditional L1 error on the active train/test prefix slice, catching local autoregressive shortcuts hidden by aggregate sequence mass."
+        },
         "slice_total_variation": {
           "higher_is_better": false,
           "coefficient": -0.6,
@@ -51,8 +77,21 @@
       "weight": 0.2,
       "primary_metric": "block_efficiency",
       "metrics": {
-        "block_efficiency": {"higher_is_better": true, "coefficient": 1.0},
-        "total_variation": {"higher_is_better": false, "coefficient": -1.0},
+        "block_efficiency": {
+          "higher_is_better": true,
+          "coefficient": 1.0,
+          "description": "Generated tokens per serial target-model step, the paper's efficiency benefit."
+        },
+        "total_variation": {
+          "higher_is_better": false,
+          "coefficient": -1.0,
+          "description": "Empirical total variation from the exact target sequence distribution, the losslessness constraint."
+        },
+        "prefix_conditional_l1": {
+          "higher_is_better": false,
+          "coefficient": -0.5,
+          "description": "Weighted next-token conditional L1 error on the active train/test prefix slice, catching local autoregressive shortcuts hidden by aggregate sequence mass."
+        },
         "slice_total_variation": {
           "higher_is_better": false,
           "coefficient": -0.6,

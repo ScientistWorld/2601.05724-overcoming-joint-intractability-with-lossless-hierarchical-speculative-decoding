@@ -11,7 +11,7 @@ import hashlib
 import json
 from pathlib import Path
 
-from data.finite_ar import SCENARIOS, exact_sequence_distribution
+from data.finite_ar import SCENARIOS, VOCAB, exact_sequence_distribution
 
 
 SLICE = "train"
@@ -51,6 +51,62 @@ def _slice_metrics(
     }
 
 
+def _prefix_member(scenario_name: str, prefix: str) -> bool:
+    key = f"{SPLIT_SALT}:prefix:{scenario_name}:{prefix}".encode("utf-8")
+    digest = hashlib.sha256(key).digest()
+    return int.from_bytes(digest[:8], "big") % 2 == 0
+
+
+def _prefix_conditional_l1(
+    scenario_name: str,
+    counts: dict[str, int],
+    max_len: int,
+    temperature: float,
+) -> float:
+    exact = exact_sequence_distribution(max_len, temperature)
+    prefixes = sorted(
+        {
+            seq[:length]
+            for seq in exact
+            for length in range(max_len)
+            if _prefix_member(scenario_name, seq[:length])
+        }
+    )
+    if not prefixes:
+        raise ValueError(f"{scenario_name}: train split selected no prefixes")
+
+    weighted_l1 = 0.0
+    total_weight = 0.0
+    for prefix in prefixes:
+        exact_prefix_mass = sum(prob for seq, prob in exact.items() if seq.startswith(prefix))
+        empirical_prefix_count = sum(count for seq, count in counts.items() if seq.startswith(prefix))
+        if exact_prefix_mass <= 0.0:
+            continue
+        next_index = len(prefix)
+        l1 = 0.0
+        for tok in VOCAB:
+            exact_next_mass = sum(
+                prob
+                for seq, prob in exact.items()
+                if seq.startswith(prefix) and seq[next_index] == tok
+            )
+            empirical_next_count = sum(
+                count
+                for seq, count in counts.items()
+                if seq.startswith(prefix) and seq[next_index] == tok
+            )
+            exact_cond = exact_next_mass / exact_prefix_mass
+            empirical_cond = (
+                empirical_next_count / empirical_prefix_count
+                if empirical_prefix_count > 0
+                else 0.0
+            )
+            l1 += abs(empirical_cond - exact_cond)
+        weighted_l1 += exact_prefix_mass * l1
+        total_weight += exact_prefix_mass
+    return weighted_l1 / total_weight
+
+
 def evaluate_artifact(path: Path) -> tuple[str, str, dict[str, float]]:
     data = json.loads(path.read_text())
     scenario_name = str(data["scenario"])
@@ -75,6 +131,9 @@ def evaluate_artifact(path: Path) -> tuple[str, str, dict[str, float]]:
     metrics = {
         "block_efficiency": block_efficiency,
         "total_variation": _total_variation(counts, samples, scenario.max_len, scenario.temperature),
+        "prefix_conditional_l1": _prefix_conditional_l1(
+            scenario_name, counts, scenario.max_len, scenario.temperature
+        ),
     }
     metrics.update(
         _slice_metrics(scenario_name, counts, samples, scenario.max_len, scenario.temperature)
