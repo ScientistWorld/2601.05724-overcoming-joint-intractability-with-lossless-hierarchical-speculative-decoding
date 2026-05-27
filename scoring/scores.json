@@ -1,0 +1,40 @@
+{
+  "experiments": {
+    "finite_ar_gamma3": {
+      "results": {
+        "hsd": {
+          "block_efficiency": 3.290014805066623,
+          "total_variation": 0.03263181354985232
+        },
+        "tokenwise": {
+          "block_efficiency": 3.141721074075892,
+          "total_variation": 0.030386227277857805
+        }
+      }
+    },
+    "finite_ar_main": {
+      "results": {
+        "hsd": {
+          "block_efficiency": 3.2885609462834124,
+          "total_variation": 0.03246477073985703
+        },
+        "tokenwise": {
+          "block_efficiency": 3.1424615293967455,
+          "total_variation": 0.03329251321843591
+        }
+      }
+    },
+    "finite_ar_temp08": {
+      "results": {
+        "hsd": {
+          "block_efficiency": 3.150660654155918,
+          "total_variation": 0.03241713395292512
+        },
+        "tokenwise": {
+          "block_efficiency": 2.9916048090047305,
+          "total_variation": 0.03118092040719894
+        }
+      }
+    }
+  }
+}
