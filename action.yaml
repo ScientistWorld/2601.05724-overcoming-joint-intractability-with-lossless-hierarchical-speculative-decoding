@@ -2,4 +2,4 @@ action: done
 gpus: 0
 test: false
 milestone: core_claim_plus
-notes: "Verified scaled HSD reproduction and fixed default scoring so scores.json emits every metric declared in reference.json. Validation passes."
+notes: "Final verification passed for core_claim_plus; method-agnostic docs and finite reference notes were tightened, and validation passes."

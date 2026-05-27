@@ -2,6 +2,7 @@
   "experiments": {
     "finite_ar_main": {
       "description": "Scaled finite-distribution analogue of the paper's main single-draft speculative decoding comparison. Block-efficiency references are finite benchmark values from the validated 80k-sample reproduction; total_variation=0.0 is the exact target-distribution ideal.",
+      "notes": "The paper reports large-model Qwen2.5 results on GSM8K, HumanEval, and CNN/DailyMail. This gym deliberately uses exact finite autoregressive distributions to isolate verifier behavior under the same scientific objective; reference block-efficiency values therefore come from the validated finite reproduction, not from the paper tables.",
       "weight": 0.6,
       "primary_metric": "block_efficiency",
       "metrics": {
@@ -43,6 +44,7 @@
     },
     "finite_ar_gamma3": {
       "description": "Scaled finite-distribution draft-length ablation corresponding to the paper's draft-length study. Block-efficiency references are finite benchmark values from the validated 80k-sample reproduction; total_variation=0.0 is the exact target-distribution ideal.",
+      "notes": "The original paper varies draft length with large language models. This gym keeps the same type of stress test but uses a finite autoregressive setting; reference values are finite-benchmark values, not paper table values.",
       "weight": 0.2,
       "primary_metric": "block_efficiency",
       "metrics": {
@@ -84,6 +86,7 @@
     },
     "finite_ar_temp08": {
       "description": "Scaled finite-distribution temperature ablation corresponding to the paper's temperature study. Block-efficiency references are finite benchmark values from the validated 80k-sample reproduction; total_variation=0.0 is the exact target-distribution ideal.",
+      "notes": "The original paper varies sampling temperature with large language models. This gym keeps the same type of robustness check in a finite autoregressive setting; reference values are finite-benchmark values, not paper table values.",
       "weight": 0.2,
       "primary_metric": "block_efficiency",
       "metrics": {

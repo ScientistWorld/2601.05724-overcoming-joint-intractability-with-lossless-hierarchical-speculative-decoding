@@ -20,5 +20,10 @@
 - Fixed default `scores.json` to include all diagnostic metric keys declared in `reference.json`.
 - Re-ran `bash scripts/evaluate.sh` and `python validate.py --compare`; both passed.
 
+### [2026-05-27 07:12] - core_claim_plus
+- Final verification confirmed the claimed milestone is justified for the scaled finite autoregressive gym.
+- Removed method leakage from method-agnostic briefing files and added explicit finite-scaling notes to `scoring/reference.json`.
+- Re-ran `bash scripts/evaluate.sh` and `python validate.py --compare`; both passed.
+
 ## Stop Justification
 - Completed at milestone `core_claim_plus`.
