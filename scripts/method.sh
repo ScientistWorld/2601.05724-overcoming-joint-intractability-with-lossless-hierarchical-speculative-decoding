@@ -8,7 +8,8 @@
 
 set -e
 
-cd /home/user
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "${SCRIPT_DIR}/.."
 
 SCENARIO="${1:-finite_ar_main}"
 SAMPLES="${SAMPLES:-50000}"

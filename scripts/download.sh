@@ -17,7 +17,8 @@
 
 set -e
 
-cd /home/user
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "${SCRIPT_DIR}/.."
 
 mkdir -p data/downloads
 echo "No external downloads are required for the finite autoregressive benchmark."

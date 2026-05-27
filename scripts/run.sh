@@ -2,7 +2,8 @@
 
 set -e
 
-cd /home/user
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+cd "${SCRIPT_DIR}/.."
 
 SAMPLES=80000 bash scripts/reproduce.sh
 python validate.py --compare
