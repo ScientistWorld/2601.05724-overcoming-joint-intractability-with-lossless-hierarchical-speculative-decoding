@@ -1,9 +1,4 @@
-# This iteration writes files only — do NOT submit compute jobs.
-# Once you set action to 'done', STOP immediately.
-# Do NOT sleep, poll, or wait. The system reads this file
-# only after your turn ends.
-action: done
+action: submit
 gpus: 0
 test: false
-milestone: core_claim_plus
-notes: "Improvements: added split-specific prefix conditional L1 metric and completed metric descriptions. Notes: scripts pass bash -n; no scores_train/test stubs present; see DESIGN_NOTES.md for runtime checks."
+notes: "Run evaluate_train.sh and evaluate_test.sh against all checkpoint artifacts; populate split score files."
