@@ -5,4 +5,4 @@ action: done
 gpus: 0
 test: false
 milestone: core_claim_plus
-notes: "Packaged HSD reproduction with finite AR core-claim-plus results, validated scripts and scoring, and documented empirical TV sampling noise."
+notes: "Continuing audit restored core_claim_plus, fixed baseline standalone evaluation and finite-reference documentation, and revalidated scoring."

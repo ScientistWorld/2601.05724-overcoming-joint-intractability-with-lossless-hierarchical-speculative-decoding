@@ -1,7 +1,7 @@
 {
   "experiments": {
     "finite_ar_main": {
-      "description": "Scaled finite-distribution analogue of the paper's main single-draft speculative decoding comparison.",
+      "description": "Scaled finite-distribution analogue of the paper's main single-draft speculative decoding comparison. Block-efficiency references are finite benchmark values from the validated 80k-sample reproduction; total_variation=0.0 is the exact target-distribution ideal.",
       "weight": 0.6,
       "primary_metric": "block_efficiency",
       "metrics": {
@@ -14,7 +14,7 @@
       }
     },
     "finite_ar_gamma3": {
-      "description": "Scaled finite-distribution draft-length ablation corresponding to the paper's draft-length study.",
+      "description": "Scaled finite-distribution draft-length ablation corresponding to the paper's draft-length study. Block-efficiency references are finite benchmark values from the validated 80k-sample reproduction; total_variation=0.0 is the exact target-distribution ideal.",
       "weight": 0.2,
       "primary_metric": "block_efficiency",
       "metrics": {
@@ -27,7 +27,7 @@
       }
     },
     "finite_ar_temp08": {
-      "description": "Scaled finite-distribution temperature ablation corresponding to the paper's temperature study.",
+      "description": "Scaled finite-distribution temperature ablation corresponding to the paper's temperature study. Block-efficiency references are finite benchmark values from the validated 80k-sample reproduction; total_variation=0.0 is the exact target-distribution ideal.",
       "weight": 0.2,
       "primary_metric": "block_efficiency",
       "metrics": {

@@ -13,8 +13,11 @@ How success is measured. Describe only the metrics, targets, and evaluation proc
 
 The primary baseline is tokenwise speculative decoding. The paper reports HSD
 improvements over tokenwise block efficiency across GSM8K, HumanEval, and
-CNN/DailyMail; this workspace uses those reported block-efficiency values as
-reference targets while running a finite scaled benchmark.
+CNN/DailyMail. This workspace evaluates a finite scaled benchmark with the same
+verifier objective: improve block efficiency over tokenwise decoding while
+preserving the exact target distribution. The original large-model paper
+numbers are summarized in `briefing/overview.md`; `scoring/reference.json`
+contains the finite benchmark reference values used for automated comparison.
 
 ## Evaluation Protocol
 

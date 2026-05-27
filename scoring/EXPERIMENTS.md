@@ -6,7 +6,9 @@ default finite autoregressive benchmark: how many tokens are produced per serial
 target step, and whether the resulting samples still match the target
 distribution.
 
-The fidelity metric is empirical total variation from finite samples; exact
+The fidelity metric is empirical total variation from finite samples.
+`scoring/reference.json` uses `total_variation=0.0` as the exact
+target-distribution ideal, not as an observed finite-sample value. Exact
 enumeration of this finite setup can be used as a diagnostic when distinguishing
 sampling noise from a systematic verifier error.
 

@@ -27,3 +27,7 @@ python -m baseline.tokenwise \
   --samples "${SAMPLES}" \
   --seed "${SEED}" \
   --output "checkpoints/tokenwise_${SCENARIO}.json"
+
+if [ "${RUN_EVALUATE:-1}" = "1" ]; then
+  bash scripts/evaluate.sh
+fi

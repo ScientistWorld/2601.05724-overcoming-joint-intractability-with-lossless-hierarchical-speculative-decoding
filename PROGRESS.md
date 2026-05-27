@@ -12,6 +12,9 @@
   `data/finite_ar.py` rather than trusting method-authored artifact fields.
 - Continuing-agent audit confirmed `eval/` does not import from `method/` and
   evaluates method artifacts rather than rerunning the algorithm internally.
+- A subsequent audit restored `core_claim_plus`: the implementation is a real
+  scaled HSD verifier, `scripts/evaluate.sh` works standalone, and
+  `scripts/baseline.sh` now evaluates when run directly.
 
 ## Results
 
@@ -46,7 +49,10 @@ systematic fidelity failure.
 
 `scoring/reference.json` uses finite-benchmark block-efficiency targets in the
 same units as `scoring/scores.json`. The paper's original Qwen/GSM8K numbers
-remain documented in `briefing/overview.md` and `briefing/evaluation.md`.
+remain documented in `briefing/overview.md`.
+For the fidelity constraint, `reference.json` uses `total_variation=0.0` as the
+exact target-distribution ideal; `scores.json` reports finite-sample empirical
+TV and should be interpreted with sampling noise.
 
 ## Remaining
 
@@ -66,7 +72,10 @@ remain documented in `briefing/overview.md` and `briefing/evaluation.md`.
   successfully on another node; final exit code was 0.
 - `scoring/reference.json` contains finite scaled targets in the same units as
   this benchmark; the original paper's large-model numbers are documented in
-  `briefing/overview.md` and `briefing/evaluation.md`.
+  `briefing/overview.md`.
+- Continuing audit found and fixed stale documentation that implied
+  `scoring/reference.json` held paper table values; it now consistently
+  describes the finite scaled benchmark reference values used by the evaluator.
 
 ## Deviations from Paper
 
