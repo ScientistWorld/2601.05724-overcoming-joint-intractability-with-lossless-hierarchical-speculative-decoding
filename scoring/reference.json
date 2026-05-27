@@ -8,7 +8,7 @@
         "block_efficiency": {
           "higher_is_better": true,
           "coefficient": 1.0,
-          "description": "Generated tokens per serial target-model step. In train/test split scores this is reported for the active support slice so the efficiency benefit is held out without measuring wall-clock speed."
+          "description": "Generated tokens per serial target-model step. In train/test split scores this is support-normalized on the active slice so it stays in paper units while making the efficiency benefit held out without measuring wall-clock speed."
         },
         "slice_block_efficiency": {
           "higher_is_better": true,
@@ -49,7 +49,7 @@
         "block_efficiency": {
           "higher_is_better": true,
           "coefficient": 1.0,
-          "description": "Generated tokens per serial target-model step. In train/test split scores this is reported for the active support slice so the efficiency benefit is held out without measuring wall-clock speed."
+          "description": "Generated tokens per serial target-model step. In train/test split scores this is support-normalized on the active slice so it stays in paper units while making the efficiency benefit held out without measuring wall-clock speed."
         },
         "slice_block_efficiency": {
           "higher_is_better": true,
@@ -90,7 +90,7 @@
         "block_efficiency": {
           "higher_is_better": true,
           "coefficient": 1.0,
-          "description": "Generated tokens per serial target-model step. In train/test split scores this is reported for the active support slice so the efficiency benefit is held out without measuring wall-clock speed."
+          "description": "Generated tokens per serial target-model step. In train/test split scores this is support-normalized on the active slice so it stays in paper units while making the efficiency benefit held out without measuring wall-clock speed."
         },
         "slice_block_efficiency": {
           "higher_is_better": true,

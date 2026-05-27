@@ -47,6 +47,7 @@ def _slice_metrics(
     exact_mass = sum(exact[seq] for seq in selected)
     slice_tv = 0.5 * sum(abs(counts.get(seq, 0) / samples - exact[seq]) for seq in selected)
     return {
+        "normalized_block_efficiency": block_efficiency * empirical_mass / exact_mass,
         "slice_block_efficiency": block_efficiency * empirical_mass,
         "slice_total_variation": slice_tv,
         "slice_mass_error": abs(empirical_mass - exact_mass),
@@ -139,7 +140,7 @@ def evaluate_artifact(path: Path) -> tuple[str, str, dict[str, float]]:
         block_efficiency,
     )
     metrics = {
-        "block_efficiency": slice_metrics["slice_block_efficiency"],
+        "block_efficiency": slice_metrics.pop("normalized_block_efficiency"),
         "total_variation": _total_variation(counts, samples, scenario.max_len, scenario.temperature),
         "prefix_conditional_l1": _prefix_conditional_l1(
             scenario_name, counts, scenario.max_len, scenario.temperature
