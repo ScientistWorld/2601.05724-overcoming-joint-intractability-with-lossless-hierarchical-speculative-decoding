@@ -94,8 +94,11 @@ How success is measured. Describe only the metrics, targets, and evaluation proc
 
 The primary baseline is tokenwise speculative decoding. The paper reports HSD
 improvements over tokenwise block efficiency across GSM8K, HumanEval, and
-CNN/DailyMail; this workspace uses those reported block-efficiency values as
-reference targets while running a finite scaled benchmark.
+CNN/DailyMail. This workspace evaluates a finite scaled benchmark with the same
+verifier objective: improve block efficiency over tokenwise decoding while
+preserving the exact target distribution. The original large-model paper
+numbers are summarized in `briefing/overview.md`; `scoring/reference.json`
+contains the finite benchmark reference values used for automated comparison.
 
 ## Evaluation Protocol
 
@@ -161,12 +164,33 @@ each named experiment.
 
 </details>
 
+### Iteration 3: gpt-5.5
+- **Milestone**: `core_claim_plus` | **Status**: done
+- **Working time**: 6m | **GPU**: 0.0h
+- **Jobs**: 2 total (2 completed, 0 failed)
+
+<details>
+<summary>Progress Log</summary>
+
+### [2026-05-27 06:42] - core_claim_plus
+- Implemented and packaged finite autoregressive HSD reproduction across three settings.
+- Verified HSD improves block efficiency over tokenwise speculative decoding in all three settings.
+- Confirmed distribution fidelity is measured with empirical total variation against the exact target distribution; lightweight exact enumeration found HSD length-4 output TV at numerical precision.
+
+### [2026-05-27 06:44] - core_claim_plus
+- Continuing-agent audit confirmed the implementation is a real scaled HSD verifier rather than a surrogate.
+- Fixed standalone baseline script evaluation behavior and clarified finite-reference documentation.
+- Re-ran `scripts/evaluate.sh` and `python validate.py --compare`; both passed.
+- Milestone is restored for the scaled finite-AR verifier benchmark, not for the original Qwen large-model tables or EAGLE-3 integration.
+
+</details>
+
 
 ---
 
 # Reproduction Milestones
 
-**Current: core_claim**
+**Current: core_claim_plus**
 
 ## Stop Justification
-- Completed at milestone `core_claim`.
+- Completed at milestone `core_claim_plus`.
