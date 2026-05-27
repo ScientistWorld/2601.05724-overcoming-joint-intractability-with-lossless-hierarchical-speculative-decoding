@@ -1,0 +1,116 @@
+{
+  "paper": {
+    "arxiv_id": "2601.05724",
+    "title": "Overcoming Joint Intractability with Lossless Hierarchical Speculative Decoding",
+    "date": null,
+    "topics": null
+  },
+  "reproduction": {
+    "milestone": "core_claim",
+    "status": "done",
+    "error": null,
+    "scaffold": "codex",
+    "model": "gpt-5.5",
+    "profile": "gpt-5.5-medium",
+    "effort": "medium",
+    "gpu_hours_used": 0.0,
+    "current_iteration_gpu_budget": 30,
+    "current_iteration_gpu_hours_used": 0.0,
+    "total_gpu_hours_used": 0.0,
+    "current_iteration_cpu_hours_used": 0.14,
+    "total_cpu_hours_used": 0.14,
+    "gpu_budget": 30,
+    "duration_sec": 1118.1,
+    "cost_usd": null,
+    "input_tokens": 4097066,
+    "output_tokens": 23940,
+    "cached_input_tokens": 3893760,
+    "cache_creation_tokens": null,
+    "reasoning_tokens": 0,
+    "total_input_tokens": 4097066,
+    "num_turns": 59,
+    "duration_api_ms": null,
+    "num_runs": 1,
+    "iteration_count": 0,
+    "workflow": "standard",
+    "workflow_step": 0,
+    "total_gpu_jobs": 1,
+    "time_breakdown": {
+      "working": 474.9546756744385,
+      "building": 0.14165163040161133,
+      "installing": 1.6198225021362305,
+      "waiting": 529.3403966426849
+    }
+  },
+  "agents": [
+    {
+      "scaffold": "codex",
+      "model": "gpt-5.5",
+      "profile": "gpt-5.5-medium",
+      "effort": "medium",
+      "role": "reproducer",
+      "is_iteration": false,
+      "iteration": 1,
+      "workflow": "standard",
+      "workflow_step": 0,
+      "started_at": 1779861906.5417492,
+      "finished_at": 1779863024.6878328,
+      "duration_sec": 1118.1,
+      "blocked_sec": 0.0,
+      "status": "done",
+      "error": null,
+      "milestone": "core_claim",
+      "gpu_budget": 30,
+      "gpu_hours_used": 0.0,
+      "total_gpu_hours_used": 0.0,
+      "cpu_hours_used": 0.14,
+      "time_breakdown": {
+        "working": 474.9546756744385,
+        "building": 0.14165163040161133,
+        "installing": 1.6198225021362305,
+        "waiting": 529.3403966426849
+      },
+      "cost_usd": null,
+      "input_tokens": 4097066,
+      "output_tokens": 23940,
+      "cached_input_tokens": 3893760,
+      "cache_creation_tokens": null,
+      "reasoning_tokens": 0,
+      "total_input_tokens": 4097066,
+      "num_turns": 59,
+      "duration_api_ms": null,
+      "tool_uses": {
+        "shell": 43,
+        "file_edit": 16
+      },
+      "gpu_jobs": [
+        {
+          "run_id": "291c5539-26f",
+          "command": "bash /home/user/scripts/run.sh",
+          "num_gpus": 0,
+          "num_cpus": 1,
+          "resource": "gpu-cpu-test",
+          "hive_job_id": "ac9dc9bd",
+          "status": "completed",
+          "returncode": 0,
+          "duration_sec": 502.3,
+          "submitted_at": 1779862391.0793436,
+          "started_at": 1779862416.3071892,
+          "completed_at": 1779862918.5714748
+        }
+      ],
+      "progress_log": "### [2026-05-27 00:00] - method_runs\n- Read the paper and identified HSD's capped branch resampling verifier as the core algorithm.\n- Implemented HSD and tokenwise speculative decoding on a finite autoregressive benchmark.\n- Ran a local smoke test showing both methods execute end-to-end and HSD improves block efficiency on the main finite setting.\n\n### [2026-05-27 06:22] - core_claim\n- CPU reproduction job `291c5539-26f` completed successfully.\n- HSD improved block efficiency over tokenwise on the main finite setting: 3.2886 vs 3.1425 tokens/step.\n- HSD also improved the two configured robustness settings while keeping total-variation distance comparable to tokenwise."
+    }
+  ],
+  "components": {
+    "has_container": true,
+    "has_method_code": true,
+    "has_evaluation": true,
+    "has_download_script": true,
+    "has_reproduce_script": true,
+    "has_method_script": true,
+    "has_baseline": true,
+    "has_reference": true,
+    "has_data": true
+  }
+}

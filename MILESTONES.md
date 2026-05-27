@@ -26,4 +26,4 @@
 - HSD also improved the two configured robustness settings while keeping total-variation distance comparable to tokenwise.
 
 ## Stop Justification
-- Completed verifier-focused scaled reproduction at `core_claim`.
+- Completed at milestone `core_claim`.
