@@ -10,11 +10,10 @@
 ## Baselines and Targets
 
 The primary baseline is standard tokenwise speculative decoding. This workspace
-evaluates a finite scaled benchmark with the same general objective as the
-paper: improve block efficiency over tokenwise decoding while preserving the
-exact target distribution. The original large-model paper numbers are
-summarized outside the method-agnostic problem definition; `scoring/reference.json`
-contains the finite benchmark reference values used for automated comparison.
+evaluates a finite scaled benchmark whose objective is to improve block
+efficiency over tokenwise decoding while preserving the exact target
+distribution. `scoring/reference.json` contains the finite benchmark reference
+values used for automated comparison.
 
 ## Evaluation Protocol
 

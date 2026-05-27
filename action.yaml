@@ -2,4 +2,4 @@ action: done
 gpus: 0
 test: false
 milestone: core_claim_plus
-notes: "Final verification passed for core_claim_plus on the scaled finite-AR HSD gym; sub-agent audits found no method/eval integrity blocker, constraints docs were cleaned up, and validation passes."
+notes: "Final verification passed for core_claim_plus; finite-AR HSD gym is method-separated, artifact-evaluated, documented, and validation passes."

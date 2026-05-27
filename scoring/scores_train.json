@@ -2,16 +2,16 @@
   "_meta": {
     "artifacts": {
       "finite_ar_gamma3": {
-        "hsd": "/home/user/checkpoints/hsd_finite_ar_gamma3.json",
-        "tokenwise": "/home/user/checkpoints/tokenwise_finite_ar_gamma3.json"
+        "hsd": "checkpoints/hsd_finite_ar_gamma3.json",
+        "tokenwise": "checkpoints/tokenwise_finite_ar_gamma3.json"
       },
       "finite_ar_main": {
-        "hsd": "/home/user/checkpoints/hsd_finite_ar_main.json",
-        "tokenwise": "/home/user/checkpoints/tokenwise_finite_ar_main.json"
+        "hsd": "checkpoints/hsd_finite_ar_main.json",
+        "tokenwise": "checkpoints/tokenwise_finite_ar_main.json"
       },
       "finite_ar_temp08": {
-        "hsd": "/home/user/checkpoints/hsd_finite_ar_temp08.json",
-        "tokenwise": "/home/user/checkpoints/tokenwise_finite_ar_temp08.json"
+        "hsd": "checkpoints/hsd_finite_ar_temp08.json",
+        "tokenwise": "checkpoints/tokenwise_finite_ar_temp08.json"
       }
     },
     "slice": "train"

@@ -30,5 +30,10 @@
 - Reconfirmed `scripts/evaluate.sh` reads artifacts through `eval/` without importing `method/`.
 - Marked the satisfied scientist constraints checklist and re-ran `bash scripts/evaluate.sh` plus `python validate.py --compare`; both passed.
 
+### [2026-05-27 07:18] - core_claim_plus
+- Final quality check confirmed problem/solution separation, artifact-based evaluation, train/test split wiring, and shared-path hygiene.
+- Tightened method-agnostic documentation in `briefing/evaluation.md` and `scoring/DIRECTION.md`.
+- Re-ran `bash scripts/evaluate.sh`, train/test evaluators, and `python validate.py --compare`; all passed.
+
 ## Stop Justification
 - Completed at milestone `core_claim_plus`.

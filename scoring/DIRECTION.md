@@ -7,8 +7,8 @@ preserving the target sampling distribution.
 
 ## Core Contribution Scope
 Improvements should operate in the speculative-decoding verification and
-resampling family. A valid improvement may change acceptance rules, branch mass
-accounting, proposal verification, or resampling distributions, provided the
+resampling family. A valid improvement may change acceptance rules, probability
+accounting, proposal verification, or correction distributions, provided the
 method still uses draft proposals to accelerate target-distribution sampling.
 
 ## Out Of Bounds

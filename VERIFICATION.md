@@ -1,46 +1,49 @@
 # Verification Report
 
 ## Initial Assessment
-The workspace started at `core_claim_plus` with a working scaled finite
-autoregressive reproduction of the paper's speculative-decoding verifier claim.
-The claimed milestone is justified: the method implementation executes the
-paper's verifier computation on a finite exact-probability benchmark, HSD
-improves block efficiency over tokenwise speculative decoding across three
-settings, and fidelity is measured against the exact target distribution.
+The workspace started at `core_claim_plus` with a completed scaled finite
+autoregressive reproduction of the paper's verifier claim. The claimed
+milestone is justified for this gym: the method code implements the paper's
+actual verifier computation at finite scale, produces artifacts, and the
+evaluation reads those artifacts without importing `method/`.
+
+The reproduced scores show the intended tradeoff across all three configured
+settings: higher block efficiency than the tokenwise baseline, with empirical
+distribution distance measured against the exact finite target distribution.
 
 ## Issues Found
-- **Minor:** `briefing/evaluation.md` named the paper's method in a
-  method-agnostic file. This could leak solution identity to from-scratch
-  agents.
-- **Minor:** `briefing/problem.md` still contained template instructions and
-  could describe the challenge more cleanly without solution-specific phrasing.
-- **Minor:** `scoring/reference.json` used deliberate finite-benchmark
-  reference values instead of the paper's large-model table values, but the
-  scaling rationale was only in descriptions rather than explicit `notes`
-  fields.
-- **Cosmetic / pre-existing:** The git worktree still contains unrelated dirty
-  files from earlier workflow state (`README.md`, `manifest.json`, deleted
-  `trajectory/*`). I did not revert or include them.
+- **Minor:** `briefing/evaluation.md` still referred to the original paper in a
+  method-agnostic file. It did not leak the solution algorithm, but it added
+  unnecessary source-paper framing for from-scratch agents.
+- **Minor:** `scoring/DIRECTION.md` used one phrase that was closer to a
+  verifier-design detail than needed for high-level research direction.
+- **Cosmetic / pre-existing:** The worktree still has unrelated dirty
+  system/workflow files (`README.md`, `manifest.json`, and deleted
+  `trajectory/*`). I did not revert them.
 
 ## Fixes Applied
-- Rewrote `briefing/problem.md` and `briefing/evaluation.md` to keep the
-  problem and evaluation method-agnostic.
-- Added explicit per-experiment `notes` in `scoring/reference.json` documenting
-  that reference values are from the validated finite scaled benchmark, not the
-  original Qwen table values.
-- Re-ran `bash scripts/evaluate.sh` and `python validate.py --compare`; both
-  pass.
+- Reworded `briefing/evaluation.md` so it describes the finite benchmark and
+  metrics without source-paper framing.
+- Reworded `scoring/DIRECTION.md` to keep the allowed research direction at the
+  level of speculative-decoding verification and probability accounting.
+- Re-ran `bash scripts/evaluate.sh`, `bash scripts/evaluate_train.sh
+  checkpoints`, `bash scripts/evaluate_test.sh checkpoints`, and `python
+  validate.py --compare`; all passed.
 
 ## Final Judgment
-The workspace is ready to serve as a research gym. Improve-mode agents can build
-on the implemented method and compare against the existing artifacts.
-From-scratch agents can use the method-agnostic problem, data, and evaluation
-pipeline without importing or relying on `method/`. The main limitation is
-scope: this is a scaled finite-distribution verifier benchmark, not a
-reproduction of the paper's full large-model Qwen or EAGLE-3 experiments.
+The workspace is ready to serve as a research gym. Improve-mode agents can use
+the implemented method, baseline, scores, and documentation. From-scratch agents
+can use the method-agnostic problem statement, finite data generator, evaluation
+code, and scoring instructions without depending on `method/`.
+
+The scoring captures both the benefit metric (`block_efficiency`) and the
+fidelity constraints (`total_variation` plus split diagnostics). No scored
+metric measures deviation from the paper's published values or wall-clock
+speed. The experiment weights emphasize the main finite benchmark while keeping
+the draft-length and temperature settings active.
 
 - Milestone: core_claim_plus
 - Ready for gym use: yes
 - Confidence: high
-- Key limitation: scaled finite autoregressive benchmark only; original
-  large-model tables are not reproduced.
+- Key limitation: scaled finite autoregressive benchmark only; the original
+  large-model Qwen tables and EAGLE-3 integration are not reproduced.
