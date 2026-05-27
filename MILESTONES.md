@@ -1,8 +1,13 @@
 # Reproduction Milestones
 
-**Current: core_claim**
+**Current: core_claim_plus**
 
 ## Progress Log
 
+### [2026-05-27 06:42] - core_claim_plus
+- Implemented and packaged finite autoregressive HSD reproduction across three settings.
+- Verified HSD improves block efficiency over tokenwise speculative decoding in all three settings.
+- Confirmed distribution fidelity is measured with empirical total variation against the exact target distribution; lightweight exact enumeration found HSD length-4 output TV at numerical precision.
+
 ## Stop Justification
-- Completed at milestone `core_claim`.
+- Completed at milestone `core_claim_plus`.

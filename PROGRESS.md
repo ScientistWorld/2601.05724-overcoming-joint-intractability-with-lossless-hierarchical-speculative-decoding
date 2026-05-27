@@ -38,6 +38,12 @@ distribution distance comparable to tokenwise speculative decoding.
 Fresh CPU rerun job `5f35dfcd-72a` completed successfully and restored the
 full 80,000-sample artifacts. Current milestone: `core_claim_plus`.
 
+A follow-up implementation audit found no HSD correctness gaps in the finite
+implementation. A lightweight exact enumeration of the finite AR setup matched
+the target length-4 distribution to numerical precision (`TV ~= 6.4e-17`),
+confirming that the empirical TV values below are sampling noise rather than a
+systematic fidelity failure.
+
 `scoring/reference.json` uses finite-benchmark block-efficiency targets in the
 same units as `scoring/scores.json`. The paper's original Qwen/GSM8K numbers
 remain documented in `briefing/overview.md` and `briefing/evaluation.md`.
