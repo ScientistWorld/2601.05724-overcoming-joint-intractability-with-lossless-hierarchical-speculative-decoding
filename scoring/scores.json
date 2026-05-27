@@ -4,10 +4,18 @@
       "results": {
         "hsd": {
           "block_efficiency": 3.290014805066623,
+          "prefix_conditional_l1": 0.02609473337693483,
+          "slice_block_efficiency": 3.290014805066623,
+          "slice_mass_error": 0.0,
+          "slice_total_variation": 0.03263181354985231,
           "total_variation": 0.03263181354985231
         },
         "tokenwise": {
           "block_efficiency": 3.141721074075892,
+          "prefix_conditional_l1": 0.024247398670977614,
+          "slice_block_efficiency": 3.141721074075892,
+          "slice_mass_error": 0.0,
+          "slice_total_variation": 0.0303862272778578,
           "total_variation": 0.0303862272778578
         }
       }
@@ -16,10 +24,18 @@
       "results": {
         "hsd": {
           "block_efficiency": 3.2885609462834124,
+          "prefix_conditional_l1": 0.025731960901626792,
+          "slice_block_efficiency": 3.2885609462834124,
+          "slice_mass_error": 0.0,
+          "slice_total_variation": 0.03246477073985703,
           "total_variation": 0.03246477073985703
         },
         "tokenwise": {
           "block_efficiency": 3.1424615293967455,
+          "prefix_conditional_l1": 0.026014578034450175,
+          "slice_block_efficiency": 3.1424615293967455,
+          "slice_mass_error": 0.0,
+          "slice_total_variation": 0.033292513218435904,
           "total_variation": 0.033292513218435904
         }
       }
@@ -28,10 +44,18 @@
       "results": {
         "hsd": {
           "block_efficiency": 3.150660654155918,
+          "prefix_conditional_l1": 0.02608108745461908,
+          "slice_block_efficiency": 3.150660654155918,
+          "slice_mass_error": 0.0,
+          "slice_total_variation": 0.032417133952925135,
           "total_variation": 0.032417133952925135
         },
         "tokenwise": {
           "block_efficiency": 2.9916048090047305,
+          "prefix_conditional_l1": 0.02360041858892245,
+          "slice_block_efficiency": 2.9916048090047305,
+          "slice_mass_error": 0.0,
+          "slice_total_variation": 0.031180920407198918,
           "total_variation": 0.031180920407198918
         }
       }

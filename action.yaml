@@ -2,4 +2,4 @@ action: done
 gpus: 0
 test: false
 milestone: core_claim_plus
-notes: "Packaging audit complete: scripts now resolve from the cloned repo root, data/downloads keeps only .gitkeep tracked, and no external artifacts are required."
+notes: "Verified scaled HSD reproduction and fixed default scoring so scores.json emits every metric declared in reference.json. Validation passes."

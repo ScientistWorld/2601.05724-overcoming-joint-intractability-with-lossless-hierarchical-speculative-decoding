@@ -54,6 +54,13 @@ For the fidelity constraint, `reference.json` uses `total_variation=0.0` as the
 exact target-distribution ideal; `scores.json` reports finite-sample empirical
 TV and should be interpreted with sampling noise.
 
+Verifier audit on 2026-05-27 found no surrogate implementation or eval/method
+separation issue. It did identify that the default `scores.json` omitted the
+extra diagnostic metrics declared in `reference.json`; `eval/evaluate.py` now
+emits those full-support diagnostics in the default score file as well as the
+primary block-efficiency and total-variation metrics. `bash scripts/evaluate.sh`
+and `python validate.py --compare` both pass after this fix.
+
 ## Remaining
 
 - Higher milestones would require running the verifier with real LLM draft and
@@ -76,6 +83,8 @@ TV and should be interpreted with sampling noise.
 - Continuing audit found and fixed stale documentation that implied
   `scoring/reference.json` held paper table values; it now consistently
   describes the finite scaled benchmark reference values used by the evaluator.
+- A later audit found default scoring did not emit all diagnostic metric keys
+  declared in `reference.json`; this is fixed in `eval/evaluate.py`.
 
 ## Deviations from Paper
 

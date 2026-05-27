@@ -15,5 +15,10 @@
 - Re-ran `scripts/evaluate.sh` and `python validate.py --compare`; both passed.
 - Milestone is restored for the scaled finite-AR verifier benchmark, not for the original Qwen large-model tables or EAGLE-3 integration.
 
+### [2026-05-27 07:09] - core_claim_plus
+- Independent explorer audit reconfirmed `method/hsd.py` implements capped-ratio HSD and `eval/` does not import `method/`.
+- Fixed default `scores.json` to include all diagnostic metric keys declared in `reference.json`.
+- Re-ran `bash scripts/evaluate.sh` and `python validate.py --compare`; both passed.
+
 ## Stop Justification
 - Completed at milestone `core_claim_plus`.
