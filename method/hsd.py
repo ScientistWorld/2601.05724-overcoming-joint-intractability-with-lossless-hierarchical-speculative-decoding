@@ -117,7 +117,7 @@ def acceptance_probabilities(
             d_pq = capped_branch_divergence(prefix, "pq", temperature, context)
             d_qp = capped_branch_divergence(prefix, "qp", temperature, context)
             if d_qp <= EPS:
-                h = 1.0 if d_pq <= EPS else 0.0
+                h = 1.0
             else:
                 h = min(1.0, d_pq / d_qp)
         hs.append(max(0.0, min(1.0, h)))

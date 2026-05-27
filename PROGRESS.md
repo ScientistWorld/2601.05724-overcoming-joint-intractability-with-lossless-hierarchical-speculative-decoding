@@ -8,6 +8,8 @@
 - Implemented tokenwise speculative decoding baseline in `baseline/tokenwise.py`.
 - Implemented a finite autoregressive benchmark in `data/finite_ar.py`.
 - Implemented artifact-only evaluation in `eval/evaluate.py`.
+- Evaluation now derives fixed `gamma`, sequence length, and temperature from
+  `data/finite_ar.py` rather than trusting method-authored artifact fields.
 
 ## Results
 
@@ -31,6 +33,8 @@ per method/setting:
 HSD improves block efficiency in all three finite settings while maintaining
 distribution distance comparable to tokenwise speculative decoding.
 
+Current milestone: `core_claim_plus`.
+
 `scoring/reference.json` uses finite-benchmark block-efficiency targets in the
 same units as `scoring/scores.json`. The paper's original Qwen/GSM8K numbers
 remain documented in `briefing/overview.md` and `briefing/evaluation.md`.
@@ -39,6 +43,8 @@ remain documented in `briefing/overview.md` and `briefing/evaluation.md`.
 
 - Higher milestones would require running the verifier with real LLM draft and
   target models on GSM8K/HumanEval/CNN-DailyMail.
+- Reproducing the EAGLE-3 integration would require implementing or porting a
+  multi-draft tree framework and running model-scale benchmarks.
 
 ## Issues
 
@@ -47,6 +53,9 @@ remain documented in `briefing/overview.md` and `briefing/evaluation.md`.
   autoregressive distributions while preserving the verifier computation.
 - The scheduler's quoted absolute log path was not mounted directly, but the
   same logs were available under `jobs/291c5539-26f/`.
+- `scoring/reference.json` contains finite scaled targets in the same units as
+  this benchmark; the original paper's large-model numbers are documented in
+  `briefing/overview.md` and `briefing/evaluation.md`.
 
 ## Deviations from Paper
 

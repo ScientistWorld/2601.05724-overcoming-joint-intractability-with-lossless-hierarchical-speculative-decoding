@@ -1,8 +1,8 @@
 # IMPORTANT: Once you set action to 'submit' or 'done', STOP immediately.
 # Do NOT sleep, poll, or wait for jobs. The system reads this file
 # only after your turn ends. Sleeping blocks the entire pipeline.
-action: pending
-gpus: 1
+action: done
+gpus: 0
 test: false
-milestone: method_runs
-notes: ""
+milestone: core_claim_plus
+notes: "HSD verifier reproduced on finite autoregressive benchmark, including main, shorter-draft, and lower-temperature settings. Evaluation enforces fixed scenario settings and validate.py --compare passes."

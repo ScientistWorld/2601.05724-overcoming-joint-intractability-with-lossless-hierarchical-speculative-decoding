@@ -6,7 +6,7 @@ import argparse
 import json
 from pathlib import Path
 
-from data.finite_ar import exact_sequence_distribution
+from data.finite_ar import SCENARIOS, exact_sequence_distribution
 
 
 def total_variation(counts: dict[str, int], samples: int, max_len: int, temperature: float) -> float:
@@ -17,10 +17,20 @@ def total_variation(counts: dict[str, int], samples: int, max_len: int, temperat
 
 def evaluate_artifact(path: Path) -> dict[str, float]:
     data = json.loads(path.read_text())
+    scenario_name = str(data["scenario"])
+    if scenario_name not in SCENARIOS:
+        raise ValueError(f"{path}: unknown scenario {scenario_name!r}")
+    scenario = SCENARIOS[scenario_name]
+    if int(data["gamma"]) != scenario.gamma:
+        raise ValueError(f"{path}: gamma does not match fixed scenario {scenario_name}")
+    if int(data["max_len"]) != scenario.max_len:
+        raise ValueError(f"{path}: max_len does not match fixed scenario {scenario_name}")
+    if abs(float(data["temperature"]) - scenario.temperature) > 1e-12:
+        raise ValueError(f"{path}: temperature does not match fixed scenario {scenario_name}")
     samples = int(data["samples"])
     counts = {str(k): int(v) for k, v in data["sequence_counts"].items()}
     block_efficiency = float(data["generated_tokens"]) / float(data["target_steps"])
-    tv = total_variation(counts, samples, int(data["max_len"]), float(data["temperature"]))
+    tv = total_variation(counts, samples, scenario.max_len, scenario.temperature)
     return {
         "block_efficiency": block_efficiency,
         "total_variation": tv,
