@@ -22,19 +22,19 @@
       "results": {
         "hsd": {
           "block_efficiency": 1.7091215660470473,
-          "prefix_conditional_l1": 0.04077114418511407,
+          "prefix_conditional_l1": 0.040771144185114044,
           "slice_block_efficiency": 1.7091215660470473,
           "slice_mass_error": 0.00022009277679146955,
-          "slice_total_variation": 0.016137267748136664,
-          "total_variation": 0.03263181354985231
+          "slice_total_variation": 0.016137267748136643,
+          "total_variation": 0.032631813549852305
         },
         "tokenwise": {
           "block_efficiency": 1.6306317804722397,
-          "prefix_conditional_l1": 0.038624896317681706,
+          "prefix_conditional_l1": 0.03862489631768169,
           "slice_block_efficiency": 1.6306317804722397,
           "slice_mass_error": 0.0006825927767915019,
-          "slice_total_variation": 0.015423964275733325,
-          "total_variation": 0.0303862272778578
+          "slice_total_variation": 0.015423964275733323,
+          "total_variation": 0.030386227277857798
         }
       }
     },
@@ -42,19 +42,19 @@
       "results": {
         "hsd": {
           "block_efficiency": 1.467150359172516,
-          "prefix_conditional_l1": 0.021614544822416436,
+          "prefix_conditional_l1": 0.021614544822416547,
           "slice_block_efficiency": 1.467150359172516,
           "slice_mass_error": 5.35455673514873e-05,
-          "slice_total_variation": 0.015074027380711107,
+          "slice_total_variation": 0.015074027380711109,
           "total_variation": 0.03246477073985703
         },
         "tokenwise": {
           "block_efficiency": 1.407822765169742,
-          "prefix_conditional_l1": 0.020332143236478795,
+          "prefix_conditional_l1": 0.020332143236478688,
           "slice_block_efficiency": 1.407822765169742,
           "slice_mass_error": 0.0019160455673514765,
           "slice_total_variation": 0.01454954448627156,
-          "total_variation": 0.033292513218435904
+          "total_variation": 0.03329251321843589
         }
       }
     },
@@ -62,19 +62,19 @@
       "results": {
         "hsd": {
           "block_efficiency": 1.5682413406061084,
-          "prefix_conditional_l1": 0.029582103140948956,
+          "prefix_conditional_l1": 0.029582103140948963,
           "slice_block_efficiency": 1.5682413406061084,
-          "slice_mass_error": 0.0031835640139511456,
-          "slice_total_variation": 0.015833162653174124,
-          "total_variation": 0.032417133952925135
+          "slice_mass_error": 0.003183564013950868,
+          "slice_total_variation": 0.015833162653174113,
+          "total_variation": 0.03241713395292514
         },
         "tokenwise": {
           "block_efficiency": 1.4897817998242433,
-          "prefix_conditional_l1": 0.026837191960386295,
+          "prefix_conditional_l1": 0.026837191960386312,
           "slice_block_efficiency": 1.4897817998242433,
-          "slice_mass_error": 0.0034210640139511472,
-          "slice_total_variation": 0.015487625098748977,
-          "total_variation": 0.031180920407198918
+          "slice_mass_error": 0.0034210640139508697,
+          "slice_total_variation": 0.015487625098748984,
+          "total_variation": 0.03118092040719897
         }
       }
     }
