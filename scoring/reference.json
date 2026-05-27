@@ -1,0 +1,43 @@
+{
+  "experiments": {
+    "finite_ar_main": {
+      "description": "Scaled finite-distribution analogue of the paper's main single-draft speculative decoding comparison.",
+      "weight": 0.6,
+      "primary_metric": "block_efficiency",
+      "metrics": {
+        "block_efficiency": {"higher_is_better": true, "coefficient": 1.0},
+        "total_variation": {"higher_is_better": false, "coefficient": -1.0}
+      },
+      "results": {
+        "tokenwise": {"type": "baseline", "block_efficiency": 5.99, "total_variation": 0.0},
+        "hsd": {"type": "proposed", "block_efficiency": 6.30, "total_variation": 0.0}
+      }
+    },
+    "finite_ar_gamma3": {
+      "description": "Scaled finite-distribution draft-length ablation corresponding to the paper's draft-length study.",
+      "weight": 0.2,
+      "primary_metric": "block_efficiency",
+      "metrics": {
+        "block_efficiency": {"higher_is_better": true, "coefficient": 1.0},
+        "total_variation": {"higher_is_better": false, "coefficient": -1.0}
+      },
+      "results": {
+        "tokenwise": {"type": "baseline", "block_efficiency": 4.48, "total_variation": 0.0},
+        "hsd": {"type": "proposed", "block_efficiency": 4.59, "total_variation": 0.0}
+      }
+    },
+    "finite_ar_temp08": {
+      "description": "Scaled finite-distribution temperature ablation corresponding to the paper's temperature study.",
+      "weight": 0.2,
+      "primary_metric": "block_efficiency",
+      "metrics": {
+        "block_efficiency": {"higher_is_better": true, "coefficient": 1.0},
+        "total_variation": {"higher_is_better": false, "coefficient": -1.0}
+      },
+      "results": {
+        "tokenwise": {"type": "baseline", "block_efficiency": 6.70, "total_variation": 0.0},
+        "hsd": {"type": "proposed", "block_efficiency": 6.79, "total_variation": 0.0}
+      }
+    }
+  }
+}

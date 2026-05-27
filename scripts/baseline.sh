@@ -17,4 +17,13 @@ set -e
 
 cd /home/user
 
-# TODO: run baseline
+SCENARIO="${1:-finite_ar_main}"
+SAMPLES="${SAMPLES:-50000}"
+SEED="${SEED:-101}"
+
+mkdir -p checkpoints
+python -m baseline.tokenwise \
+  --scenario "${SCENARIO}" \
+  --samples "${SAMPLES}" \
+  --seed "${SEED}" \
+  --output "checkpoints/tokenwise_${SCENARIO}.json"

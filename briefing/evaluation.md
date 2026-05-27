@@ -4,12 +4,22 @@ How success is measured. Describe only the metrics, targets, and evaluation proc
 
 ## Metrics
 
-<!-- What metrics are used? How are they computed? What does higher/lower mean? -->
+- `block_efficiency`: generated tokens per serial target-model step. Higher is
+  better.
+- `total_variation`: empirical total-variation distance between generated
+  sequence counts and the exact target distribution. Lower is better.
 
 ## Baselines and Targets
 
-<!-- What performance levels exist as reference points? Include the paper's reported numbers as targets, and any standard baselines. A scientist agent should know what "good" looks like. -->
+The primary baseline is tokenwise speculative decoding. The paper reports HSD
+improvements over tokenwise block efficiency across GSM8K, HumanEval, and
+CNN/DailyMail; this workspace uses those reported block-efficiency values as
+reference targets while running a finite scaled benchmark.
 
 ## Evaluation Protocol
 
-<!-- How should evaluation be run? What data split, what conditions? Any important details about how to compare fairly (e.g., fixed seeds, specific test sets, averaging over runs). -->
+Run `scripts/reproduce.sh` to generate baseline and candidate artifacts, then
+run `scripts/evaluate.sh`. Evaluation reads JSON artifacts from `checkpoints/`
+and writes `scoring/scores.json`. Candidate methods must use the same finite
+target/draft distributions, sequence length, temperature, and draft length for
+each named experiment.

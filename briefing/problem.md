@@ -6,12 +6,19 @@ Do NOT describe the paper's method or solution here — only the problem itself.
 
 ## Research Question
 
-<!-- What problem or challenge does this paper tackle? What gap in existing work does it address? -->
+How can an autoregressive generator reduce the number of serial target-model
+decoding steps while still sampling from the same distribution as the target
+model? The challenge is that block proposals from a cheaper draft distribution
+create joint-probability dependencies that are hard to verify exactly.
 
 ## Why It Matters
 
-<!-- Why is this problem important? What would a good solution enable? Make it short -->
+Autoregressive generation is latency-bound by sequential target-model calls. A
+good solution increases generated tokens per target step without changing output
+distribution quality.
 
 ## Success Criteria
 
-<!-- What would a successful solution look like? What properties should it have? This is about the goal, not the paper's specific approach. Make it short -->
+A successful decoder has higher block efficiency than standard tokenwise
+speculative decoding while maintaining low distribution distance from direct
+target-model sampling.

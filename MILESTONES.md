@@ -1,6 +1,6 @@
 # Reproduction Milestones
 
-**Current: none**
+**Current: method_runs**
 
 <!-- Milestone levels (update "Current" above as you progress):
   none             — just started, no meaningful progress yet
@@ -15,7 +15,10 @@
 
 ## Progress Log
 
-<!-- Write your progress here -->
+### [2026-05-27 00:00] - method_runs
+- Read the paper and identified HSD's capped branch resampling verifier as the core algorithm.
+- Implemented HSD and tokenwise speculative decoding on a finite autoregressive benchmark.
+- Ran a local smoke test showing both methods execute end-to-end and HSD improves block efficiency on the main finite setting.
 
 ## Stop Justification
-- Completed at milestone `none`.
+- Not stopped.

@@ -26,5 +26,13 @@ cd /home/user
 
 mkdir -p scoring
 
-# TODO: implement evaluation using code in eval/
-# Must write scoring/scores.json at the end
+if [ "$#" -gt 0 ]; then
+  python -m eval.evaluate --artifacts "$@" --output scoring/scores.json
+else
+  mapfile -t artifacts < <(find checkpoints -maxdepth 1 -name '*.json' | sort)
+  if [ "${#artifacts[@]}" -eq 0 ]; then
+    echo "No checkpoint artifacts found. Pass artifact paths or run scripts/method.sh." >&2
+    exit 1
+  fi
+  python -m eval.evaluate --artifacts "${artifacts[@]}" --output scoring/scores.json
+fi

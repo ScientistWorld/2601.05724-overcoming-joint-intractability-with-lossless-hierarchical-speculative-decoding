@@ -2,36 +2,42 @@
 
 ## What Works
 
-<!-- What has been successfully reproduced so far. -->
+- Implemented the paper's HSD verifier in `method/hsd.py`, including capped
+  prefix ratios, capped branch divergences, backward verification, and capped
+  one-token resampling.
+- Implemented tokenwise speculative decoding baseline in `baseline/tokenwise.py`.
+- Implemented a finite autoregressive benchmark in `data/finite_ar.py`.
+- Implemented artifact-only evaluation in `eval/evaluate.py`.
 
 ## Results
 
-<!-- Reproduced numbers compared to the paper's reported numbers. -->
+Smoke test with 5,000 samples on `finite_ar_main`:
+
+- Tokenwise block efficiency: 3.1437, total variation: 0.1346
+- HSD block efficiency: 3.2911, total variation: 0.1316
+
+The smoke test shows the expected block-efficiency advantage. A larger CPU job
+is submitted to reduce sampling noise and evaluate all configured settings.
 
 ## Remaining
 
-<!-- What still needs to be done to reach higher milestones. -->
+- Run the full CPU reproduction job and inspect `scoring/scores.json`.
+- If sampling noise keeps total variation too high, increase samples or replace
+  sampling artifacts with exact finite-enumeration artifacts.
+- Higher milestones would require running the verifier with real LLM draft and
+  target models on GSM8K/HumanEval/CNN-DailyMail.
 
 ## Issues
 
-<!-- Blockers, bugs, or difficulties encountered. -->
+- The paper's original 14B-72B experiments are too large for a first verifier
+  reproduction. The current benchmark scales resources down to exact finite
+  autoregressive distributions while preserving the verifier computation.
 
 ## Deviations from Paper
 
-<!-- Do not edit this section unless you deviated from the paper's original setup.
-     For each deviation, document: what the paper used, what you substituted, and why.
-
-     ACCEPTABLE deviations (data/resource/scale substitutions — milestones still valid):
-       - Replaced a proprietary dataset with a public one
-       - Used a smaller model of the same architecture
-       - Scaled down training (fewer epochs, smaller batch)
-       - Used a different library for the same algorithm
-
-     UNACCEPTABLE deviations (algorithm substitutions — milestones above 'none' are void):
-       - Replaced the paper's algorithm with a fundamentally different one
-       - Wrote a generic model trained to approximate the method's outputs
-         instead of implementing the method's computational steps
-
-     The test: could someone reading your code identify which algorithm from
-     the paper you implemented? If not, you replaced the method. -->
-
+- Paper used Qwen2.5-0.5B as draft and Qwen2.5-14B/32B/72B as target on GSM8K,
+  HumanEval, and CNN/DailyMail. This reproduction uses finite autoregressive
+  target/draft distributions with exact probability tables because the original
+  model scale is expensive for an initial verifier-focused reproduction.
+- The algorithm itself is not replaced: the implementation still uses the
+  paper's capped-ratio HSD verification and resampling rules.

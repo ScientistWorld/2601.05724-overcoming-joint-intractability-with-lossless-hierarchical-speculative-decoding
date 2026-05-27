@@ -18,7 +18,11 @@ set -e
 
 cd /home/user
 
-# TODO: implement full reproduction pipeline
-# e.g.:
-#   bash scripts/baseline.sh
-#   bash scripts/method.sh
+SAMPLES="${SAMPLES:-50000}"
+
+for scenario in finite_ar_main finite_ar_gamma3 finite_ar_temp08; do
+  SAMPLES="${SAMPLES}" bash scripts/baseline.sh "${scenario}"
+  SAMPLES="${SAMPLES}" bash scripts/method.sh "${scenario}"
+done
+
+bash scripts/evaluate.sh

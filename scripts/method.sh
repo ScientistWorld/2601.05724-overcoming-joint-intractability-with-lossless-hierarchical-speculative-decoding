@@ -10,5 +10,15 @@ set -e
 
 cd /home/user
 
-# TODO: run the paper's method
-# TODO: call scripts/evaluate.sh to score
+SCENARIO="${1:-finite_ar_main}"
+SAMPLES="${SAMPLES:-50000}"
+SEED="${SEED:-1}"
+
+mkdir -p checkpoints
+python -m method.hsd \
+  --scenario "${SCENARIO}" \
+  --samples "${SAMPLES}" \
+  --seed "${SEED}" \
+  --output "checkpoints/hsd_${SCENARIO}.json"
+
+bash scripts/evaluate.sh
