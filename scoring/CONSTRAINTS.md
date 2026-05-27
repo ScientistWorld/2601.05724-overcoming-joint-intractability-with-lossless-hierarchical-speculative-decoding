@@ -18,7 +18,7 @@ method that samples from the wrong distribution fails the core constraint even
 if block efficiency is higher.
 
 ## Compliance Checklist
-- [ ] Uses the provided finite target and draft distributions unchanged
-- [ ] Uses the configured `finite_ar_main`, `finite_ar_gamma3`, and `finite_ar_temp08` settings unchanged
-- [ ] Writes method artifacts for `scripts/evaluate.sh`
-- [ ] Reports both `block_efficiency` and `total_variation`
+- [x] Uses the provided finite target and draft distributions unchanged
+- [x] Uses the configured `finite_ar_main`, `finite_ar_gamma3`, and `finite_ar_temp08` settings unchanged
+- [x] Writes method artifacts for `scripts/evaluate.sh`
+- [x] Reports both `block_efficiency` and `total_variation`

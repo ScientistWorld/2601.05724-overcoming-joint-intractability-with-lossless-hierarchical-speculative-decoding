@@ -61,6 +61,12 @@ emits those full-support diagnostics in the default score file as well as the
 primary block-efficiency and total-variation metrics. `bash scripts/evaluate.sh`
 and `python validate.py --compare` both pass after this fix.
 
+Final sub-agent audits on 2026-05-27 reconfirmed the same conclusion: the code
+implements capped-ratio HSD with backward verification and one capped branch
+resample, not a generic surrogate. The current claim remains scoped to the
+scaled finite autoregressive verifier benchmark. `bash scripts/evaluate.sh` and
+`python validate.py --compare` pass after the final documentation cleanup.
+
 ## Remaining
 
 - Higher milestones would require running the verifier with real LLM draft and

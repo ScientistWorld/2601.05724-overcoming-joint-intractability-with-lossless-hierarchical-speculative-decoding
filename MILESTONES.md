@@ -25,5 +25,10 @@
 - Removed method leakage from method-agnostic briefing files and added explicit finite-scaling notes to `scoring/reference.json`.
 - Re-ran `bash scripts/evaluate.sh` and `python validate.py --compare`; both passed.
 
+### [2026-05-27 07:14] - core_claim_plus
+- Sub-agent audits reconfirmed `method/hsd.py` implements the paper's capped-branch HSD verifier rather than a surrogate.
+- Reconfirmed `scripts/evaluate.sh` reads artifacts through `eval/` without importing `method/`.
+- Marked the satisfied scientist constraints checklist and re-ran `bash scripts/evaluate.sh` plus `python validate.py --compare`; both passed.
+
 ## Stop Justification
 - Completed at milestone `core_claim_plus`.
