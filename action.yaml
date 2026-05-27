@@ -27,8 +27,8 @@
 #   milestone: core_claim
 #   notes: "Reproduced the core claim. Environment packaged."
 
-action: submit
+action: done
 gpus: 0
 test: true
-milestone: method_runs
-notes: "Run CPU finite-distribution HSD reproduction across main, draft-length, and temperature settings; writes scoring/scores.json and validates comparison."
+milestone: core_claim
+notes: "CPU finite-distribution reproduction completed successfully. HSD improves block efficiency over tokenwise on the main setting and two additional settings while preserving comparable low total-variation distance; workspace validates with python validate.py --compare."

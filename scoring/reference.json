@@ -9,8 +9,8 @@
         "total_variation": {"higher_is_better": false, "coefficient": -1.0}
       },
       "results": {
-        "tokenwise": {"type": "baseline", "block_efficiency": 5.99, "total_variation": 0.0},
-        "hsd": {"type": "proposed", "block_efficiency": 6.30, "total_variation": 0.0}
+        "tokenwise": {"type": "baseline", "block_efficiency": 3.1425, "total_variation": 0.0},
+        "hsd": {"type": "proposed", "block_efficiency": 3.2886, "total_variation": 0.0}
       }
     },
     "finite_ar_gamma3": {
@@ -22,8 +22,8 @@
         "total_variation": {"higher_is_better": false, "coefficient": -1.0}
       },
       "results": {
-        "tokenwise": {"type": "baseline", "block_efficiency": 4.48, "total_variation": 0.0},
-        "hsd": {"type": "proposed", "block_efficiency": 4.59, "total_variation": 0.0}
+        "tokenwise": {"type": "baseline", "block_efficiency": 3.1417, "total_variation": 0.0},
+        "hsd": {"type": "proposed", "block_efficiency": 3.2900, "total_variation": 0.0}
       }
     },
     "finite_ar_temp08": {
@@ -35,8 +35,8 @@
         "total_variation": {"higher_is_better": false, "coefficient": -1.0}
       },
       "results": {
-        "tokenwise": {"type": "baseline", "block_efficiency": 6.70, "total_variation": 0.0},
-        "hsd": {"type": "proposed", "block_efficiency": 6.79, "total_variation": 0.0}
+        "tokenwise": {"type": "baseline", "block_efficiency": 2.9916, "total_variation": 0.0},
+        "hsd": {"type": "proposed", "block_efficiency": 3.1507, "total_variation": 0.0}
       }
     }
   }

@@ -31,6 +31,10 @@ per method/setting:
 HSD improves block efficiency in all three finite settings while maintaining
 distribution distance comparable to tokenwise speculative decoding.
 
+`scoring/reference.json` uses finite-benchmark block-efficiency targets in the
+same units as `scoring/scores.json`. The paper's original Qwen/GSM8K numbers
+remain documented in `briefing/overview.md` and `briefing/evaluation.md`.
+
 ## Remaining
 
 - Higher milestones would require running the verifier with real LLM draft and
