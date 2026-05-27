@@ -1,12 +1,17 @@
 # Reproduction Milestones
 
-**Current: method_runs**
+**Current: core_claim_plus**
 
 ## Progress Log
 
 ### [2026-05-27 06:35] - method_runs
 - Continuing-agent audit found the implementation is a real HSD verifier rather than a surrogate.
 - Standalone evaluation and validation work, but a smoke run overwrote local artifacts with low-sample results; resubmitting the full CPU reproduction before restoring `core_claim`.
+
+### [2026-05-27 06:40] - core_claim_plus
+- CPU rerun job `5f35dfcd-72a` completed successfully with 80,000 samples per method/setting.
+- The rerun reproduced HSD's block-efficiency advantage on the main finite benchmark and on the shorter-draft and lower-temperature settings.
+- `python validate.py --compare` passed after the rerun.
 
 ### [2026-05-27 06:26] - method_runs
 - Implemented the paper's HSD verifier with capped prefix ratios, capped branch divergences, backward verification, and single capped resampling.

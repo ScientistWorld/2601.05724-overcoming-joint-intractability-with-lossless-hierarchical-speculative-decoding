@@ -1,8 +1,8 @@
 # IMPORTANT: Once you set action to 'submit' or 'done', STOP immediately.
 # Do NOT sleep, poll, or wait for jobs. The system reads this file
 # only after your turn ends. Sleeping blocks the entire pipeline.
-action: submit
+action: done
 gpus: 0
 test: false
-milestone: method_runs
-notes: "Continuing-agent audit passed for implementation and evaluation structure. Submit full 80,000-sample CPU reproduction to regenerate trustworthy artifacts and restore core_claim/core_claim_plus."
+milestone: core_claim_plus
+notes: "Full 80,000-sample CPU rerun job 5f35dfcd-72a completed successfully. HSD improves block efficiency over tokenwise in all three finite AR settings while maintaining comparable total variation; validate.py --compare passes."

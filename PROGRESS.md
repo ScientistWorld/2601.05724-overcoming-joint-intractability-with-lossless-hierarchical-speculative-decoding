@@ -35,8 +35,8 @@ per method/setting:
 HSD improves block efficiency in all three finite settings while maintaining
 distribution distance comparable to tokenwise speculative decoding.
 
-Current audit milestone: `method_runs` pending a fresh full CPU reproduction
-job to restore the previous `core_claim_plus` result after a local smoke run.
+Fresh CPU rerun job `5f35dfcd-72a` completed successfully and restored the
+full 80,000-sample artifacts. Current milestone: `core_claim_plus`.
 
 `scoring/reference.json` uses finite-benchmark block-efficiency targets in the
 same units as `scoring/scores.json`. The paper's original Qwen/GSM8K numbers
@@ -56,6 +56,8 @@ remain documented in `briefing/overview.md` and `briefing/evaluation.md`.
   autoregressive distributions while preserving the verifier computation.
 - The scheduler's quoted absolute log path was not mounted directly, but the
   same logs were available under `jobs/291c5539-26f/`.
+- Job `5f35dfcd-72a` was initially preempted on one test node and then reran
+  successfully on another node; final exit code was 0.
 - `scoring/reference.json` contains finite scaled targets in the same units as
   this benchmark; the original paper's large-model numbers are documented in
   `briefing/overview.md` and `briefing/evaluation.md`.
