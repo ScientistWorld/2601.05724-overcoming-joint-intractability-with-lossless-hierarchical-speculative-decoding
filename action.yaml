@@ -2,4 +2,4 @@ action: done
 gpus: 0
 test: false
 milestone: core_claim_plus
-notes: "Core finite-AR HSD claim validated: HSD improves paper-scale block efficiency over tokenwise in all 3 settings with comparable ~0.03 TV; train/test scores use support-normalized split efficiency and validate cleanly."
+notes: "Packaging audit complete: scripts now resolve from the cloned repo root, data/downloads keeps only .gitkeep tracked, and no external artifacts are required."
