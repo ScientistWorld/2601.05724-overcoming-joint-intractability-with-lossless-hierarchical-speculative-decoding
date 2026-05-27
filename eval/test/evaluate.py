@@ -32,6 +32,7 @@ def _slice_metrics(
     samples: int,
     max_len: int,
     temperature: float,
+    block_efficiency: float,
 ) -> dict[str, float]:
     exact = exact_sequence_distribution(max_len, temperature)
     selected = [seq for seq in exact if _support_member(scenario_name, seq)]
@@ -42,6 +43,7 @@ def _slice_metrics(
     exact_mass = sum(exact[seq] for seq in selected)
     slice_tv = 0.5 * sum(abs(counts.get(seq, 0) / samples - exact[seq]) for seq in selected)
     return {
+        "slice_block_efficiency": block_efficiency * empirical_mass,
         "slice_total_variation": slice_tv,
         "slice_mass_error": abs(empirical_mass - exact_mass),
     }
@@ -124,16 +126,22 @@ def evaluate_artifact(path: Path) -> tuple[str, str, dict[str, float]]:
         raise ValueError(f"{path}: sequence_counts sum to {observed}, expected {samples}")
 
     block_efficiency = float(data["generated_tokens"]) / float(data["target_steps"])
+    slice_metrics = _slice_metrics(
+        scenario_name,
+        counts,
+        samples,
+        scenario.max_len,
+        scenario.temperature,
+        block_efficiency,
+    )
     metrics = {
-        "block_efficiency": block_efficiency,
+        "block_efficiency": slice_metrics["slice_block_efficiency"],
         "total_variation": _total_variation(counts, samples, scenario.max_len, scenario.temperature),
         "prefix_conditional_l1": _prefix_conditional_l1(
             scenario_name, counts, scenario.max_len, scenario.temperature
         ),
     }
-    metrics.update(
-        _slice_metrics(scenario_name, counts, samples, scenario.max_len, scenario.temperature)
-    )
+    metrics.update(slice_metrics)
     return scenario_name, str(data["method"]), metrics
 
 

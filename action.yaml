@@ -1,4 +1,4 @@
 action: submit
 gpus: 0
 test: false
-notes: "Run evaluate_train.sh and evaluate_test.sh against all checkpoint artifacts; populate split score files."
+notes: "Rerun split scoring after making the primary efficiency metric slice-sensitive; populate scores_train/test."
