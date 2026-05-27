@@ -1,4 +1,5 @@
-action: done
+action: submit
 gpus: 0
 test: false
-notes: "Hash-sliced finite AR support/prefix split; 36 train metric values, 36 test metric values; primary train/test gaps range 0.025-0.153 and constraints stay ~0.03 TV; no nulls."
+milestone: core_claim_plus
+notes: "Run the full finite-AR reproduction at 80k samples, validate core efficiency/fidelity scores, then refresh train/test split scores."
