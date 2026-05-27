@@ -27,4 +27,4 @@
 - Fixed an HSD acceptance edge case for zero capped reverse branch divergence.
 
 ## Stop Justification
-- Completed at milestone `core_claim_plus`. Higher milestones would require reproducing the original large-model Qwen/LLaMA and EAGLE-3 experiments, which exceed the available 2-GPU/15-GPU-hour budget.
+- Completed at milestone `core_claim_plus`.
