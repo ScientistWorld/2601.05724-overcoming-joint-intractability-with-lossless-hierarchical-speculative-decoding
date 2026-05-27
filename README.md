@@ -25,16 +25,13 @@ efficiency and decoding-speed gains over tokenwise and blockwise verification.
 
 # Problem Definition
 
-What problem does this paper address? Write this so that someone with no knowledge of the paper can understand what needs to be solved and how success is measured.
-
-Do NOT describe the paper's method or solution here — only the problem itself. Think about if a future scientist agent try to solve this problem from scratch without knowing what approach the paper took. If you leak the solution, you compromise the benchmark.
-
 ## Research Question
 
 How can an autoregressive generator reduce the number of serial target-model
 decoding steps while still sampling from the same distribution as the target
-model? The challenge is that block proposals from a cheaper draft distribution
-create joint-probability dependencies that are hard to verify exactly.
+model? The challenge is that multiple proposed tokens can have dependencies
+that are easy to exploit for speed but hard to validate without biasing the
+output distribution.
 
 ## Why It Matters
 
@@ -44,9 +41,9 @@ distribution quality.
 
 ## Success Criteria
 
-A successful decoder has higher block efficiency than standard tokenwise
-speculative decoding while maintaining low distribution distance from direct
-target-model sampling.
+A successful decoder produces more tokens per serial target step than a
+standard token-by-token speculative baseline while maintaining low distribution
+distance from direct target-model sampling.
 
 ---
 
@@ -81,8 +78,6 @@ multi-draft decoding, and integration with EAGLE-3.
 
 # Evaluation
 
-How success is measured. Describe only the metrics, targets, and evaluation procedure — do NOT describe the paper's method or how they achieved these results. Think of this as a general evaluation protocal for other scientists trying to solve the same problem, where they should not see this paper's solution.
-
 ## Metrics
 
 - `block_efficiency`: generated tokens per serial target-model step. Higher is
@@ -92,12 +87,11 @@ How success is measured. Describe only the metrics, targets, and evaluation proc
 
 ## Baselines and Targets
 
-The primary baseline is tokenwise speculative decoding. The paper reports HSD
-improvements over tokenwise block efficiency across GSM8K, HumanEval, and
-CNN/DailyMail. This workspace evaluates a finite scaled benchmark with the same
-verifier objective: improve block efficiency over tokenwise decoding while
-preserving the exact target distribution. The original large-model paper
-numbers are summarized in `briefing/overview.md`; `scoring/reference.json`
+The primary baseline is standard tokenwise speculative decoding. This workspace
+evaluates a finite scaled benchmark with the same general objective as the
+paper: improve block efficiency over tokenwise decoding while preserving the
+exact target distribution. The original large-model paper numbers are
+summarized outside the method-agnostic problem definition; `scoring/reference.json`
 contains the finite benchmark reference values used for automated comparison.
 
 ## Evaluation Protocol
@@ -266,6 +260,37 @@ each named experiment.
 - Fixed standalone baseline script evaluation behavior and clarified finite-reference documentation.
 - Re-ran `scripts/evaluate.sh` and `python validate.py --compare`; both passed.
 - Milestone is restored for the scaled finite-AR verifier benchmark, not for the original Qwen large-model tables or EAGLE-3 integration.
+
+</details>
+
+### Iteration 8: gpt-5.5 (verifier)
+- **Milestone**: `core_claim_plus` | **Status**: done
+- **Working time**: 5m | **GPU**: 0.0h
+- **Jobs**: 4 total (4 completed, 0 failed)
+
+<details>
+<summary>Progress Log</summary>
+
+### [2026-05-27 06:42] - core_claim_plus
+- Implemented and packaged finite autoregressive HSD reproduction across three settings.
+- Verified HSD improves block efficiency over tokenwise speculative decoding in all three settings.
+- Confirmed distribution fidelity is measured with empirical total variation against the exact target distribution; lightweight exact enumeration found HSD length-4 output TV at numerical precision.
+
+### [2026-05-27 06:44] - core_claim_plus
+- Continuing-agent audit confirmed the implementation is a real scaled HSD verifier rather than a surrogate.
+- Fixed standalone baseline script evaluation behavior and clarified finite-reference documentation.
+- Re-ran `scripts/evaluate.sh` and `python validate.py --compare`; both passed.
+- Milestone is restored for the scaled finite-AR verifier benchmark, not for the original Qwen large-model tables or EAGLE-3 integration.
+
+### [2026-05-27 07:09] - core_claim_plus
+- Independent explorer audit reconfirmed `method/hsd.py` implements capped-ratio HSD and `eval/` does not import `method/`.
+- Fixed default `scores.json` to include all diagnostic metric keys declared in `reference.json`.
+- Re-ran `bash scripts/evaluate.sh` and `python validate.py --compare`; both passed.
+
+### [2026-05-27 07:12] - core_claim_plus
+- Final verification confirmed the claimed milestone is justified for the scaled finite autoregressive gym.
+- Removed method leakage from method-agnostic briefing files and added explicit finite-scaling notes to `scoring/reference.json`.
+- Re-ran `bash scripts/evaluate.sh` and `python validate.py --compare`; both passed.
 
 </details>
 
