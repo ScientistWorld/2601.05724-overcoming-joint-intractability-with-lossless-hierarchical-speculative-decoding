@@ -6,7 +6,17 @@
       "primary_metric": "block_efficiency",
       "metrics": {
         "block_efficiency": {"higher_is_better": true, "coefficient": 1.0},
-        "total_variation": {"higher_is_better": false, "coefficient": -1.0}
+        "total_variation": {"higher_is_better": false, "coefficient": -1.0},
+        "slice_total_variation": {
+          "higher_is_better": false,
+          "coefficient": -0.6,
+          "description": "Total-variation contribution on the active train/test support slice, used to detect distribution shortcuts that do not generalize across held-out sequence categories."
+        },
+        "slice_mass_error": {
+          "higher_is_better": false,
+          "coefficient": -0.4,
+          "description": "Absolute difference between empirical and exact target probability mass assigned to the active train/test support slice."
+        }
       },
       "results": {
         "tokenwise": {"type": "baseline", "block_efficiency": 3.1425, "total_variation": 0.0},
@@ -19,7 +29,17 @@
       "primary_metric": "block_efficiency",
       "metrics": {
         "block_efficiency": {"higher_is_better": true, "coefficient": 1.0},
-        "total_variation": {"higher_is_better": false, "coefficient": -1.0}
+        "total_variation": {"higher_is_better": false, "coefficient": -1.0},
+        "slice_total_variation": {
+          "higher_is_better": false,
+          "coefficient": -0.6,
+          "description": "Total-variation contribution on the active train/test support slice, used to detect distribution shortcuts that do not generalize across held-out sequence categories."
+        },
+        "slice_mass_error": {
+          "higher_is_better": false,
+          "coefficient": -0.4,
+          "description": "Absolute difference between empirical and exact target probability mass assigned to the active train/test support slice."
+        }
       },
       "results": {
         "tokenwise": {"type": "baseline", "block_efficiency": 3.1417, "total_variation": 0.0},
@@ -32,7 +52,17 @@
       "primary_metric": "block_efficiency",
       "metrics": {
         "block_efficiency": {"higher_is_better": true, "coefficient": 1.0},
-        "total_variation": {"higher_is_better": false, "coefficient": -1.0}
+        "total_variation": {"higher_is_better": false, "coefficient": -1.0},
+        "slice_total_variation": {
+          "higher_is_better": false,
+          "coefficient": -0.6,
+          "description": "Total-variation contribution on the active train/test support slice, used to detect distribution shortcuts that do not generalize across held-out sequence categories."
+        },
+        "slice_mass_error": {
+          "higher_is_better": false,
+          "coefficient": -0.4,
+          "description": "Absolute difference between empirical and exact target probability mass assigned to the active train/test support slice."
+        }
       },
       "results": {
         "tokenwise": {"type": "baseline", "block_efficiency": 2.9916, "total_variation": 0.0},
