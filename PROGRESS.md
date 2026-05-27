@@ -17,13 +17,22 @@ Smoke test with 5,000 samples on `finite_ar_main`:
 - HSD block efficiency: 3.2911, total variation: 0.1316
 
 The smoke test shows the expected block-efficiency advantage. A larger CPU job
-is submitted to reduce sampling noise and evaluate all configured settings.
+reduced sampling noise and evaluated all configured settings.
+
+CPU reproduction job `291c5539-26f` completed successfully with 80,000 samples
+per method/setting:
+
+| Experiment | Tokenwise BE | HSD BE | Tokenwise TV | HSD TV |
+| --- | ---: | ---: | ---: | ---: |
+| `finite_ar_main` | 3.1425 | 3.2886 | 0.0333 | 0.0325 |
+| `finite_ar_gamma3` | 3.1417 | 3.2900 | 0.0304 | 0.0326 |
+| `finite_ar_temp08` | 2.9916 | 3.1507 | 0.0312 | 0.0324 |
+
+HSD improves block efficiency in all three finite settings while maintaining
+distribution distance comparable to tokenwise speculative decoding.
 
 ## Remaining
 
-- Run the full CPU reproduction job and inspect `scoring/scores.json`.
-- If sampling noise keeps total variation too high, increase samples or replace
-  sampling artifacts with exact finite-enumeration artifacts.
 - Higher milestones would require running the verifier with real LLM draft and
   target models on GSM8K/HumanEval/CNN-DailyMail.
 
@@ -32,6 +41,8 @@ is submitted to reduce sampling noise and evaluate all configured settings.
 - The paper's original 14B-72B experiments are too large for a first verifier
   reproduction. The current benchmark scales resources down to exact finite
   autoregressive distributions while preserving the verifier computation.
+- The scheduler's quoted absolute log path was not mounted directly, but the
+  same logs were available under `jobs/291c5539-26f/`.
 
 ## Deviations from Paper
 

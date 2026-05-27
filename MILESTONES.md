@@ -1,6 +1,6 @@
 # Reproduction Milestones
 
-**Current: method_runs**
+**Current: core_claim**
 
 <!-- Milestone levels (update "Current" above as you progress):
   none             — just started, no meaningful progress yet
@@ -20,5 +20,10 @@
 - Implemented HSD and tokenwise speculative decoding on a finite autoregressive benchmark.
 - Ran a local smoke test showing both methods execute end-to-end and HSD improves block efficiency on the main finite setting.
 
+### [2026-05-27 06:22] - core_claim
+- CPU reproduction job `291c5539-26f` completed successfully.
+- HSD improved block efficiency over tokenwise on the main finite setting: 3.2886 vs 3.1425 tokens/step.
+- HSD also improved the two configured robustness settings while keeping total-variation distance comparable to tokenwise.
+
 ## Stop Justification
-- Not stopped.
+- Completed verifier-focused scaled reproduction at `core_claim`.

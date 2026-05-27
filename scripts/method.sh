@@ -21,4 +21,6 @@ python -m method.hsd \
   --seed "${SEED}" \
   --output "checkpoints/hsd_${SCENARIO}.json"
 
-bash scripts/evaluate.sh
+if [ "${RUN_EVALUATE:-1}" = "1" ]; then
+  bash scripts/evaluate.sh
+fi
