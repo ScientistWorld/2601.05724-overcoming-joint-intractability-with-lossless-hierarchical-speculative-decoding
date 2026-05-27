@@ -10,6 +10,8 @@
 - Implemented artifact-only evaluation in `eval/evaluate.py`.
 - Evaluation now derives fixed `gamma`, sequence length, and temperature from
   `data/finite_ar.py` rather than trusting method-authored artifact fields.
+- Continuing-agent audit confirmed `eval/` does not import from `method/` and
+  evaluates method artifacts rather than rerunning the algorithm internally.
 
 ## Results
 
@@ -33,7 +35,8 @@ per method/setting:
 HSD improves block efficiency in all three finite settings while maintaining
 distribution distance comparable to tokenwise speculative decoding.
 
-Current milestone: `core_claim_plus`.
+Current audit milestone: `method_runs` pending a fresh full CPU reproduction
+job to restore the previous `core_claim_plus` result after a local smoke run.
 
 `scoring/reference.json` uses finite-benchmark block-efficiency targets in the
 same units as `scoring/scores.json`. The paper's original Qwen/GSM8K numbers

@@ -1,8 +1,12 @@
 # Reproduction Milestones
 
-**Current: core_claim_plus**
+**Current: method_runs**
 
 ## Progress Log
+
+### [2026-05-27 06:35] - method_runs
+- Continuing-agent audit found the implementation is a real HSD verifier rather than a surrogate.
+- Standalone evaluation and validation work, but a smoke run overwrote local artifacts with low-sample results; resubmitting the full CPU reproduction before restoring `core_claim`.
 
 ### [2026-05-27 06:26] - method_runs
 - Implemented the paper's HSD verifier with capped prefix ratios, capped branch divergences, backward verification, and single capped resampling.
