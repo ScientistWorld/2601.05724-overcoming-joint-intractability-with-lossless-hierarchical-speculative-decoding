@@ -1,11 +1,16 @@
-# Overview
+# Overcoming Joint Intractability with Lossless Hierarchical Speculative Decoding
 
-- **Paper ID:** 2601.05724
-- **Title:** Overcoming Joint Intractability with Lossless Hierarchical Speculative Decoding
-- **Domain:** Language model inference / speculative decoding
-- **TL;DR:** HSD is a lossless speculative decoding verifier that accepts longer draft prefixes by redistributing branch probability mass hierarchically.
+| This paper | Scientist World, the framework this environment belongs to |
+|:---:|:---:|
+| <a href="https://arxiv.org/abs/2601.05724"><img alt="This paper on arXiv" src="https://img.shields.io/badge/arXiv-2601.05724-b31b1b?logo=arxiv&logoColor=white"></a> | <a href="https://arxiv.org/abs/2611.08478"><img alt="Scientist World on arXiv" src="https://img.shields.io/badge/arXiv-2611.08478-b31b1b?logo=arxiv&logoColor=white"></a> <a href="https://github.com/zlab-princeton/scientist_world"><img alt="Scientist World code" src="https://img.shields.io/badge/Code-Scientist_World-181717?logo=github&logoColor=white"></a> <a href="https://github.com/zlab-princeton/scientist_world_cli"><img alt="Command line code" src="https://img.shields.io/badge/Code-Command_line-181717?logo=github&logoColor=white"></a> |
 
-## Short Summary
+| | |
+|---|---|
+| **Paper ID** | [2601.05724](https://arxiv.org/abs/2601.05724) |
+| **Domain** | Language model inference / speculative decoding |
+| **TL;DR** | HSD is a lossless speculative decoding verifier that accepts longer draft prefixes by redistributing branch probability mass hierarchically. |
+
+## Summary
 
 The paper targets the verification bottleneck in speculative decoding. It
 proposes capped branch resampling, which lets the verifier perform a backward
@@ -13,19 +18,7 @@ block-level acceptance scan and still recover the target distribution with a
 single resampling step. The reported experiments show consistent block
 efficiency and decoding-speed gains over tokenwise and blockwise verification.
 
-## Key Results
-
-- Average reported improvement is about 6.2% in block efficiency and 6.7% in
-  decoding speed across main Qwen2.5 experiments.
-- On GSM8K with Qwen2.5-14B, reported block efficiency improves from 5.99
-  tokenwise to 6.30 with HSD.
-- EAGLE-3 integration reports a 12.4% decoding-speed gain.
-
----
-
-# Problem Definition
-
-## Research Question
+## Problem
 
 How can an autoregressive generator reduce the number of serial target-model
 decoding steps while still sampling from the same distribution as the target
@@ -33,313 +26,27 @@ model? The challenge is that multiple proposed tokens can have dependencies
 that are easy to exploit for speed but hard to validate without biasing the
 output distribution.
 
-## Why It Matters
-
-Autoregressive generation is latency-bound by sequential target-model calls. A
-good solution increases generated tokens per target step without changing output
-distribution quality.
-
-## Success Criteria
-
-A successful decoder produces more tokens per serial target step than a
-standard token-by-token speculative baseline while maintaining low distribution
-distance from direct target-model sampling.
-
----
-
-# Paper's Method
-
-How the paper approaches the problem, i.e. the paper's core contributions.
-
-## Key Contribution
+## The paper's method
 
 The paper introduces Hierarchical Speculative Decoding (HSD), a lossless
 verification method that increases accepted tokens in speculative decoding by
 using hierarchical branch resampling rather than independent tokenwise checks.
 
-## Approach
+## Key results of the paper
 
-A draft model proposes a block of tokens. The verifier computes joint prefix
-ratios under the target and draft distributions, identifies maximum-prefix
-capping points, computes capped branch divergences over accessible next-token
-branches, and scans backward through the draft to accept the longest validated
-prefix. If the full block is accepted, a bonus target token is sampled. If not,
-the verifier emits the accepted prefix plus one sample from the capped branch
-resampling distribution.
+- Average reported improvement is about 6.2% in block efficiency and 6.7% in
+- On GSM8K with Qwen2.5-14B, reported block efficiency improves from 5.99
+- EAGLE-3 integration reports a 12.4% decoding-speed gain.
 
-## Main Claims
+## Run it
 
-The primary claim is that HSD improves block efficiency and decoding speed while
-remaining lossless, i.e. preserving the target distribution. Secondary claims
-include robustness across temperatures and draft lengths, compatibility with
-multi-draft decoding, and integration with EAGLE-3.
+```bash
+pip install sciworld
+sw research 2601.05724 --mode innovate --agent claude-code
+sw evaluate 2601.05724
+```
 
----
+## More
 
-# Evaluation
+The full problem statement, method notes, evaluation protocol and reproduction log are in [DETAILS.md](DETAILS.md).
 
-## Metrics
-
-- `block_efficiency`: generated tokens per serial target-model step. Higher is
-  better.
-- `total_variation`: empirical total-variation distance between generated
-  sequence counts and the exact target distribution. Lower is better.
-
-## Baselines and Targets
-
-The primary baseline is standard tokenwise speculative decoding. This workspace
-evaluates a finite scaled benchmark whose objective is to improve block
-efficiency over tokenwise decoding while preserving the exact target
-distribution. `scoring/reference.json` contains the finite benchmark reference
-values used for automated comparison.
-
-## Evaluation Protocol
-
-Run `scripts/reproduce.sh` to generate baseline and candidate artifacts, then
-run `scripts/evaluate.sh`. Evaluation reads JSON artifacts from `checkpoints/`
-and writes `scoring/scores.json`. Candidate methods must use the same finite
-target/draft distributions, sequence length, temperature, and draft length for
-each named experiment.
-
----
-
-# Reproduction Log
-
-### Iteration 1: gpt-5.5
-- **Milestone**: `core_claim` | **Status**: done
-- **Working time**: 8m | **GPU**: 0.0h
-- **Jobs**: 1 total (1 completed, 0 failed)
-
-<details>
-<summary>Progress Log</summary>
-
-### [2026-05-27 00:00] - method_runs
-- Read the paper and identified HSD's capped branch resampling verifier as the core algorithm.
-- Implemented HSD and tokenwise speculative decoding on a finite autoregressive benchmark.
-- Ran a local smoke test showing both methods execute end-to-end and HSD improves block efficiency on the main finite setting.
-
-### [2026-05-27 06:22] - core_claim
-- CPU reproduction job `291c5539-26f` completed successfully.
-- HSD improved block efficiency over tokenwise on the main finite setting: 3.2886 vs 3.1425 tokens/step.
-- HSD also improved the two configured robustness settings while keeping total-variation distance comparable to tokenwise.
-
-</details>
-
-### Iteration 2: gpt-5.5
-- **Milestone**: `core_claim_plus` | **Status**: done
-- **Working time**: 4m | **GPU**: 0.0h
-- **Jobs**: 2 total (2 completed, 0 failed)
-
-<details>
-<summary>Progress Log</summary>
-
-### [2026-05-27 06:35] - method_runs
-- Continuing-agent audit found the implementation is a real HSD verifier rather than a surrogate.
-- Standalone evaluation and validation work, but a smoke run overwrote local artifacts with low-sample results; resubmitting the full CPU reproduction before restoring `core_claim`.
-
-### [2026-05-27 06:40] - core_claim_plus
-- CPU rerun job `5f35dfcd-72a` completed successfully with 80,000 samples per method/setting.
-- The rerun reproduced HSD's block-efficiency advantage on the main finite benchmark and on the shorter-draft and lower-temperature settings.
-- `python validate.py --compare` passed after the rerun.
-
-### [2026-05-27 06:26] - method_runs
-- Implemented the paper's HSD verifier with capped prefix ratios, capped branch divergences, backward verification, and single capped resampling.
-- Implemented tokenwise speculative decoding baseline and artifact-based evaluation on finite autoregressive target/draft distributions.
-
-### [2026-05-27 06:26] - core_claim
-- Ran an 80,000-sample CPU reproduction job on `finite_ar_main`.
-- HSD improved block efficiency over tokenwise speculative decoding while maintaining comparable total-variation distance to the exact target distribution.
-
-### [2026-05-27 06:26] - core_claim_plus
-- Extended the same comparison to `finite_ar_gamma3` and `finite_ar_temp08`.
-- Fixed the evaluator to enforce fixed benchmark scenario settings from `data/finite_ar.py`.
-- Fixed an HSD acceptance edge case for zero capped reverse branch divergence.
-
-</details>
-
-### Iteration 3: gpt-5.5
-- **Milestone**: `core_claim_plus` | **Status**: done
-- **Working time**: 6m | **GPU**: 0.0h
-- **Jobs**: 2 total (2 completed, 0 failed)
-
-<details>
-<summary>Progress Log</summary>
-
-### [2026-05-27 06:42] - core_claim_plus
-- Implemented and packaged finite autoregressive HSD reproduction across three settings.
-- Verified HSD improves block efficiency over tokenwise speculative decoding in all three settings.
-- Confirmed distribution fidelity is measured with empirical total variation against the exact target distribution; lightweight exact enumeration found HSD length-4 output TV at numerical precision.
-
-### [2026-05-27 06:44] - core_claim_plus
-- Continuing-agent audit confirmed the implementation is a real scaled HSD verifier rather than a surrogate.
-- Fixed standalone baseline script evaluation behavior and clarified finite-reference documentation.
-- Re-ran `scripts/evaluate.sh` and `python validate.py --compare`; both passed.
-- Milestone is restored for the scaled finite-AR verifier benchmark, not for the original Qwen large-model tables or EAGLE-3 integration.
-
-</details>
-
-### Iteration 4: gpt-5.5 (designer_stage_1)
-- **Milestone**: `core_claim_plus` | **Status**: done
-- **Working time**: 4m | **GPU**: 0.0h
-- **Jobs**: 2 total (2 completed, 0 failed)
-
-<details>
-<summary>Progress Log</summary>
-
-### [2026-05-27 06:42] - core_claim_plus
-- Implemented and packaged finite autoregressive HSD reproduction across three settings.
-- Verified HSD improves block efficiency over tokenwise speculative decoding in all three settings.
-- Confirmed distribution fidelity is measured with empirical total variation against the exact target distribution; lightweight exact enumeration found HSD length-4 output TV at numerical precision.
-
-### [2026-05-27 06:44] - core_claim_plus
-- Continuing-agent audit confirmed the implementation is a real scaled HSD verifier rather than a surrogate.
-- Fixed standalone baseline script evaluation behavior and clarified finite-reference documentation.
-- Re-ran `scripts/evaluate.sh` and `python validate.py --compare`; both passed.
-- Milestone is restored for the scaled finite-AR verifier benchmark, not for the original Qwen large-model tables or EAGLE-3 integration.
-
-</details>
-
-### Iteration 5: gpt-5.5 (designer_stage_2)
-- **Milestone**: `core_claim_plus` | **Status**: done
-- **Working time**: 3m | **GPU**: 0.0h
-- **Jobs**: 2 total (2 completed, 0 failed)
-
-<details>
-<summary>Progress Log</summary>
-
-### [2026-05-27 06:42] - core_claim_plus
-- Implemented and packaged finite autoregressive HSD reproduction across three settings.
-- Verified HSD improves block efficiency over tokenwise speculative decoding in all three settings.
-- Confirmed distribution fidelity is measured with empirical total variation against the exact target distribution; lightweight exact enumeration found HSD length-4 output TV at numerical precision.
-
-### [2026-05-27 06:44] - core_claim_plus
-- Continuing-agent audit confirmed the implementation is a real scaled HSD verifier rather than a surrogate.
-- Fixed standalone baseline script evaluation behavior and clarified finite-reference documentation.
-- Re-ran `scripts/evaluate.sh` and `python validate.py --compare`; both passed.
-- Milestone is restored for the scaled finite-AR verifier benchmark, not for the original Qwen large-model tables or EAGLE-3 integration.
-
-</details>
-
-### Iteration 6: gpt-5.5 (designer_stage_3)
-- **Milestone**: `core_claim_plus` | **Status**: done
-- **Working time**: 7m | **GPU**: 0.0h
-- **Jobs**: 4 total (4 completed, 0 failed)
-
-<details>
-<summary>Progress Log</summary>
-
-### [2026-05-27 06:42] - core_claim_plus
-- Implemented and packaged finite autoregressive HSD reproduction across three settings.
-- Verified HSD improves block efficiency over tokenwise speculative decoding in all three settings.
-- Confirmed distribution fidelity is measured with empirical total variation against the exact target distribution; lightweight exact enumeration found HSD length-4 output TV at numerical precision.
-
-### [2026-05-27 06:44] - core_claim_plus
-- Continuing-agent audit confirmed the implementation is a real scaled HSD verifier rather than a surrogate.
-- Fixed standalone baseline script evaluation behavior and clarified finite-reference documentation.
-- Re-ran `scripts/evaluate.sh` and `python validate.py --compare`; both passed.
-- Milestone is restored for the scaled finite-AR verifier benchmark, not for the original Qwen large-model tables or EAGLE-3 integration.
-
-</details>
-
-### Iteration 7: gpt-5.5 (packager)
-- **Milestone**: `core_claim_plus` | **Status**: done
-- **Working time**: 3m | **GPU**: 0.0h
-- **Jobs**: 4 total (4 completed, 0 failed)
-
-<details>
-<summary>Progress Log</summary>
-
-### [2026-05-27 06:42] - core_claim_plus
-- Implemented and packaged finite autoregressive HSD reproduction across three settings.
-- Verified HSD improves block efficiency over tokenwise speculative decoding in all three settings.
-- Confirmed distribution fidelity is measured with empirical total variation against the exact target distribution; lightweight exact enumeration found HSD length-4 output TV at numerical precision.
-
-### [2026-05-27 06:44] - core_claim_plus
-- Continuing-agent audit confirmed the implementation is a real scaled HSD verifier rather than a surrogate.
-- Fixed standalone baseline script evaluation behavior and clarified finite-reference documentation.
-- Re-ran `scripts/evaluate.sh` and `python validate.py --compare`; both passed.
-- Milestone is restored for the scaled finite-AR verifier benchmark, not for the original Qwen large-model tables or EAGLE-3 integration.
-
-</details>
-
-### Iteration 8: gpt-5.5 (verifier)
-- **Milestone**: `core_claim_plus` | **Status**: done
-- **Working time**: 5m | **GPU**: 0.0h
-- **Jobs**: 4 total (4 completed, 0 failed)
-
-<details>
-<summary>Progress Log</summary>
-
-### [2026-05-27 06:42] - core_claim_plus
-- Implemented and packaged finite autoregressive HSD reproduction across three settings.
-- Verified HSD improves block efficiency over tokenwise speculative decoding in all three settings.
-- Confirmed distribution fidelity is measured with empirical total variation against the exact target distribution; lightweight exact enumeration found HSD length-4 output TV at numerical precision.
-
-### [2026-05-27 06:44] - core_claim_plus
-- Continuing-agent audit confirmed the implementation is a real scaled HSD verifier rather than a surrogate.
-- Fixed standalone baseline script evaluation behavior and clarified finite-reference documentation.
-- Re-ran `scripts/evaluate.sh` and `python validate.py --compare`; both passed.
-- Milestone is restored for the scaled finite-AR verifier benchmark, not for the original Qwen large-model tables or EAGLE-3 integration.
-
-### [2026-05-27 07:09] - core_claim_plus
-- Independent explorer audit reconfirmed `method/hsd.py` implements capped-ratio HSD and `eval/` does not import `method/`.
-- Fixed default `scores.json` to include all diagnostic metric keys declared in `reference.json`.
-- Re-ran `bash scripts/evaluate.sh` and `python validate.py --compare`; both passed.
-
-### [2026-05-27 07:12] - core_claim_plus
-- Final verification confirmed the claimed milestone is justified for the scaled finite autoregressive gym.
-- Removed method leakage from method-agnostic briefing files and added explicit finite-scaling notes to `scoring/reference.json`.
-- Re-ran `bash scripts/evaluate.sh` and `python validate.py --compare`; both passed.
-
-</details>
-
-### Iteration 9: gpt-5.5 (verifier)
-- **Milestone**: `core_claim_plus` | **Status**: done
-- **Working time**: 6m | **GPU**: 0.0h
-- **Jobs**: 4 total (4 completed, 0 failed)
-
-<details>
-<summary>Progress Log</summary>
-
-### [2026-05-27 06:42] - core_claim_plus
-- Implemented and packaged finite autoregressive HSD reproduction across three settings.
-- Verified HSD improves block efficiency over tokenwise speculative decoding in all three settings.
-- Confirmed distribution fidelity is measured with empirical total variation against the exact target distribution; lightweight exact enumeration found HSD length-4 output TV at numerical precision.
-
-### [2026-05-27 06:44] - core_claim_plus
-- Continuing-agent audit confirmed the implementation is a real scaled HSD verifier rather than a surrogate.
-- Fixed standalone baseline script evaluation behavior and clarified finite-reference documentation.
-- Re-ran `scripts/evaluate.sh` and `python validate.py --compare`; both passed.
-- Milestone is restored for the scaled finite-AR verifier benchmark, not for the original Qwen large-model tables or EAGLE-3 integration.
-
-### [2026-05-27 07:09] - core_claim_plus
-- Independent explorer audit reconfirmed `method/hsd.py` implements capped-ratio HSD and `eval/` does not import `method/`.
-- Fixed default `scores.json` to include all diagnostic metric keys declared in `reference.json`.
-- Re-ran `bash scripts/evaluate.sh` and `python validate.py --compare`; both passed.
-
-### [2026-05-27 07:12] - core_claim_plus
-- Final verification confirmed the claimed milestone is justified for the scaled finite autoregressive gym.
-- Removed method leakage from method-agnostic briefing files and added explicit finite-scaling notes to `scoring/reference.json`.
-- Re-ran `bash scripts/evaluate.sh` and `python validate.py --compare`; both passed.
-
-### [2026-05-27 07:14] - core_claim_plus
-- Sub-agent audits reconfirmed `method/hsd.py` implements the paper's capped-branch HSD verifier rather than a surrogate.
-- Reconfirmed `scripts/evaluate.sh` reads artifacts through `eval/` without importing `method/`.
-- Marked the satisfied scientist constraints checklist and re-ran `bash scripts/evaluate.sh` plus `python validate.py --compare`; both passed.
-
-### [2026-05-27 07:18] - core_claim_plus
-- Final quality check confirmed problem/solution separation, artifact-based evaluation, train/test split wiring, and shared-path hygiene.
-- Tightened method-agnostic documentation in `briefing/evaluation.md` and `scoring/DIRECTION.md`.
-- Re-ran `bash scripts/evaluate.sh`, train/test evaluators, and `python validate.py --compare`; all passed.
-
-</details>
-
-
----
-
-# Reproduction Milestones
-
-**Current: core_claim_plus**
-
-## Stop Justification
-- Completed at milestone `core_claim_plus`.
