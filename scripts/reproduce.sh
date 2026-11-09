@@ -1,29 +1,15 @@
 #!/bin/bash
-# Reproduce the paper's results end-to-end.
+# Reproduce the paper's results end-to-end on the visible slice.
 #
-# This script runs inside the compute container and should call
-# scripts/baseline.sh and scripts/method.sh to run baselines and
-# the paper's method, each of which calls scripts/evaluate.sh.
-#
-# Assumes:
-#   - Container is built (environment/container.sif)
-#   - Data and models are downloaded (via scripts/download.sh)
-#   - Working directory is /home/user
-#
-# This is the "gold standard" reproduction — 
-# You do not need to run this, but keep this in good shape
-# so other agents can easily run a full loop of reproduction and get the paper's numbers.
+# Exports the reference method (HSD) and the baselines as verifier programs
+# under checkpoints/, then scores them with scripts/evaluate.sh
+# (writes scoring/scores.json).  Pure Python, CPU only, a few minutes.
 
 set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "${SCRIPT_DIR}/.."
 
-SAMPLES="${SAMPLES:-50000}"
-
-for scenario in finite_ar_main finite_ar_gamma3 finite_ar_temp08; do
-  RUN_EVALUATE=0 SAMPLES="${SAMPLES}" bash scripts/baseline.sh "${scenario}"
-  RUN_EVALUATE=0 SAMPLES="${SAMPLES}" bash scripts/method.sh "${scenario}"
-done
-
+RUN_EVALUATE=0 bash scripts/baseline.sh
+RUN_EVALUATE=0 bash scripts/method.sh
 bash scripts/evaluate.sh

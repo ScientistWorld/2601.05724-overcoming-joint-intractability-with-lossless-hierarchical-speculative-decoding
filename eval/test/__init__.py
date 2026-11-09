@@ -1,1 +1,1 @@
-"""Held-out test-slice evaluator for the finite AR benchmark."""
+"""Held-out test-slice evaluator for verifier programs."""

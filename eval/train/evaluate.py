@@ -1,187 +1,437 @@
-"""Train-slice scoring for finite AR speculative decoding artifacts.
+"""Visible (train) slice evaluator for speculative-decoding verifier programs.
 
-This evaluator is intentionally method-agnostic: it reads checkpoint JSON files
-produced by any method that follows the repository artifact contract.
+A *method* is a directory ``checkpoints/<name>/`` containing ``verifier.py``.
+The evaluator runs every such program in its own subprocess and streams it
+verification problems one at a time (JSON lines; protocol in
+``briefing/evaluation.md``).  A problem contains only what a verifier can
+access in speculative decoding: the K draft blocks, the target rows
+p(.|context, X_{1:t}) for t = 0..gamma and the draft rows q(.|context, X_{1:t})
+for t = 0..gamma-1 along every draft.  The program answers with the
+probability of each outcome (draft index k, accepted length tau, next token
+y), meaning that one target step emits ``drafts[k][:tau] + [y]``.
+
+Scoring is exact.  For every context the evaluator enumerates every possible
+draft tuple (weighted by its draft probability), so
+
+* ``block_efficiency`` = expected number of emitted tokens per target step,
+  averaged over the experiment's contexts (no Monte-Carlo noise);
+* losslessness is checked exactly: the emitted prefix followed by target
+  sampling must reproduce p over gamma + 1 tokens (completion total
+  variation <= LOSSLESS_TOL for every context).
+
+Any protocol violation, non-finite/negative/unnormalised probability,
+non-deterministic answer, crash, timeout or lossy context marks the method
+as failed; a failed method scores ``block_efficiency = 0.0`` in every
+experiment (below the 1.0 that any valid decoder attains).
 """
 
 from __future__ import annotations
 
 import argparse
-import hashlib
+import itertools
 import json
+import math
+import os
+import random
+import subprocess
+import sys
+import tempfile
+import threading
+import time
 from pathlib import Path
 
-from data.finite_ar import SCENARIOS, VOCAB, exact_sequence_distribution
-
+from data.synthetic_lm import (
+    TRAIN_CONTEXTS_PER_CONFIG,
+    TRAIN_SALT,
+    TRAIN_SEED,
+    experiment_configs,
+    node_distributions,
+    sample_contexts,
+)
 
 SLICE = "train"
-SPLIT_SALT = "finite-ar-visible-train-v1"
+# Order in which problems are streamed (exact scores do not depend on it).
+SHUFFLE_SEED = int(os.environ.get("EVAL_STREAM_SEED", "7"))
+LOSSLESS_TOL = 1e-9
+MASS_TOL = 1e-9
+PROBE_FRACTION = 0.02
+PROBE_TOL = 1e-12
+TIME_BUDGET_S = float(os.environ.get("VERIFIER_TIME_BUDGET_S", "5400"))
+FAILED_SCORE = 0.0
 
 
-def _support_member(scenario_name: str, sequence: str) -> bool:
-    key = f"{SPLIT_SALT}:{scenario_name}:{sequence}".encode("utf-8")
-    digest = hashlib.sha256(key).digest()
-    return int.from_bytes(digest[:8], "big") % 2 == 0
+# --------------------------------------------------------------------------
+# Instances
+# --------------------------------------------------------------------------
 
 
-def _total_variation(counts: dict[str, int], samples: int, max_len: int, temperature: float) -> float:
-    exact = exact_sequence_distribution(max_len, temperature)
-    keys = set(exact) | set(counts)
-    return 0.5 * sum(abs(counts.get(key, 0) / samples - exact.get(key, 0.0)) for key in keys)
-
-
-def _slice_metrics(
-    scenario_name: str,
-    counts: dict[str, int],
-    samples: int,
-    max_len: int,
-    temperature: float,
-    block_efficiency: float,
-) -> dict[str, float]:
-    exact = exact_sequence_distribution(max_len, temperature)
-    selected = [seq for seq in exact if _support_member(scenario_name, seq)]
-    if not selected:
-        raise ValueError(f"{scenario_name}: train split selected no sequences")
-
-    empirical_mass = sum(counts.get(seq, 0) for seq in selected) / samples
-    exact_mass = sum(exact[seq] for seq in selected)
-    slice_tv = 0.5 * sum(abs(counts.get(seq, 0) / samples - exact[seq]) for seq in selected)
-    return {
-        "normalized_block_efficiency": block_efficiency * empirical_mass / exact_mass,
-        "slice_block_efficiency": block_efficiency * empirical_mass,
-        "slice_total_variation": slice_tv,
-        "slice_mass_error": abs(empirical_mass - exact_mass),
-    }
-
-
-def _prefix_member(scenario_name: str, prefix: str) -> bool:
-    key = f"{SPLIT_SALT}:prefix:{scenario_name}:{prefix}".encode("utf-8")
-    digest = hashlib.sha256(key).digest()
-    return int.from_bytes(digest[:8], "big") % 2 == 0
-
-
-def _prefix_conditional_l1(
-    scenario_name: str,
-    counts: dict[str, int],
-    max_len: int,
-    temperature: float,
-) -> float:
-    exact = exact_sequence_distribution(max_len, temperature)
-    prefixes = sorted(
-        {
-            seq[:length]
-            for seq in exact
-            for length in range(max_len)
-            if _prefix_member(scenario_name, seq[:length])
-        }
+def config_label(cfg: dict) -> str:
+    return (
+        f"{cfg['regime']}/{cfg['pair']}/V{cfg['vocab']}/g{cfg['gamma']}"
+        f"/K{cfg['drafts']}/T{cfg['temperature']}"
     )
-    if not prefixes:
-        raise ValueError(f"{scenario_name}: train split selected no prefixes")
 
-    weighted_l1 = 0.0
-    total_weight = 0.0
-    for prefix in prefixes:
-        exact_prefix_mass = sum(prob for seq, prob in exact.items() if seq.startswith(prefix))
-        empirical_prefix_count = sum(count for seq, count in counts.items() if seq.startswith(prefix))
-        if exact_prefix_mass <= 0.0:
+
+class Context:
+    """All rows of one context up to depth gamma, and its draft blocks."""
+
+    def __init__(self, cfg: dict, prefix: tuple[int, ...]):
+        self.cfg = cfg
+        self.vocab = cfg["vocab"]
+        self.gamma = cfg["gamma"]
+        self.num_drafts = cfg["drafts"]
+        self.p: dict[tuple, list[float]] = {}
+        self.q: dict[tuple, list[float]] = {}
+        for depth in range(self.gamma + 1):
+            for node in itertools.product(range(self.vocab), repeat=depth):
+                p, q = node_distributions(
+                    TRAIN_SALT, TRAIN_SEED, cfg["regime"], cfg["pair"], self.vocab,
+                    cfg["temperature"], prefix + node,
+                )
+                self.p[node] = p
+                self.q[node] = q
+        self.blocks = list(itertools.product(range(self.vocab), repeat=self.gamma))
+        self.block_prob = []
+        self.block_json = []
+        for block in self.blocks:
+            prob = 1.0
+            for t in range(self.gamma):
+                prob *= self.q[block[:t]][block[t]]
+            self.block_prob.append(prob)
+            p_rows = [self.p[block[:t]] for t in range(self.gamma + 1)]
+            q_rows = [self.q[block[:t]] for t in range(self.gamma)]
+            self.block_json.append(
+                (json.dumps(list(block)), json.dumps(p_rows), json.dumps(q_rows))
+            )
+        self.num_problems = len(self.blocks) ** self.num_drafts
+
+    def problem(self, index: int) -> tuple[list[int], float]:
+        base = len(self.blocks)
+        picks = []
+        weight = 1.0
+        for _ in range(self.num_drafts):
+            index, b = divmod(index, base)
+            picks.append(b)
+            weight *= self.block_prob[b]
+        return picks, weight
+
+    def request(self, rid: int, picks: list[int]) -> str:
+        parts = [self.block_json[b] for b in picks]
+        return (
+            '{"id": %d, "vocab_size": %d, "gamma": %d, "num_drafts": %d, '
+            '"drafts": [%s], "target_probs": [%s], "draft_probs": [%s]}\n'
+            % (
+                rid, self.vocab, self.gamma, self.num_drafts,
+                ", ".join(x[0] for x in parts),
+                ", ".join(x[1] for x in parts),
+                ", ".join(x[2] for x in parts),
+            )
+        )
+
+    def completion_tv(self, emitted: dict[tuple, float]) -> float:
+        """TV between (emitted prefix + target continuation) and p, over gamma+1 tokens."""
+        depth = self.gamma + 1
+        total = 0.0
+        stack = [((), 0.0, 1.0)]
+        while stack:
+            node, flow, ptarget = stack.pop()
+            if len(node) == depth:
+                total += abs(flow - ptarget)
+                continue
+            row = self.p[node]
+            for y in range(self.vocab):
+                child = node + (y,)
+                stack.append((child, flow * row[y] + emitted.get(child, 0.0), ptarget * row[y]))
+        return 0.5 * total
+
+
+def build_instances() -> dict[str, list[Context]]:
+    instances: dict[str, list[Context]] = {}
+    for exp_name, configs in experiment_configs().items():
+        contexts = []
+        for cfg in configs:
+            for prefix in sample_contexts(TRAIN_SALT, TRAIN_SEED, cfg, TRAIN_CONTEXTS_PER_CONFIG[exp_name]):
+                contexts.append(Context(cfg, prefix))
+        instances[exp_name] = contexts
+    return instances
+
+
+# --------------------------------------------------------------------------
+# Fixed baseline (computed here, independent of any method artifact)
+# --------------------------------------------------------------------------
+
+
+def _residual(p, q):
+    w = [max(a - b, 0.0) for a, b in zip(p, q)]
+    s = sum(w)
+    return [v / s for v in w] if s > 0.0 else list(p)
+
+
+def _tokenwise_outcomes(ctx: Context, picks: list[int]) -> list[tuple[tuple, float]]:
+    drafts = [ctx.blocks[b] for b in picks]
+    gamma = ctx.gamma
+    out: list[tuple[tuple, float]] = []
+
+    def stage(k, tau, path, root, prob):
+        while k < len(drafts) and drafts[k][:tau] != path:
+            k += 1
+        if k >= len(drafts):
+            out.extend((path + (y,), prob * w) for y, w in enumerate(root) if w > 0.0)
+            return
+        d = drafts[k]
+        alive = 1.0
+        for t in range(tau, gamma):
+            row = root if (t == tau and root is not None) else ctx.p[d[:t]]
+            qrow = ctx.q[d[:t]]
+            a = min(1.0, row[d[t]] / qrow[d[t]]) if qrow[d[t]] > 0.0 else 0.0
+            if alive * (1.0 - a) > 0.0:
+                stage(k + 1, t, d[:t], _residual(row, qrow), prob * alive * (1.0 - a))
+            alive *= a
+        if alive > 0.0:
+            row = ctx.p[d]
+            out.extend((d + (y,), prob * alive * w) for y, w in enumerate(row) if w > 0.0)
+
+    stage(0, 0, (), None, 1.0)
+    return out
+
+
+def fixed_tokenwise_block_efficiency(contexts: list[Context]) -> float:
+    values = []
+    for ctx in contexts:
+        be = 0.0
+        for index in range(ctx.num_problems):
+            picks, weight = ctx.problem(index)
+            for emitted, prob in _tokenwise_outcomes(ctx, picks):
+                be += weight * prob * len(emitted)
+        values.append(be)
+    return sum(values) / len(values)
+
+
+# --------------------------------------------------------------------------
+# Running one verifier program
+# --------------------------------------------------------------------------
+
+
+class VerifierFailure(Exception):
+    pass
+
+
+def _parse_outcomes(ctx: Context, picks: list[int], rid: int, line: str) -> dict[tuple, float]:
+    try:
+        msg = json.loads(line)
+    except (json.JSONDecodeError, ValueError) as exc:
+        raise VerifierFailure(f"unparseable response: {exc}") from None
+    if not isinstance(msg, dict) or msg.get("id") != rid:
+        raise VerifierFailure("response id does not match request id")
+    outcomes = msg.get("outcomes")
+    if not isinstance(outcomes, list) or not outcomes:
+        raise VerifierFailure("response has no outcomes")
+    merged: dict[tuple, float] = {}
+    total = 0.0
+    for item in outcomes:
+        if not isinstance(item, list) or len(item) != 4:
+            raise VerifierFailure("outcome must be [draft_index, tau, token, probability]")
+        k, tau, y, prob = item
+        if not all(isinstance(v, int) and not isinstance(v, bool) for v in (k, tau, y)):
+            raise VerifierFailure("draft_index, tau and token must be integers")
+        if not (0 <= k < ctx.num_drafts and 0 <= tau <= ctx.gamma and 0 <= y < ctx.vocab):
+            raise VerifierFailure(f"outcome out of range: {item}")
+        if isinstance(prob, bool) or not isinstance(prob, (int, float)) or not math.isfinite(prob):
+            raise VerifierFailure(f"non-finite probability: {item}")
+        if prob < -1e-12:
+            raise VerifierFailure(f"negative probability: {item}")
+        prob = max(float(prob), 0.0)
+        emitted = ctx.blocks[picks[k]][:tau] + (y,)
+        merged[emitted] = merged.get(emitted, 0.0) + prob
+        total += prob
+    if abs(total - 1.0) > MASS_TOL:
+        raise VerifierFailure(f"outcome probabilities sum to {total!r}, not 1")
+    return merged
+
+
+def run_verifier(verifier: Path, instances: dict[str, list[Context]]) -> dict:
+    contexts = [(exp, ci) for exp in sorted(instances) for ci in range(len(instances[exp]))]
+    refs = []
+    for cid, (exp, ci) in enumerate(contexts):
+        refs.extend((cid, index) for index in range(instances[exp][ci].num_problems))
+    rng = random.Random(SHUFFLE_SEED)
+    probes = rng.sample(range(len(refs)), max(1, int(PROBE_FRACTION * len(refs))))
+    stream = [(r, False) for r in refs] + [(refs[i], True) for i in probes]
+    rng.shuffle(stream)
+    # A probe must come after the first occurrence of the same problem.
+    seen: set = set()
+    ordered = []
+    deferred = []
+    for ref, is_probe in stream:
+        if is_probe and ref not in seen:
+            deferred.append((ref, True))
             continue
-        next_index = len(prefix)
-        l1 = 0.0
-        for tok in VOCAB:
-            exact_next_mass = sum(
-                prob
-                for seq, prob in exact.items()
-                if seq.startswith(prefix) and seq[next_index] == tok
-            )
-            empirical_next_count = sum(
-                count
-                for seq, count in counts.items()
-                if seq.startswith(prefix) and seq[next_index] == tok
-            )
-            exact_cond = exact_next_mass / exact_prefix_mass
-            empirical_cond = (
-                empirical_next_count / empirical_prefix_count
-                if empirical_prefix_count > 0
-                else 0.0
-            )
-            l1 += abs(empirical_cond - exact_cond)
-        weighted_l1 += exact_prefix_mass * l1
-        total_weight += exact_prefix_mass
-    return weighted_l1 / total_weight
+        ordered.append((ref, is_probe))
+        if not is_probe:
+            seen.add(ref)
+    ordered.extend(deferred)
+
+    emitted = [dict() for _ in contexts]
+    block_eff = [0.0 for _ in contexts]
+    first_answer: dict = {}
+    probe_set = {refs[i] for i in probes}
+
+    workdir = tempfile.mkdtemp(prefix="verifier_")
+    stderr_path = Path(workdir) / "stderr.log"
+    env = {"PATH": os.environ.get("PATH", "/usr/bin:/bin"), "HOME": workdir, "PYTHONHASHSEED": "0"}
+    start = time.time()
+    with open(stderr_path, "w") as err:
+        proc = subprocess.Popen(
+            [sys.executable, "-I", str(verifier.resolve())],
+            stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=err,
+            cwd=workdir, env=env, text=True, bufsize=1,
+        )
+        killer = threading.Timer(TIME_BUDGET_S, proc.kill)
+        killer.start()
+        failure = None
+        try:
+            for rid, ((cid, index), is_probe) in enumerate(ordered):
+                exp, ci = contexts[cid]
+                ctx = instances[exp][ci]
+                picks, weight = ctx.problem(index)
+                try:
+                    proc.stdin.write(ctx.request(rid, picks))
+                    proc.stdin.flush()
+                except (BrokenPipeError, OSError):
+                    raise VerifierFailure("verifier exited early or timed out") from None
+                line = proc.stdout.readline()
+                if not line:
+                    raise VerifierFailure("verifier produced no response (crash or time budget exceeded)")
+                merged = _parse_outcomes(ctx, picks, rid, line)
+                key = (cid, index)
+                if is_probe:
+                    ref_ans = first_answer[key]
+                    for s in set(ref_ans) | set(merged):
+                        if abs(ref_ans.get(s, 0.0) - merged.get(s, 0.0)) > PROBE_TOL:
+                            raise VerifierFailure("verifier answered the same problem differently")
+                    continue
+                if key in probe_set:
+                    first_answer[key] = merged
+                acc = emitted[cid]
+                for s, prob in merged.items():
+                    acc[s] = acc.get(s, 0.0) + weight * prob
+                    block_eff[cid] += weight * prob * len(s)
+        except VerifierFailure as exc:
+            failure = str(exc)
+        finally:
+            killer.cancel()
+            try:
+                proc.stdin.close()
+            except OSError:
+                pass
+            try:
+                proc.wait(timeout=10)
+            except subprocess.TimeoutExpired:
+                proc.kill()
+    elapsed = time.time() - start
+    result = {"calls": len(ordered), "seconds": round(elapsed, 1), "failure": failure}
+    if failure is not None:
+        return result
+
+    per_exp: dict[str, dict] = {}
+    worst_tv = 0.0
+    for cid, (exp, ci) in enumerate(contexts):
+        ctx = instances[exp][ci]
+        tv = ctx.completion_tv(emitted[cid])
+        worst_tv = max(worst_tv, tv)
+        entry = per_exp.setdefault(exp, {"be": [], "tv": [], "breakdown": {}})
+        entry["be"].append(block_eff[cid])
+        entry["tv"].append(tv)
+        entry["breakdown"].setdefault(config_label(ctx.cfg), []).append(block_eff[cid])
+    if not worst_tv <= LOSSLESS_TOL:
+        result["failure"] = (
+            f"not lossless: completion total variation {worst_tv:.3e} > {LOSSLESS_TOL:g}"
+        )
+    result["per_experiment"] = per_exp
+    return result
 
 
-def evaluate_artifact(path: Path) -> tuple[str, str, dict[str, float]]:
-    data = json.loads(path.read_text())
-    scenario_name = str(data["scenario"])
-    if scenario_name not in SCENARIOS:
-        raise ValueError(f"{path}: unknown scenario {scenario_name!r}")
-
-    scenario = SCENARIOS[scenario_name]
-    if int(data["gamma"]) != scenario.gamma:
-        raise ValueError(f"{path}: gamma does not match fixed scenario {scenario_name}")
-    if int(data["max_len"]) != scenario.max_len:
-        raise ValueError(f"{path}: max_len does not match fixed scenario {scenario_name}")
-    if abs(float(data["temperature"]) - scenario.temperature) > 1e-12:
-        raise ValueError(f"{path}: temperature does not match fixed scenario {scenario_name}")
-
-    samples = int(data["samples"])
-    counts = {str(k): int(v) for k, v in data["sequence_counts"].items()}
-    observed = sum(counts.values())
-    if observed != samples:
-        raise ValueError(f"{path}: sequence_counts sum to {observed}, expected {samples}")
-
-    block_efficiency = float(data["generated_tokens"]) / float(data["target_steps"])
-    slice_metrics = _slice_metrics(
-        scenario_name,
-        counts,
-        samples,
-        scenario.max_len,
-        scenario.temperature,
-        block_efficiency,
-    )
-    metrics = {
-        "block_efficiency": slice_metrics.pop("normalized_block_efficiency"),
-        "total_variation": _total_variation(counts, samples, scenario.max_len, scenario.temperature),
-        "prefix_conditional_l1": _prefix_conditional_l1(
-            scenario_name, counts, scenario.max_len, scenario.temperature
-        ),
-    }
-    metrics.update(slice_metrics)
-    return scenario_name, str(data["method"]), metrics
+# --------------------------------------------------------------------------
+# Discovery and output
+# --------------------------------------------------------------------------
 
 
-def _artifact_paths(paths: list[str]) -> list[Path]:
-    if paths:
-        return [Path(name) for name in paths]
-    artifacts = sorted(Path("checkpoints").glob("*.json"))
-    if not artifacts:
-        raise SystemExit("No checkpoint artifacts found. Pass artifact paths or run scripts/method.sh.")
-    return artifacts
+def discover_methods(inputs: list[str]) -> dict[str, Path]:
+    roots = [Path(x) for x in inputs] if inputs else [Path("checkpoints")]
+    found: dict[str, Path] = {}
+    for root in roots:
+        if (root / "verifier.py").is_file():
+            found[root.resolve().name] = root / "verifier.py"
+            continue
+        if root.is_dir():
+            for sub in sorted(root.iterdir()):
+                if (sub / "verifier.py").is_file():
+                    found[sub.name] = sub / "verifier.py"
+    return dict(sorted(found.items()))
 
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--artifacts", nargs="*", default=[])
+    parser.add_argument("methods", nargs="*", help="method dirs (with verifier.py) or roots of them")
     parser.add_argument("--output", default="scoring/scores_train.json")
     args = parser.parse_args()
 
-    scores: dict[str, object] = {
-        "_meta": {"slice": SLICE, "artifacts": {}},
+    methods = discover_methods(args.methods)
+    if not methods:
+        raise SystemExit("No verifier programs found (expected checkpoints/<method>/verifier.py).")
+    instances = build_instances()
+
+    scores: dict = {
+        "_meta": {
+            "slice": SLICE,
+            "lossless_tolerance": LOSSLESS_TOL,
+            "stream_seed": SHUFFLE_SEED,
+            "failed_score": FAILED_SCORE,
+            "contexts": {exp: len(ctxs) for exp, ctxs in instances.items()},
+            "problems": {exp: sum(c.num_problems for c in ctxs) for exp, ctxs in instances.items()},
+            "methods": {},
+        },
         "experiments": {},
     }
-    artifact_meta: dict[str, dict[str, str]] = scores["_meta"]["artifacts"]  # type: ignore[index]
+    for exp, ctxs in instances.items():
+        scores["experiments"][exp] = {
+            "results": {},
+            "constraint": {},
+            "breakdown": {},
+            "fixed_baseline": {"tokenwise_block_efficiency": fixed_tokenwise_block_efficiency(ctxs)},
+        }
 
-    for artifact in _artifact_paths(args.artifacts):
-        exp_name, method_name, metrics = evaluate_artifact(artifact)
-        experiments = scores["experiments"]  # type: ignore[assignment]
-        experiments.setdefault(exp_name, {"results": {}})
-        experiments[exp_name]["results"][method_name] = metrics
-        artifact_meta.setdefault(exp_name, {})[method_name] = str(artifact)
+    for name, verifier in methods.items():
+        print(f"[{SLICE}] evaluating {name} ({verifier})", flush=True)
+        res = run_verifier(verifier, instances)
+        status = "failed" if res["failure"] else "ok"
+        scores["_meta"]["methods"][name] = {
+            "verifier": str(verifier),
+            "status": status,
+            "failure": res["failure"],
+            "calls": res["calls"],
+            "seconds": res["seconds"],
+        }
+        for exp in instances:
+            block = scores["experiments"][exp]
+            if status == "failed":
+                block["results"][name] = {"block_efficiency": FAILED_SCORE}
+                block["constraint"][name] = {"lossless": False}
+                continue
+            data = res["per_experiment"][exp]
+            block["results"][name] = {"block_efficiency": sum(data["be"]) / len(data["be"])}
+            block["constraint"][name] = {"lossless": True, "max_completion_tv": max(data["tv"])}
+            block["breakdown"][name] = {k: sum(v) / len(v) for k, v in sorted(data["breakdown"].items())}
+        print(f"[{SLICE}] {name}: {status} {res['failure'] or ''} ({res['seconds']}s)", flush=True)
 
     out = Path(args.output)
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(json.dumps(scores, indent=2, sort_keys=True))
-    print(json.dumps(scores, indent=2, sort_keys=True))
+    out.write_text(json.dumps(scores, indent=2, sort_keys=True) + "\n")
+    summary = {
+        exp: {m: v["block_efficiency"] for m, v in block["results"].items()}
+        for exp, block in scores["experiments"].items()
+    }
+    print(json.dumps(summary, indent=2, sort_keys=True))
 
 
 if __name__ == "__main__":

@@ -1,129 +1,227 @@
 {
   "experiments": {
-    "finite_ar_main": {
-      "description": "Scaled finite-distribution analogue of the paper's main single-draft speculative decoding comparison. Block-efficiency references are finite benchmark values from the validated 80k-sample reproduction; total_variation=0.0 is the exact target-distribution ideal.",
-      "notes": "The paper reports large-model Qwen2.5 results on GSM8K, HumanEval, and CNN/DailyMail. This gym deliberately uses exact finite autoregressive distributions to isolate verifier behavior under the same scientific objective; reference block-efficiency values therefore come from the validated finite reproduction, not from the paper tables.",
-      "weight": 0.6,
+    "single_draft_main": {
+      "description": "Paper Table 1 analogue: single draft, draft length 4, temperature 1, vocabulary 6; three content regimes (peaked/medium/flat target entropy, analogues of GSM8K/HumanEval/CNN-DM) x two draft/target pairings (analogues of different target sizes).",
+      "notes": "Scaled setup: synthetic target/draft pairs with vocabularies of 3-6 tokens and exact enumeration of all drafts replace Qwen2.5 0.5B/14B-72B on GSM8K/HumanEval/CNN-DM; numbers are not on the paper's scale, so the paper's values are kept under _paper_reported only. Lossless single-draft verification has a known optimum (block verification, Sun et al. 2024); the paper's HSD (Algorithm 2) is algebraically identical to it, so the reference sits at this experiment's bound: methods can tie it, not beat it.",
+      "weight": 0.35,
       "primary_metric": "block_efficiency",
       "metrics": {
         "block_efficiency": {
           "higher_is_better": true,
           "coefficient": 1.0,
-          "description": "Generated tokens per serial target-model step. In train/test split scores this is support-normalized on the active slice so it stays in paper units while making the efficiency benefit held out without measuring wall-clock speed."
-        },
-        "slice_block_efficiency": {
-          "higher_is_better": true,
-          "coefficient": 1.0,
-          "description": "Generated tokens per serial target-model step attributable to the active train/test support slice, making the efficiency benefit split-sensitive without measuring wall-clock speed."
-        },
-        "total_variation": {
-          "higher_is_better": false,
-          "coefficient": -1.0,
-          "description": "Empirical total variation from the exact target sequence distribution, the losslessness constraint."
-        },
-        "prefix_conditional_l1": {
-          "higher_is_better": false,
-          "coefficient": -0.5,
-          "description": "Weighted next-token conditional L1 error on the active train/test prefix slice, catching local autoregressive shortcuts hidden by aggregate sequence mass."
-        },
-        "slice_total_variation": {
-          "higher_is_better": false,
-          "coefficient": -0.6,
-          "description": "Total-variation contribution on the active train/test support slice, used to detect distribution shortcuts that do not generalize across held-out sequence categories."
-        },
-        "slice_mass_error": {
-          "higher_is_better": false,
-          "coefficient": -0.4,
-          "description": "Absolute difference between empirical and exact target probability mass assigned to the active train/test support slice."
+          "description": "Exact expected number of tokens emitted per target-model step (accepted draft tokens + the one token every step emits), averaged over the experiment's held-out contexts. Computed by the evaluator by enumerating every draft (tuple) at every context, so it carries no Monte-Carlo noise. A method that is not exactly lossless (completion total variation > 1e-9 at any context, on any experiment), breaks the protocol, crashes or times out scores the failure sentinel 0.0 here (every valid decoder scores >= 1)."
         }
       },
       "results": {
-        "tokenwise": {"type": "baseline", "block_efficiency": 3.1425, "total_variation": 0.0},
-        "hsd": {"type": "proposed", "block_efficiency": 3.2886, "total_variation": 0.0}
+        "hsd": {
+          "type": "proposed",
+          "block_efficiency": 3.5
+        },
+        "tokenwise": {
+          "type": "baseline",
+          "block_efficiency": 3.3
+        },
+        "blockwise": {
+          "type": "baseline",
+          "block_efficiency": 3.5
+        }
+      },
+      "_paper_reported": {
+        "setting": "Qwen2.5-0.5B draft, gamma=10, temperature 1, block efficiency (tokens/step); targets 14B/32B/72B",
+        "GSM8K": {
+          "tokenwise": [
+            5.99,
+            6.14,
+            6.44
+          ],
+          "blockwise": [
+            6.13,
+            6.26,
+            6.53
+          ],
+          "hsd": [
+            6.3,
+            6.47,
+            6.65
+          ]
+        },
+        "HumanEval": {
+          "tokenwise": [
+            4.83,
+            4.89,
+            5.23
+          ],
+          "blockwise": [
+            5.11,
+            5.15,
+            5.34
+          ],
+          "hsd": [
+            5.29,
+            5.49,
+            5.4
+          ]
+        },
+        "CNN/DailyMail": {
+          "tokenwise": [
+            2.39,
+            2.36,
+            2.35
+          ],
+          "blockwise": [
+            2.5,
+            2.42,
+            2.39
+          ],
+          "hsd": [
+            2.59,
+            2.46,
+            2.45
+          ]
+        },
+        "average_block_efficiency_gain_over_tokenwise_pct": 6.2,
+        "average_decoding_speed_gain_over_tokenwise_pct": 6.7
       }
     },
-    "finite_ar_gamma3": {
-      "description": "Scaled finite-distribution draft-length ablation corresponding to the paper's draft-length study. Block-efficiency references are finite benchmark values from the validated 80k-sample reproduction; total_variation=0.0 is the exact target-distribution ideal.",
-      "notes": "The original paper varies draft length with large language models. This gym keeps the same type of stress test but uses a finite autoregressive setting; reference values are finite-benchmark values, not paper table values.",
-      "weight": 0.2,
+    "single_draft_temperature": {
+      "description": "Paper Table 3a analogue: single draft, draft length 4, vocabulary 6, sampling temperatures 0.6 and 0.8 applied to both models, three content regimes.",
+      "notes": "Scaled setup: synthetic target/draft pairs with vocabularies of 3-6 tokens and exact enumeration of all drafts replace Qwen2.5 0.5B/14B-72B on GSM8K/HumanEval/CNN-DM; numbers are not on the paper's scale, so the paper's values are kept under _paper_reported only. Same single-draft bound as single_draft_main.",
+      "weight": 0.1,
       "primary_metric": "block_efficiency",
       "metrics": {
         "block_efficiency": {
           "higher_is_better": true,
           "coefficient": 1.0,
-          "description": "Generated tokens per serial target-model step. In train/test split scores this is support-normalized on the active slice so it stays in paper units while making the efficiency benefit held out without measuring wall-clock speed."
-        },
-        "slice_block_efficiency": {
-          "higher_is_better": true,
-          "coefficient": 1.0,
-          "description": "Generated tokens per serial target-model step attributable to the active train/test support slice, making the efficiency benefit split-sensitive without measuring wall-clock speed."
-        },
-        "total_variation": {
-          "higher_is_better": false,
-          "coefficient": -1.0,
-          "description": "Empirical total variation from the exact target sequence distribution, the losslessness constraint."
-        },
-        "prefix_conditional_l1": {
-          "higher_is_better": false,
-          "coefficient": -0.5,
-          "description": "Weighted next-token conditional L1 error on the active train/test prefix slice, catching local autoregressive shortcuts hidden by aggregate sequence mass."
-        },
-        "slice_total_variation": {
-          "higher_is_better": false,
-          "coefficient": -0.6,
-          "description": "Total-variation contribution on the active train/test support slice, used to detect distribution shortcuts that do not generalize across held-out sequence categories."
-        },
-        "slice_mass_error": {
-          "higher_is_better": false,
-          "coefficient": -0.4,
-          "description": "Absolute difference between empirical and exact target probability mass assigned to the active train/test support slice."
+          "description": "Exact expected number of tokens emitted per target-model step (accepted draft tokens + the one token every step emits), averaged over the experiment's held-out contexts. Computed by the evaluator by enumerating every draft (tuple) at every context, so it carries no Monte-Carlo noise. A method that is not exactly lossless (completion total variation > 1e-9 at any context, on any experiment), breaks the protocol, crashes or times out scores the failure sentinel 0.0 here (every valid decoder scores >= 1)."
         }
       },
       "results": {
-        "tokenwise": {"type": "baseline", "block_efficiency": 3.1417, "total_variation": 0.0},
-        "hsd": {"type": "proposed", "block_efficiency": 3.2900, "total_variation": 0.0}
+        "hsd": {
+          "type": "proposed",
+          "block_efficiency": 3.6
+        },
+        "tokenwise": {
+          "type": "baseline",
+          "block_efficiency": 3.4
+        },
+        "blockwise": {
+          "type": "baseline",
+          "block_efficiency": 3.6
+        }
+      },
+      "_paper_reported": {
+        "setting": "Qwen2.5-0.5B/72B, GSM8K, gamma=10; temperatures 0.6/0.8/1.0",
+        "tokenwise": [
+          6.81,
+          6.7,
+          6.44
+        ],
+        "blockwise": [
+          6.83,
+          6.74,
+          6.53
+        ],
+        "hsd": [
+          6.86,
+          6.79,
+          6.65
+        ]
       }
     },
-    "finite_ar_temp08": {
-      "description": "Scaled finite-distribution temperature ablation corresponding to the paper's temperature study. Block-efficiency references are finite benchmark values from the validated 80k-sample reproduction; total_variation=0.0 is the exact target-distribution ideal.",
-      "notes": "The original paper varies sampling temperature with large language models. This gym keeps the same type of robustness check in a finite autoregressive setting; reference values are finite-benchmark values, not paper table values.",
-      "weight": 0.2,
+    "single_draft_length": {
+      "description": "Paper Table 3b analogue: single draft, vocabulary 5, temperature 1, draft lengths 2, 3, 4 and 5, three content regimes.",
+      "notes": "Scaled setup: synthetic target/draft pairs with vocabularies of 3-6 tokens and exact enumeration of all drafts replace Qwen2.5 0.5B/14B-72B on GSM8K/HumanEval/CNN-DM; numbers are not on the paper's scale, so the paper's values are kept under _paper_reported only. Draft lengths 2-5 stand in for the paper's 5/10/15 because every draft is enumerated exactly. Same single-draft bound as single_draft_main.",
+      "weight": 0.15,
       "primary_metric": "block_efficiency",
       "metrics": {
         "block_efficiency": {
           "higher_is_better": true,
           "coefficient": 1.0,
-          "description": "Generated tokens per serial target-model step. In train/test split scores this is support-normalized on the active slice so it stays in paper units while making the efficiency benefit held out without measuring wall-clock speed."
-        },
-        "slice_block_efficiency": {
-          "higher_is_better": true,
-          "coefficient": 1.0,
-          "description": "Generated tokens per serial target-model step attributable to the active train/test support slice, making the efficiency benefit split-sensitive without measuring wall-clock speed."
-        },
-        "total_variation": {
-          "higher_is_better": false,
-          "coefficient": -1.0,
-          "description": "Empirical total variation from the exact target sequence distribution, the losslessness constraint."
-        },
-        "prefix_conditional_l1": {
-          "higher_is_better": false,
-          "coefficient": -0.5,
-          "description": "Weighted next-token conditional L1 error on the active train/test prefix slice, catching local autoregressive shortcuts hidden by aggregate sequence mass."
-        },
-        "slice_total_variation": {
-          "higher_is_better": false,
-          "coefficient": -0.6,
-          "description": "Total-variation contribution on the active train/test support slice, used to detect distribution shortcuts that do not generalize across held-out sequence categories."
-        },
-        "slice_mass_error": {
-          "higher_is_better": false,
-          "coefficient": -0.4,
-          "description": "Absolute difference between empirical and exact target probability mass assigned to the active train/test support slice."
+          "description": "Exact expected number of tokens emitted per target-model step (accepted draft tokens + the one token every step emits), averaged over the experiment's held-out contexts. Computed by the evaluator by enumerating every draft (tuple) at every context, so it carries no Monte-Carlo noise. A method that is not exactly lossless (completion total variation > 1e-9 at any context, on any experiment), breaks the protocol, crashes or times out scores the failure sentinel 0.0 here (every valid decoder scores >= 1)."
         }
       },
       "results": {
-        "tokenwise": {"type": "baseline", "block_efficiency": 2.9916, "total_variation": 0.0},
-        "hsd": {"type": "proposed", "block_efficiency": 3.1507, "total_variation": 0.0}
+        "hsd": {
+          "type": "proposed",
+          "block_efficiency": 3.2
+        },
+        "tokenwise": {
+          "type": "baseline",
+          "block_efficiency": 3.1
+        },
+        "blockwise": {
+          "type": "baseline",
+          "block_efficiency": 3.2
+        }
+      },
+      "_paper_reported": {
+        "setting": "Qwen2.5-0.5B/72B, GSM8K, temperature 1; draft lengths 5/10/15",
+        "tokenwise": [
+          4.48,
+          6.44,
+          7.61
+        ],
+        "blockwise": [
+          4.52,
+          6.53,
+          7.74
+        ],
+        "hsd": [
+          4.59,
+          6.65,
+          7.88
+        ]
+      }
+    },
+    "multi_draft": {
+      "description": "Paper Table 2 analogue: several i.i.d. drafts per target step (2 drafts of length 4 over 3 tokens, 2 drafts of length 3 over 4 tokens, 3 drafts of length 3 over 3 tokens), temperature 1, three content regimes x two draft/target pairings. The experiment where the paper's own procedure is not optimal.",
+      "notes": "Scaled setup: synthetic target/draft pairs with vocabularies of 3-6 tokens and exact enumeration of all drafts replace Qwen2.5 0.5B/14B-72B on GSM8K/HumanEval/CNN-DM; numbers are not on the paper's scale, so the paper's values are kept under _paper_reported only. The paper uses 11 drafts of length 10; this gym uses 2-3 drafts so that every draft tuple can be enumerated exactly. The paper reports no multi-draft blockwise verifier; the blockwise baseline here verifies only the first draft.",
+      "weight": 0.4,
+      "primary_metric": "block_efficiency",
+      "metrics": {
+        "block_efficiency": {
+          "higher_is_better": true,
+          "coefficient": 1.0,
+          "description": "Exact expected number of tokens emitted per target-model step (accepted draft tokens + the one token every step emits), averaged over the experiment's held-out contexts. Computed by the evaluator by enumerating every draft (tuple) at every context, so it carries no Monte-Carlo noise. A method that is not exactly lossless (completion total variation > 1e-9 at any context, on any experiment), breaks the protocol, crashes or times out scores the failure sentinel 0.0 here (every valid decoder scores >= 1)."
+        }
+      },
+      "results": {
+        "hsd": {
+          "type": "proposed",
+          "block_efficiency": 3.3
+        },
+        "tokenwise": {
+          "type": "baseline",
+          "block_efficiency": 3.2
+        },
+        "blockwise": {
+          "type": "baseline",
+          "block_efficiency": 3.0
+        }
+      },
+      "_paper_reported": {
+        "setting": "Qwen2.5-0.5B/72B, 11 drafts, gamma=10, recursive reject sampling with replacement; GSM8K/HumanEval/CNN-DM",
+        "tokenwise_multi_draft": [
+          8.65,
+          7.96,
+          3.79
+        ],
+        "hsd_multi_draft": [
+          8.89,
+          8.26,
+          4.21
+        ],
+        "tokenwise_single_draft": [
+          6.44,
+          5.23,
+          2.35
+        ],
+        "hsd_single_draft": [
+          6.65,
+          5.4,
+          2.45
+        ],
+        "average_block_efficiency_gain_over_tokenwise_pct": 5.9
       }
     }
   }

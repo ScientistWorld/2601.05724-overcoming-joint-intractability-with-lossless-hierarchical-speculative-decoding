@@ -1,1 +1,1 @@
-"""Visible train-slice evaluator for the finite AR benchmark."""
+"""Visible train-slice evaluator for verifier programs."""
