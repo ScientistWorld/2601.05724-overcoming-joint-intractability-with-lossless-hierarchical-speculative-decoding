@@ -1,6 +1,6 @@
 # Reproduction Milestones
 
-**Current: core_claim_plus**
+**Current: secondary_claims**
 
 ## Progress Log
 
@@ -35,5 +35,11 @@
 - Tightened method-agnostic documentation in `briefing/evaluation.md` and `scoring/DIRECTION.md`.
 - Re-ran `bash scripts/evaluate.sh`, train/test evaluators, and `python validate.py --compare`; all passed.
 
+### [2026-11-09] - secondary_claims (iteration 11, hardening)
+- Replaced the histogram/counter contract with verifier programs scored exactly on hidden target/draft pairs; losslessness is an exact hard gate.
+- Found that HSD (Algorithm 2) is algebraically identical to block verification (Sun et al. 2024): it ties blockwise exactly and sits at the single-draft optimum.
+- Reproduced HSD > tokenwise on the held-out slice: +6.10% (main), +4.07% (temperature), +3.74% (draft length), +2.62% (multi-draft, Algorithm 3, 18/18 settings).
+- Added multi_draft as the headroom experiment: an optimal-coupling tree verifier beats the reference by 5.3% (18/18 settings); all ported shortcuts score as failed.
+
 ## Stop Justification
-- Completed at milestone `core_claim_plus`.
+- Completed at milestone `secondary_claims` (scaled synthetic setup; EAGLE-3 and wall-clock speed not reproduced; HSD > Blockwise refuted as an exact tie).

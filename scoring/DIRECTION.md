@@ -1,21 +1,23 @@
 # Research Direction
 
 ## Research Problem
-This benchmark studies verifier design for lossless speculative decoding. The
-research question is how to accept more draft tokens per target-model step while
-preserving the target sampling distribution.
+Verifier design for lossless speculative decoding: keep as many proposed tokens
+per target-model step as possible while sampling exactly from the target model,
+using only the probabilities available along the proposals.
 
 ## Core Contribution Scope
-Improvements should operate in the speculative-decoding verification and
-resampling family. A valid improvement may change acceptance rules, probability
-accounting, proposal verification, or correction distributions, provided the
-method still uses draft proposals to accelerate target-distribution sampling.
+Improvements should be verification rules: acceptance rules, probability
+accounting across positions or across proposals, residual/correction
+distributions, and how several proposals are combined. With one proposal per
+step there is a known efficiency optimum (the reference attains it), so gains
+there can only tie. Several proposals per step leave measurable room.
 
 ## Out Of Bounds
-- Replacing the problem with ordinary direct target sampling.
-- Changing the finite target/draft distributions or benchmark settings to make
-  the task easier.
-- Optimizing only speed or block efficiency while ignoring distribution
-  fidelity.
-- Using a different generative model or external data to sidestep verifier
-  design.
+- Changing the target/draft models, vocabulary, draft lengths, number of
+  drafts or temperatures (they are fixed by the evaluators).
+- Lossy shortcuts (accepting more than the distribution allows); they are
+  scored as failed.
+- Using information outside the request: reading evaluator files, or
+  accumulating rows across requests to reconstruct branches a real verifier
+  cannot see.
+- Optimising wall-clock speed; only tokens per target step are scored.

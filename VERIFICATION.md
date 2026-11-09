@@ -1,49 +1,23 @@
-# Verification Report
+# Verification Report (iteration 11, hardened gym)
 
-## Initial Assessment
-The workspace started at `core_claim_plus` with a completed scaled finite
-autoregressive reproduction of the paper's verifier claim. The claimed
-milestone is justified for this gym: the method code implements the paper's
-actual verifier computation at finite scale, produces artifacts, and the
-evaluation reads those artifacts without importing `method/`.
+## Assessment
+- `method/hsd_verifier.py` implements the paper's Algorithm 2 and Algorithm 3.
+  Its acceptance probabilities equal the previous sampling implementation
+  to 9.2e-15 (16,436 draft positions).
+- The evaluators (`eval/train`, `eval/test`) never import `method/`. They run
+  each `checkpoints/<name>/verifier.py` as a subprocess and recompute every
+  score from its outcome distributions. `eval/test` imports nothing from
+  `data/` or `eval/train/`.
+- Scores are exact (full draft enumeration); losslessness is a hard gate.
+- Job `28904502-86a`: reproduce, train/test scoring, hardening runs, and
+  `python3 validate.py --post-design` all passed.
 
-The reproduced scores show the intended tradeoff across all three configured
-settings: higher block efficiency than the tokenwise baseline, with empirical
-distribution distance measured against the exact finite target distribution.
+## Known limitations
+- Synthetic small-vocabulary model pairs instead of Qwen2.5 LLMs; no decoding
+  speed or EAGLE-3.
+- Single-draft experiments are at a proved optimum (reference = block
+  verification); headroom is in `multi_draft`.
+- See `HARDENING.md` §8 for shortcuts left to the grader.
 
-## Issues Found
-- **Minor:** `briefing/evaluation.md` still referred to the original paper in a
-  method-agnostic file. It did not leak the solution algorithm, but it added
-  unnecessary source-paper framing for from-scratch agents.
-- **Minor:** `scoring/DIRECTION.md` used one phrase that was closer to a
-  verifier-design detail than needed for high-level research direction.
-- **Cosmetic / pre-existing:** The worktree still has unrelated dirty
-  system/workflow files (`README.md`, `manifest.json`, and deleted
-  `trajectory/*`). I did not revert them.
-
-## Fixes Applied
-- Reworded `briefing/evaluation.md` so it describes the finite benchmark and
-  metrics without source-paper framing.
-- Reworded `scoring/DIRECTION.md` to keep the allowed research direction at the
-  level of speculative-decoding verification and probability accounting.
-- Re-ran `bash scripts/evaluate.sh`, `bash scripts/evaluate_train.sh
-  checkpoints`, `bash scripts/evaluate_test.sh checkpoints`, and `python
-  validate.py --compare`; all passed.
-
-## Final Judgment
-The workspace is ready to serve as a research gym. Improve-mode agents can use
-the implemented method, baseline, scores, and documentation. From-scratch agents
-can use the method-agnostic problem statement, finite data generator, evaluation
-code, and scoring instructions without depending on `method/`.
-
-The scoring captures both the benefit metric (`block_efficiency`) and the
-fidelity constraints (`total_variation` plus split diagnostics). No scored
-metric measures deviation from the paper's published values or wall-clock
-speed. The experiment weights emphasize the main finite benchmark while keeping
-the draft-length and temperature settings active.
-
-- Milestone: core_claim_plus
+- Milestone: secondary_claims
 - Ready for gym use: yes
-- Confidence: high
-- Key limitation: scaled finite autoregressive benchmark only; the original
-  large-model Qwen tables and EAGLE-3 integration are not reproduced.

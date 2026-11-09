@@ -1,24 +1,36 @@
 # Scientist Constraints
 
 ## Model And Data
-Use the finite autoregressive target and draft distributions defined in
-`data/finite_ar.py`. Do not replace them with a larger model, extra data, or a
-different vocabulary when reporting the benchmark experiments, because the gym
-is designed to isolate verifier behavior rather than model quality.
+The target and draft models are fixed by the evaluators: visible pairs come from
+`data/synthetic_lm.py`, held-out pairs are generated inside the test evaluator.
+A method only ever sees what a verifier sees in speculative decoding: the draft
+blocks and the target/draft next-token rows along them. Editing
+`data/synthetic_lm.py` changes only the visible slice, never the held-out score.
 
-## Evaluation Protocol
-Use the exact experiment names, sequence lengths, temperatures, and draft
-lengths in `data/finite_ar.py`. Candidate methods must write artifacts with the
-same fields consumed by `eval/evaluate.py`.
+## Method Contract
+A method is a self-contained, standard-library Python program
+`checkpoints/<name>/verifier.py` that speaks the JSON-lines protocol in
+`briefing/evaluation.md`. It must:
+- report the exact probability of each outcome `[draft_index, tau, token, prob]`
+  (finite, non-negative, summing to 1);
+- be a deterministic function of the request (repeated requests are checked);
+- not read evaluator files or any information beyond the request, and not keep
+  information across requests to reconstruct unseen branches;
+- finish a slice within the time budget (default 5400 s).
 
 ## Fidelity Constraint
-Distribution fidelity must be measured against the exact target distribution for
-the same finite autoregressive process. Do not evaluate only efficiency; a
-method that samples from the wrong distribution fails the core constraint even
-if block efficiency is higher.
+Losslessness is checked exactly at every held-out context: emitted tokens plus
+target continuation must reproduce the target distribution (total variation
+<= 1e-9). Any violation scores the method as failed (block efficiency 0.0 in all
+experiments). A faster but slightly biased verifier is a failed verifier.
+
+## Fixed Settings
+Vocabulary sizes, draft lengths, number of drafts, temperatures, contexts and
+the token-wise reference value (`fixed_baseline`) are set by the evaluators and
+cannot be changed by a method.
 
 ## Compliance Checklist
-- [x] Uses the provided finite target and draft distributions unchanged
-- [x] Uses the configured `finite_ar_main`, `finite_ar_gamma3`, and `finite_ar_temp08` settings unchanged
-- [x] Writes method artifacts for `scripts/evaluate.sh`
-- [x] Reports both `block_efficiency` and `total_variation`
+- [x] `checkpoints/hsd/verifier.py` exported by `scripts/method.sh`
+- [x] Baselines exported by `scripts/baseline.sh`
+- [x] Lossless in every experiment (max completion TV about 1e-15)
+- [x] Scores produced only by `scripts/evaluate*.sh`

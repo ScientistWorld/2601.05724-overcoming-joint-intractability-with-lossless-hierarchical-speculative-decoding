@@ -15,15 +15,15 @@
       "results": {
         "hsd": {
           "type": "proposed",
-          "block_efficiency": 3.5
+          "block_efficiency": 3.346935
         },
         "tokenwise": {
           "type": "baseline",
-          "block_efficiency": 3.3
+          "block_efficiency": 3.154573
         },
         "blockwise": {
           "type": "baseline",
-          "block_efficiency": 3.5
+          "block_efficiency": 3.346935
         }
       },
       "_paper_reported": {
@@ -81,7 +81,8 @@
         },
         "average_block_efficiency_gain_over_tokenwise_pct": 6.2,
         "average_decoding_speed_gain_over_tokenwise_pct": 6.7
-      }
+      },
+      "_reference_note": "results are the exact held-out (test-slice) values of the exported reference (hsd) and baseline programs; hsd gain over tokenwise = 6.10%. Exact evaluation: rerunning in a different problem order changes them by < 2e-14."
     },
     "single_draft_temperature": {
       "description": "Paper Table 3a analogue: single draft, draft length 4, vocabulary 6, sampling temperatures 0.6 and 0.8 applied to both models, three content regimes.",
@@ -98,15 +99,15 @@
       "results": {
         "hsd": {
           "type": "proposed",
-          "block_efficiency": 3.6
+          "block_efficiency": 3.646677
         },
         "tokenwise": {
           "type": "baseline",
-          "block_efficiency": 3.4
+          "block_efficiency": 3.50409
         },
         "blockwise": {
           "type": "baseline",
-          "block_efficiency": 3.6
+          "block_efficiency": 3.646677
         }
       },
       "_paper_reported": {
@@ -126,7 +127,8 @@
           6.79,
           6.65
         ]
-      }
+      },
+      "_reference_note": "results are the exact held-out (test-slice) values of the exported reference (hsd) and baseline programs; hsd gain over tokenwise = 4.07%. Exact evaluation: rerunning in a different problem order changes them by < 2e-14."
     },
     "single_draft_length": {
       "description": "Paper Table 3b analogue: single draft, vocabulary 5, temperature 1, draft lengths 2, 3, 4 and 5, three content regimes.",
@@ -143,15 +145,15 @@
       "results": {
         "hsd": {
           "type": "proposed",
-          "block_efficiency": 3.2
+          "block_efficiency": 3.538308
         },
         "tokenwise": {
           "type": "baseline",
-          "block_efficiency": 3.1
+          "block_efficiency": 3.410852
         },
         "blockwise": {
           "type": "baseline",
-          "block_efficiency": 3.2
+          "block_efficiency": 3.538308
         }
       },
       "_paper_reported": {
@@ -171,7 +173,8 @@
           6.65,
           7.88
         ]
-      }
+      },
+      "_reference_note": "results are the exact held-out (test-slice) values of the exported reference (hsd) and baseline programs; hsd gain over tokenwise = 3.74%. Exact evaluation: rerunning in a different problem order changes them by < 2e-14."
     },
     "multi_draft": {
       "description": "Paper Table 2 analogue: several i.i.d. drafts per target step (2 drafts of length 4 over 3 tokens, 2 drafts of length 3 over 4 tokens, 3 drafts of length 3 over 3 tokens), temperature 1, three content regimes x two draft/target pairings. The experiment where the paper's own procedure is not optimal.",
@@ -188,15 +191,15 @@
       "results": {
         "hsd": {
           "type": "proposed",
-          "block_efficiency": 3.3
+          "block_efficiency": 3.513004
         },
         "tokenwise": {
           "type": "baseline",
-          "block_efficiency": 3.2
+          "block_efficiency": 3.423254
         },
         "blockwise": {
           "type": "baseline",
-          "block_efficiency": 3.0
+          "block_efficiency": 3.188077
         }
       },
       "_paper_reported": {
@@ -222,7 +225,8 @@
           2.45
         ],
         "average_block_efficiency_gain_over_tokenwise_pct": 5.9
-      }
+      },
+      "_reference_note": "results are the exact held-out (test-slice) values of the exported reference (hsd) and baseline programs; hsd gain over tokenwise = 2.62%. Exact evaluation: rerunning in a different problem order changes them by < 2e-14."
     }
   }
 }
