@@ -1,2 +1,8 @@
-action: done
-notes: "Audit complete: honest quality and three-seed checks, 13 shortcut runs, brute-force enumeration, and scoring failures documented in REDTEAM.md; benchmark files restored."
+# Once you set action to 'submit' or 'done', STOP immediately.
+# Do NOT sleep, poll, or wait for jobs. The system reads this file
+# only after your turn ends.
+action: pending
+gpus: 0
+test: false
+milestone: core_claim_plus
+notes: ""
