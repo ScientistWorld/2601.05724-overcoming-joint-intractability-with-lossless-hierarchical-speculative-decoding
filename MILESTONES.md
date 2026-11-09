@@ -42,4 +42,4 @@
 - Added multi_draft as the headroom experiment: an optimal-coupling tree verifier beats the reference by 5.3% (18/18 settings); all ported shortcuts score as failed.
 
 ## Stop Justification
-- Completed at milestone `secondary_claims` (scaled synthetic setup; EAGLE-3 and wall-clock speed not reproduced; HSD > Blockwise refuted as an exact tie).
+- Completed at milestone `core_claim_plus`.

@@ -1,8 +1,6 @@
 # Once you set action to 'submit' or 'done', STOP immediately.
 # Do NOT sleep, poll, or wait for jobs. The system reads this file
 # only after your turn ends.
-action: submit
-gpus: 0
-test: false
-milestone: core_claim_plus
-notes: "CPU job: reproduce HSD + baselines as verifier programs, exact train/test scoring, hardening variants and shortcuts through the hidden test, rank table, validate.py"
+action: done
+milestone: secondary_claims
+notes: "Hardened: verifier programs scored exactly on hidden model pairs with a lossless gate; HSD==block verification (single-draft at bound), multi_draft headroom (+5.3%, 18/18), all shortcuts fail; see HARDENING.md"
