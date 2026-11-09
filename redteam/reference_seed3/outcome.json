@@ -1,0 +1,18 @@
+{
+  "case": "reference_seed3",
+  "config": {
+    "kind": "hsd",
+    "samples": 80000,
+    "seed": 2000001
+  },
+  "generation_exit": 0,
+  "hidden_command": [
+    "bash",
+    "scripts/evaluate_test.sh"
+  ],
+  "process_isolation": "generator exits before train/test; standard environment",
+  "protected_files_unchanged": true,
+  "seconds": 3.0597730060108006,
+  "test_exit": 0,
+  "train_exit": 0
+}

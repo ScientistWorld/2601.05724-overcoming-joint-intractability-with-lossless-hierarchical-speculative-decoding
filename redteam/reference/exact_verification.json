@@ -1,0 +1,44 @@
+{
+  "finite_ar_gamma3": {
+    "hsd": {
+      "expected_target_steps_per_sequence": 1.2160355109963665,
+      "probability_mass": 1.0,
+      "raw_block_efficiency": 3.289377624114426,
+      "total_variation": 6.667843360785852e-17
+    },
+    "tokenwise": {
+      "expected_target_steps_per_sequence": 1.2723431256085975,
+      "probability_mass": 1.0000000000000004,
+      "raw_block_efficiency": 3.143806037452898,
+      "total_variation": 1.0907073855204175e-16
+    }
+  },
+  "finite_ar_main": {
+    "hsd": {
+      "expected_target_steps_per_sequence": 1.2160355109963663,
+      "probability_mass": 1.0000000000000002,
+      "raw_block_efficiency": 3.2893776241144264,
+      "total_variation": 7.743914016977715e-17
+    },
+    "tokenwise": {
+      "expected_target_steps_per_sequence": 1.2723431256085975,
+      "probability_mass": 1.0000000000000002,
+      "raw_block_efficiency": 3.143806037452898,
+      "total_variation": 1.2709559966961326e-16
+    }
+  },
+  "finite_ar_temp08": {
+    "hsd": {
+      "expected_target_steps_per_sequence": 1.2704439851774114,
+      "probability_mass": 0.9999999999999996,
+      "raw_block_efficiency": 3.148505598569479,
+      "total_variation": 6.015966804578943e-17
+    },
+    "tokenwise": {
+      "expected_target_steps_per_sequence": 1.33825161786039,
+      "probability_mass": 0.9999999999999996,
+      "raw_block_efficiency": 2.9889745296144232,
+      "total_variation": 1.1342109976913983e-16
+    }
+  }
+}

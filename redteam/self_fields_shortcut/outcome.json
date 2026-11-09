@@ -1,0 +1,16 @@
+{
+  "case": "self_fields_shortcut",
+  "config": {
+    "kind": "self_fields_shortcut"
+  },
+  "generation_exit": 0,
+  "hidden_command": [
+    "bash",
+    "scripts/evaluate_test.sh"
+  ],
+  "process_isolation": "generator exits before train/test; standard environment",
+  "protected_files_unchanged": true,
+  "seconds": 0.792554646031931,
+  "test_exit": 0,
+  "train_exit": 0
+}

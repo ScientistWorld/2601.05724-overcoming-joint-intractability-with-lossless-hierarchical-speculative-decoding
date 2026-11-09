@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/user/eval/test/evaluate.py", line 231, in <module>
+    main()
+  File "/home/user/eval/test/evaluate.py", line 218, in main
+    exp_name, method_name, metrics = evaluate_artifact(artifact)
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/eval/test/evaluate.py", line 117, in evaluate_artifact
+    raise ValueError(f"{path}: gamma does not match fixed scenario {scenario_name}")
+ValueError: checkpoints/hsd_finite_ar_gamma3.json: gamma does not match fixed scenario finite_ar_gamma3

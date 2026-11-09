@@ -1,0 +1,54 @@
+{
+  "_meta": {
+    "artifacts": {
+      "finite_ar_gamma3": {
+        "hsd": "checkpoints/hsd_finite_ar_gamma3.json"
+      },
+      "finite_ar_main": {
+        "hsd": "checkpoints/hsd_finite_ar_main.json"
+      },
+      "finite_ar_temp08": {
+        "hsd": "checkpoints/hsd_finite_ar_temp08.json"
+      }
+    },
+    "slice": "train"
+  },
+  "experiments": {
+    "finite_ar_gamma3": {
+      "results": {
+        "hsd": {
+          "block_efficiency": 4.000000000000017,
+          "prefix_conditional_l1": 7.122080702970418e-15,
+          "slice_block_efficiency": 1.984,
+          "slice_mass_error": 2.1094237467877974e-15,
+          "slice_total_variation": 6.722053469410127e-17,
+          "total_variation": 1.3552527156068805e-16
+        }
+      }
+    },
+    "finite_ar_main": {
+      "results": {
+        "hsd": {
+          "block_efficiency": 4.000000000000015,
+          "prefix_conditional_l1": 6.230843505549337e-16,
+          "slice_block_efficiency": 2.0352,
+          "slice_mass_error": 1.887379141862766e-15,
+          "slice_total_variation": 6.895525817007808e-17,
+          "total_variation": 1.3552527156068805e-16
+        }
+      }
+    },
+    "finite_ar_temp08": {
+      "results": {
+        "hsd": {
+          "block_efficiency": 4.000000000000017,
+          "prefix_conditional_l1": 6.502734858518765e-16,
+          "slice_block_efficiency": 1.8688,
+          "slice_mass_error": 1.942890293094024e-15,
+          "slice_total_variation": 6.331740687315346e-17,
+          "total_variation": 1.3552527156068805e-16
+        }
+      }
+    }
+  }
+}

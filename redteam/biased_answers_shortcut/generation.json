@@ -1,0 +1,14 @@
+{
+  "finite_ar_gamma3": {
+    "true_total_variation": 0.0026008786835848164,
+    "uniform_mixture": 0.01
+  },
+  "finite_ar_main": {
+    "true_total_variation": 0.0026008786835848164,
+    "uniform_mixture": 0.01
+  },
+  "finite_ar_temp08": {
+    "true_total_variation": 0.0032171794318890884,
+    "uniform_mixture": 0.01
+  }
+}

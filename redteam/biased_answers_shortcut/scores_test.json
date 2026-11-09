@@ -1,0 +1,55 @@
+{
+  "_meta": {
+    "artifacts": {
+      "finite_ar_gamma3": {
+        "hsd": "checkpoints/hsd_finite_ar_gamma3.json"
+      },
+      "finite_ar_main": {
+        "hsd": "checkpoints/hsd_finite_ar_main.json"
+      },
+      "finite_ar_temp08": {
+        "hsd": "checkpoints/hsd_finite_ar_temp08.json"
+      }
+    },
+    "matched_train_scores": "scoring/scores_train.json",
+    "slice": "test"
+  },
+  "experiments": {
+    "finite_ar_gamma3": {
+      "results": {
+        "hsd": {
+          "block_efficiency": 3.9998993593707444,
+          "prefix_conditional_l1": 0.002606707258923358,
+          "slice_block_efficiency": 2.078778067408,
+          "slice_mass_error": 1.3075924791494664e-05,
+          "slice_total_variation": 0.0013737215247115564,
+          "total_variation": 0.0026008786874831408
+        }
+      }
+    },
+    "finite_ar_main": {
+      "results": {
+        "hsd": {
+          "block_efficiency": 4.00174998856975,
+          "prefix_conditional_l1": 0.0027820710207174327,
+          "slice_block_efficiency": 1.785116459552,
+          "slice_mass_error": 0.00019516045535145077,
+          "slice_total_variation": 0.0011448354560972857,
+          "total_variation": 0.0026008786874831408
+        }
+      }
+    },
+    "finite_ar_temp08": {
+      "results": {
+        "hsd": {
+          "block_efficiency": 4.002057039220171,
+          "prefix_conditional_l1": 0.0027873732120602865,
+          "slice_block_efficiency": 1.9792830865,
+          "slice_mass_error": 0.0002543356389508311,
+          "slice_total_variation": 0.001578588344570457,
+          "total_variation": 0.003217179423910234
+        }
+      }
+    }
+  }
+}

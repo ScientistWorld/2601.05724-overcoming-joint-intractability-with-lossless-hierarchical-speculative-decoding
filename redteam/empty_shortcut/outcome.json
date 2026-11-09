@@ -1,0 +1,16 @@
+{
+  "case": "empty_shortcut",
+  "config": {
+    "kind": "empty_shortcut"
+  },
+  "generation_exit": 0,
+  "hidden_command": [
+    "bash",
+    "scripts/evaluate_test.sh"
+  ],
+  "process_isolation": "generator exits before train/test; standard environment",
+  "protected_files_unchanged": true,
+  "seconds": 0.555211380822584,
+  "test_exit": 1,
+  "train_exit": 1
+}

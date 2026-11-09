@@ -1,0 +1,17 @@
+{
+  "finite_ar_gamma3": {
+    "enumerated_sequences": 625,
+    "seconds": 0.16805961285717785,
+    "target_conditional_calls_including_preparation": 156
+  },
+  "finite_ar_main": {
+    "enumerated_sequences": 625,
+    "seconds": 0.16771415201947093,
+    "target_conditional_calls_including_preparation": 156
+  },
+  "finite_ar_temp08": {
+    "enumerated_sequences": 625,
+    "seconds": 0.15999380708672106,
+    "target_conditional_calls_including_preparation": 156
+  }
+}

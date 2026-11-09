@@ -1,0 +1,16 @@
+{
+  "case": "constant_counters_shortcut",
+  "config": {
+    "kind": "constant_counters_shortcut"
+  },
+  "generation_exit": 0,
+  "hidden_command": [
+    "bash",
+    "scripts/evaluate_test.sh"
+  ],
+  "process_isolation": "generator exits before train/test; standard environment",
+  "protected_files_unchanged": true,
+  "seconds": 0.695179209811613,
+  "test_exit": 0,
+  "train_exit": 0
+}

@@ -1,0 +1,18 @@
+{
+  "case": "brute_force_shortcut",
+  "config": {
+    "kind": "brute_force_shortcut",
+    "samples": 640000,
+    "seed": 71
+  },
+  "generation_exit": 0,
+  "hidden_command": [
+    "bash",
+    "scripts/evaluate_test.sh"
+  ],
+  "process_isolation": "generator exits before train/test; standard environment",
+  "protected_files_unchanged": true,
+  "seconds": 1.298166800988838,
+  "test_exit": 0,
+  "train_exit": 0
+}

@@ -1,0 +1,82 @@
+{
+  "_meta": {
+    "artifacts": {
+      "finite_ar_gamma3": {
+        "hsd": "checkpoints/hsd_finite_ar_gamma3.json",
+        "tokenwise": "checkpoints/tokenwise_finite_ar_gamma3.json"
+      },
+      "finite_ar_main": {
+        "hsd": "checkpoints/hsd_finite_ar_main.json",
+        "tokenwise": "checkpoints/tokenwise_finite_ar_main.json"
+      },
+      "finite_ar_temp08": {
+        "hsd": "checkpoints/hsd_finite_ar_temp08.json",
+        "tokenwise": "checkpoints/tokenwise_finite_ar_temp08.json"
+      }
+    },
+    "matched_train_scores": "scoring/scores_train.json",
+    "slice": "test"
+  },
+  "experiments": {
+    "finite_ar_gamma3": {
+      "results": {
+        "hsd": {
+          "block_efficiency": 3.2886215052491945,
+          "prefix_conditional_l1": 0.040771144185114044,
+          "slice_block_efficiency": 1.7091215660470473,
+          "slice_mass_error": 0.00022009277679146955,
+          "slice_total_variation": 0.016137267748136643,
+          "total_variation": 0.03263181354985225
+        },
+        "tokenwise": {
+          "block_efficiency": 0.0,
+          "prefix_conditional_l1": 1.0425456156567536,
+          "slice_block_efficiency": 0.0,
+          "slice_mass_error": 0.5197075927767915,
+          "slice_total_variation": 0.25985379638839573,
+          "total_variation": 0.9968898090637222
+        }
+      }
+    },
+    "finite_ar_main": {
+      "results": {
+        "hsd": {
+          "block_efficiency": 3.2889556878110753,
+          "prefix_conditional_l1": 0.021614544822416547,
+          "slice_block_efficiency": 1.467150359172516,
+          "slice_mass_error": 5.35455673514873e-05,
+          "slice_total_variation": 0.015074027380711109,
+          "total_variation": 0.03246477073985699
+        },
+        "tokenwise": {
+          "block_efficiency": 0.0,
+          "prefix_conditional_l1": 1.197651726524778,
+          "slice_block_efficiency": 0.0,
+          "slice_mass_error": 0.44608395443264853,
+          "slice_total_variation": 0.22304197721632427,
+          "total_variation": 0.9968898090637222
+        }
+      }
+    },
+    "finite_ar_temp08": {
+      "results": {
+        "hsd": {
+          "block_efficiency": 3.170941710751972,
+          "prefix_conditional_l1": 0.029582103140948963,
+          "slice_block_efficiency": 1.5682413406061084,
+          "slice_mass_error": 0.003183564013950868,
+          "slice_total_variation": 0.015833162653174113,
+          "total_variation": 0.03241713395292515
+        },
+        "tokenwise": {
+          "block_efficiency": 0.0,
+          "prefix_conditional_l1": 1.1386276668030606,
+          "slice_block_efficiency": 0.0,
+          "slice_mass_error": 0.49456643598604916,
+          "slice_total_variation": 0.24728321799302458,
+          "total_variation": 0.9965336535969468
+        }
+      }
+    }
+  }
+}

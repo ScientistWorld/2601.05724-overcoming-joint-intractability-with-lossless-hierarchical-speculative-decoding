@@ -1,0 +1,5 @@
+{
+  "memoization": "deterministic functions only; unchanged RNG stream",
+  "samples": 5000,
+  "seed": 4000001
+}

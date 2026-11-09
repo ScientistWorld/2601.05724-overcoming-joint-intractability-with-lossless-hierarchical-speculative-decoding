@@ -1,0 +1,15 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/home/user/eval/test/evaluate.py", line 231, in <module>
+    main()
+  File "/home/user/eval/test/evaluate.py", line 218, in main
+    exp_name, method_name, metrics = evaluate_artifact(artifact)
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/user/eval/test/evaluate.py", line 130, in evaluate_artifact
+    slice_metrics = _slice_metrics(
+                    ^^^^^^^^^^^^^^^
+  File "/home/user/eval/test/evaluate.py", line 42, in _slice_metrics
+    empirical_mass = sum(counts.get(seq, 0) for seq in selected) / samples
+                     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~
+ZeroDivisionError: division by zero

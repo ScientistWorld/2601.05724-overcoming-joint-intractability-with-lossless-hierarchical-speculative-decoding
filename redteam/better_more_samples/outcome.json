@@ -1,0 +1,18 @@
+{
+  "case": "better_more_samples",
+  "config": {
+    "kind": "hsd",
+    "samples": 640000,
+    "seed": 3000001
+  },
+  "generation_exit": 0,
+  "hidden_command": [
+    "bash",
+    "scripts/evaluate_test.sh"
+  ],
+  "process_isolation": "generator exits before train/test; standard environment",
+  "protected_files_unchanged": true,
+  "seconds": 18.52664987393655,
+  "test_exit": 0,
+  "train_exit": 0
+}
