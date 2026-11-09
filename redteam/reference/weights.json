@@ -1,0 +1,130 @@
+{
+  "experiments": {
+    "finite_ar_main": {
+      "description": "Scaled finite-distribution analogue of the paper's main single-draft speculative decoding comparison. Block-efficiency references are finite benchmark values from the validated 80k-sample reproduction; total_variation=0.0 is the exact target-distribution ideal.",
+      "notes": "The paper reports large-model Qwen2.5 results on GSM8K, HumanEval, and CNN/DailyMail. This gym deliberately uses exact finite autoregressive distributions to isolate verifier behavior under the same scientific objective; reference block-efficiency values therefore come from the validated finite reproduction, not from the paper tables.",
+      "weight": 0.6,
+      "primary_metric": "block_efficiency",
+      "metrics": {
+        "block_efficiency": {
+          "higher_is_better": true,
+          "coefficient": 1.0,
+          "description": "Generated tokens per serial target-model step. In train/test split scores this is support-normalized on the active slice so it stays in paper units while making the efficiency benefit held out without measuring wall-clock speed."
+        },
+        "slice_block_efficiency": {
+          "higher_is_better": true,
+          "coefficient": 1.0,
+          "description": "Generated tokens per serial target-model step attributable to the active train/test support slice, making the efficiency benefit split-sensitive without measuring wall-clock speed."
+        },
+        "total_variation": {
+          "higher_is_better": false,
+          "coefficient": -1.0,
+          "description": "Empirical total variation from the exact target sequence distribution, the losslessness constraint."
+        },
+        "prefix_conditional_l1": {
+          "higher_is_better": false,
+          "coefficient": -0.5,
+          "description": "Weighted next-token conditional L1 error on the active train/test prefix slice, catching local autoregressive shortcuts hidden by aggregate sequence mass."
+        },
+        "slice_total_variation": {
+          "higher_is_better": false,
+          "coefficient": -0.6,
+          "description": "Total-variation contribution on the active train/test support slice, used to detect distribution shortcuts that do not generalize across held-out sequence categories."
+        },
+        "slice_mass_error": {
+          "higher_is_better": false,
+          "coefficient": -0.4,
+          "description": "Absolute difference between empirical and exact target probability mass assigned to the active train/test support slice."
+        }
+      },
+      "results": {
+        "tokenwise": {"type": "baseline", "block_efficiency": 3.1425, "total_variation": 0.0},
+        "hsd": {"type": "proposed", "block_efficiency": 3.2886, "total_variation": 0.0}
+      }
+    },
+    "finite_ar_gamma3": {
+      "description": "Scaled finite-distribution draft-length ablation corresponding to the paper's draft-length study. Block-efficiency references are finite benchmark values from the validated 80k-sample reproduction; total_variation=0.0 is the exact target-distribution ideal.",
+      "notes": "The original paper varies draft length with large language models. This gym keeps the same type of stress test but uses a finite autoregressive setting; reference values are finite-benchmark values, not paper table values.",
+      "weight": 0.2,
+      "primary_metric": "block_efficiency",
+      "metrics": {
+        "block_efficiency": {
+          "higher_is_better": true,
+          "coefficient": 1.0,
+          "description": "Generated tokens per serial target-model step. In train/test split scores this is support-normalized on the active slice so it stays in paper units while making the efficiency benefit held out without measuring wall-clock speed."
+        },
+        "slice_block_efficiency": {
+          "higher_is_better": true,
+          "coefficient": 1.0,
+          "description": "Generated tokens per serial target-model step attributable to the active train/test support slice, making the efficiency benefit split-sensitive without measuring wall-clock speed."
+        },
+        "total_variation": {
+          "higher_is_better": false,
+          "coefficient": -1.0,
+          "description": "Empirical total variation from the exact target sequence distribution, the losslessness constraint."
+        },
+        "prefix_conditional_l1": {
+          "higher_is_better": false,
+          "coefficient": -0.5,
+          "description": "Weighted next-token conditional L1 error on the active train/test prefix slice, catching local autoregressive shortcuts hidden by aggregate sequence mass."
+        },
+        "slice_total_variation": {
+          "higher_is_better": false,
+          "coefficient": -0.6,
+          "description": "Total-variation contribution on the active train/test support slice, used to detect distribution shortcuts that do not generalize across held-out sequence categories."
+        },
+        "slice_mass_error": {
+          "higher_is_better": false,
+          "coefficient": -0.4,
+          "description": "Absolute difference between empirical and exact target probability mass assigned to the active train/test support slice."
+        }
+      },
+      "results": {
+        "tokenwise": {"type": "baseline", "block_efficiency": 3.1417, "total_variation": 0.0},
+        "hsd": {"type": "proposed", "block_efficiency": 3.2900, "total_variation": 0.0}
+      }
+    },
+    "finite_ar_temp08": {
+      "description": "Scaled finite-distribution temperature ablation corresponding to the paper's temperature study. Block-efficiency references are finite benchmark values from the validated 80k-sample reproduction; total_variation=0.0 is the exact target-distribution ideal.",
+      "notes": "The original paper varies sampling temperature with large language models. This gym keeps the same type of robustness check in a finite autoregressive setting; reference values are finite-benchmark values, not paper table values.",
+      "weight": 0.2,
+      "primary_metric": "block_efficiency",
+      "metrics": {
+        "block_efficiency": {
+          "higher_is_better": true,
+          "coefficient": 1.0,
+          "description": "Generated tokens per serial target-model step. In train/test split scores this is support-normalized on the active slice so it stays in paper units while making the efficiency benefit held out without measuring wall-clock speed."
+        },
+        "slice_block_efficiency": {
+          "higher_is_better": true,
+          "coefficient": 1.0,
+          "description": "Generated tokens per serial target-model step attributable to the active train/test support slice, making the efficiency benefit split-sensitive without measuring wall-clock speed."
+        },
+        "total_variation": {
+          "higher_is_better": false,
+          "coefficient": -1.0,
+          "description": "Empirical total variation from the exact target sequence distribution, the losslessness constraint."
+        },
+        "prefix_conditional_l1": {
+          "higher_is_better": false,
+          "coefficient": -0.5,
+          "description": "Weighted next-token conditional L1 error on the active train/test prefix slice, catching local autoregressive shortcuts hidden by aggregate sequence mass."
+        },
+        "slice_total_variation": {
+          "higher_is_better": false,
+          "coefficient": -0.6,
+          "description": "Total-variation contribution on the active train/test support slice, used to detect distribution shortcuts that do not generalize across held-out sequence categories."
+        },
+        "slice_mass_error": {
+          "higher_is_better": false,
+          "coefficient": -0.4,
+          "description": "Absolute difference between empirical and exact target probability mass assigned to the active train/test support slice."
+        }
+      },
+      "results": {
+        "tokenwise": {"type": "baseline", "block_efficiency": 2.9916, "total_variation": 0.0},
+        "hsd": {"type": "proposed", "block_efficiency": 3.1507, "total_variation": 0.0}
+      }
+    }
+  }
+}

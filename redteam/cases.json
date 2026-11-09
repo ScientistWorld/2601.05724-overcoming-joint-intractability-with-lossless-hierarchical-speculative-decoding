@@ -1,0 +1,21 @@
+{
+  "reference_seed1": {"kind": "hsd", "samples": 80000, "seed": 1},
+  "reference_seed2": {"kind": "hsd", "samples": 80000, "seed": 1000001},
+  "reference_seed3": {"kind": "hsd", "samples": 80000, "seed": 2000001},
+  "better_more_samples": {"kind": "hsd", "samples": 640000, "seed": 3000001},
+  "weaker_tokenwise": {"kind": "tokenwise", "samples": 80000, "seed": 101},
+  "weaker_fewer_samples": {"kind": "hsd", "samples": 5000, "seed": 4000001},
+  "counters_shortcut": {"kind": "counters_shortcut"},
+  "answers_shortcut": {"kind": "answers_shortcut"},
+  "brute_force_shortcut": {"kind": "brute_force_shortcut", "samples": 640000, "seed": 71},
+  "biased_answers_shortcut": {"kind": "biased_answers_shortcut"},
+  "fixed_truth_shortcut": {"kind": "fixed_truth_shortcut"},
+  "baseline_move_shortcut": {"kind": "baseline_move_shortcut"},
+  "self_fields_shortcut": {"kind": "self_fields_shortcut"},
+  "draft_only_shortcut": {"kind": "draft_only_shortcut", "samples": 80000, "seed": 91},
+  "constant_shortcut": {"kind": "constant_shortcut"},
+  "constant_counters_shortcut": {"kind": "constant_counters_shortcut"},
+  "nonfinite_shortcut": {"kind": "nonfinite_shortcut"},
+  "empty_shortcut": {"kind": "empty_shortcut"},
+  "fixed_setting_shortcut": {"kind": "fixed_setting_shortcut"}
+}
