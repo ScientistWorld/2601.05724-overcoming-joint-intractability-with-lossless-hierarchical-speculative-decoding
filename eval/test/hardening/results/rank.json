@@ -1,0 +1,126 @@
+{
+  "all_population": {
+    "blockwise": -0.07740738398916784,
+    "hsd": 0.0,
+    "rerun:hsd": 2.1816709651859314e-15,
+    "shortcut:call_dependent": -2.086122519242195,
+    "shortcut:constant": -2.086122519242195,
+    "shortcut:crash": -2.086122519242195,
+    "shortcut:draft_only": -2.086122519242195,
+    "shortcut:empty_outcomes": -2.086122519242195,
+    "shortcut:inflated_hsd": -2.086122519242195,
+    "shortcut:mass_inflation": -2.086122519242195,
+    "shortcut:nan_probs": -2.086122519242195,
+    "shortcut:tau_overflow": -2.086122519242195,
+    "shortcut:uncapped_hsd": -2.086122519242195,
+    "tokenwise": -0.08267353825448265,
+    "variant:tree_coupling": 0.044063835193669895,
+    "variant:tree_rrs": -0.016856185873796895
+  },
+  "block_efficiency": {
+    "blockwise": {
+      "multi_draft": 3.1880774281984987,
+      "single_draft_length": 3.5383081831470893,
+      "single_draft_main": 3.346934644246406,
+      "single_draft_temperature": 3.646677078677223
+    },
+    "hsd": {
+      "multi_draft": 3.5130043230436763,
+      "single_draft_length": 3.5383081831470893,
+      "single_draft_main": 3.346934644246406,
+      "single_draft_temperature": 3.646677078677223
+    },
+    "rerun:hsd": {
+      "multi_draft": 3.5130043230436874,
+      "single_draft_length": 3.5383081831470893,
+      "single_draft_main": 3.3469346442464043,
+      "single_draft_temperature": 3.6466770786772216
+    },
+    "shortcut:call_dependent": {
+      "multi_draft": 0.0,
+      "single_draft_length": 0.0,
+      "single_draft_main": 0.0,
+      "single_draft_temperature": 0.0
+    },
+    "shortcut:constant": {
+      "multi_draft": 0.0,
+      "single_draft_length": 0.0,
+      "single_draft_main": 0.0,
+      "single_draft_temperature": 0.0
+    },
+    "shortcut:crash": {
+      "multi_draft": 0.0,
+      "single_draft_length": 0.0,
+      "single_draft_main": 0.0,
+      "single_draft_temperature": 0.0
+    },
+    "shortcut:draft_only": {
+      "multi_draft": 0.0,
+      "single_draft_length": 0.0,
+      "single_draft_main": 0.0,
+      "single_draft_temperature": 0.0
+    },
+    "shortcut:empty_outcomes": {
+      "multi_draft": 0.0,
+      "single_draft_length": 0.0,
+      "single_draft_main": 0.0,
+      "single_draft_temperature": 0.0
+    },
+    "shortcut:inflated_hsd": {
+      "multi_draft": 0.0,
+      "single_draft_length": 0.0,
+      "single_draft_main": 0.0,
+      "single_draft_temperature": 0.0
+    },
+    "shortcut:mass_inflation": {
+      "multi_draft": 0.0,
+      "single_draft_length": 0.0,
+      "single_draft_main": 0.0,
+      "single_draft_temperature": 0.0
+    },
+    "shortcut:nan_probs": {
+      "multi_draft": 0.0,
+      "single_draft_length": 0.0,
+      "single_draft_main": 0.0,
+      "single_draft_temperature": 0.0
+    },
+    "shortcut:tau_overflow": {
+      "multi_draft": 0.0,
+      "single_draft_length": 0.0,
+      "single_draft_main": 0.0,
+      "single_draft_temperature": 0.0
+    },
+    "shortcut:uncapped_hsd": {
+      "multi_draft": 0.0,
+      "single_draft_length": 0.0,
+      "single_draft_main": 0.0,
+      "single_draft_temperature": 0.0
+    },
+    "tokenwise": {
+      "multi_draft": 3.423254046324301,
+      "single_draft_length": 3.410852499359347,
+      "single_draft_main": 3.1545725087222,
+      "single_draft_temperature": 3.5040900850017285
+    },
+    "variant:tree_coupling": {
+      "multi_draft": 3.6979676224939246,
+      "single_draft_length": 3.5383081831470893,
+      "single_draft_main": 3.346934644246406,
+      "single_draft_temperature": 3.646677078677223
+    },
+    "variant:tree_rrs": {
+      "multi_draft": 3.4422484357800993,
+      "single_draft_length": 3.5383081831470893,
+      "single_draft_main": 3.346934644246406,
+      "single_draft_temperature": 3.646677078677223
+    }
+  },
+  "honest_population": {
+    "blockwise": -0.8576128975441584,
+    "hsd": 0.0,
+    "rerun:hsd": 1.812360795246303e-14,
+    "tokenwise": -1.8468560593135388,
+    "variant:tree_coupling": 0.4881926171622036,
+    "variant:tree_rrs": -0.18675327421984456
+  }
+}

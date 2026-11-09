@@ -1,0 +1,374 @@
+{
+  "_meta": {
+    "contexts": {
+      "multi_draft": 36,
+      "single_draft_length": 48,
+      "single_draft_main": 24,
+      "single_draft_temperature": 24
+    },
+    "failed_score": 0.0,
+    "lossless_tolerance": 1e-09,
+    "methods": {
+      "call_dependent": {
+        "calls": 482549,
+        "failure": "verifier answered the same problem differently",
+        "seconds": 2.7,
+        "status": "failed",
+        "verifier": "eval/test/hardening/shortcuts/call_dependent/verifier.py"
+      },
+      "constant": {
+        "calls": 482549,
+        "failure": "not lossless: completion total variation 1.000e+00 > 1e-09",
+        "seconds": 29.6,
+        "status": "failed",
+        "verifier": "eval/test/hardening/shortcuts/constant/verifier.py"
+      },
+      "crash": {
+        "calls": 482549,
+        "failure": "verifier produced no response (crash or time budget exceeded)",
+        "seconds": 0.1,
+        "status": "failed",
+        "verifier": "eval/test/hardening/shortcuts/crash/verifier.py"
+      },
+      "draft_only": {
+        "calls": 482549,
+        "failure": "not lossless: completion total variation 7.635e-01 > 1e-09",
+        "seconds": 37.1,
+        "status": "failed",
+        "verifier": "eval/test/hardening/shortcuts/draft_only/verifier.py"
+      },
+      "empty_outcomes": {
+        "calls": 482549,
+        "failure": "response has no outcomes",
+        "seconds": 0.2,
+        "status": "failed",
+        "verifier": "eval/test/hardening/shortcuts/empty_outcomes/verifier.py"
+      },
+      "inflated_hsd": {
+        "calls": 482549,
+        "failure": "not lossless: completion total variation 1.564e-02 > 1e-09",
+        "seconds": 72.1,
+        "status": "failed",
+        "verifier": "eval/test/hardening/shortcuts/inflated_hsd/verifier.py"
+      },
+      "mass_inflation": {
+        "calls": 482549,
+        "failure": "outcome probabilities sum to 1.25, not 1",
+        "seconds": 0.1,
+        "status": "failed",
+        "verifier": "eval/test/hardening/shortcuts/mass_inflation/verifier.py"
+      },
+      "nan_probs": {
+        "calls": 482549,
+        "failure": "non-finite probability: [0, 3, 0, nan]",
+        "seconds": 0.2,
+        "status": "failed",
+        "verifier": "eval/test/hardening/shortcuts/nan_probs/verifier.py"
+      },
+      "tau_overflow": {
+        "calls": 482549,
+        "failure": "outcome out of range: [0, 4, 0, 1.0]",
+        "seconds": 0.1,
+        "status": "failed",
+        "verifier": "eval/test/hardening/shortcuts/tau_overflow/verifier.py"
+      },
+      "uncapped_hsd": {
+        "calls": 482549,
+        "failure": "not lossless: completion total variation 2.339e-01 > 1e-09",
+        "seconds": 76.2,
+        "status": "failed",
+        "verifier": "eval/test/hardening/shortcuts/uncapped_hsd/verifier.py"
+      }
+    },
+    "problems": {
+      "multi_draft": 364080,
+      "single_draft_length": 46800,
+      "single_draft_main": 31104,
+      "single_draft_temperature": 31104
+    },
+    "slice": "test",
+    "stream_seed": 4049
+  },
+  "experiments": {
+    "multi_draft": {
+      "breakdown": {},
+      "constraint": {
+        "call_dependent": {
+          "lossless": false
+        },
+        "constant": {
+          "lossless": false
+        },
+        "crash": {
+          "lossless": false
+        },
+        "draft_only": {
+          "lossless": false
+        },
+        "empty_outcomes": {
+          "lossless": false
+        },
+        "inflated_hsd": {
+          "lossless": false
+        },
+        "mass_inflation": {
+          "lossless": false
+        },
+        "nan_probs": {
+          "lossless": false
+        },
+        "tau_overflow": {
+          "lossless": false
+        },
+        "uncapped_hsd": {
+          "lossless": false
+        }
+      },
+      "fixed_baseline": {
+        "tokenwise_block_efficiency": 3.423254046324328
+      },
+      "results": {
+        "call_dependent": {
+          "block_efficiency": 0.0
+        },
+        "constant": {
+          "block_efficiency": 0.0
+        },
+        "crash": {
+          "block_efficiency": 0.0
+        },
+        "draft_only": {
+          "block_efficiency": 0.0
+        },
+        "empty_outcomes": {
+          "block_efficiency": 0.0
+        },
+        "inflated_hsd": {
+          "block_efficiency": 0.0
+        },
+        "mass_inflation": {
+          "block_efficiency": 0.0
+        },
+        "nan_probs": {
+          "block_efficiency": 0.0
+        },
+        "tau_overflow": {
+          "block_efficiency": 0.0
+        },
+        "uncapped_hsd": {
+          "block_efficiency": 0.0
+        }
+      }
+    },
+    "single_draft_length": {
+      "breakdown": {},
+      "constraint": {
+        "call_dependent": {
+          "lossless": false
+        },
+        "constant": {
+          "lossless": false
+        },
+        "crash": {
+          "lossless": false
+        },
+        "draft_only": {
+          "lossless": false
+        },
+        "empty_outcomes": {
+          "lossless": false
+        },
+        "inflated_hsd": {
+          "lossless": false
+        },
+        "mass_inflation": {
+          "lossless": false
+        },
+        "nan_probs": {
+          "lossless": false
+        },
+        "tau_overflow": {
+          "lossless": false
+        },
+        "uncapped_hsd": {
+          "lossless": false
+        }
+      },
+      "fixed_baseline": {
+        "tokenwise_block_efficiency": 3.410852499359343
+      },
+      "results": {
+        "call_dependent": {
+          "block_efficiency": 0.0
+        },
+        "constant": {
+          "block_efficiency": 0.0
+        },
+        "crash": {
+          "block_efficiency": 0.0
+        },
+        "draft_only": {
+          "block_efficiency": 0.0
+        },
+        "empty_outcomes": {
+          "block_efficiency": 0.0
+        },
+        "inflated_hsd": {
+          "block_efficiency": 0.0
+        },
+        "mass_inflation": {
+          "block_efficiency": 0.0
+        },
+        "nan_probs": {
+          "block_efficiency": 0.0
+        },
+        "tau_overflow": {
+          "block_efficiency": 0.0
+        },
+        "uncapped_hsd": {
+          "block_efficiency": 0.0
+        }
+      }
+    },
+    "single_draft_main": {
+      "breakdown": {},
+      "constraint": {
+        "call_dependent": {
+          "lossless": false
+        },
+        "constant": {
+          "lossless": false
+        },
+        "crash": {
+          "lossless": false
+        },
+        "draft_only": {
+          "lossless": false
+        },
+        "empty_outcomes": {
+          "lossless": false
+        },
+        "inflated_hsd": {
+          "lossless": false
+        },
+        "mass_inflation": {
+          "lossless": false
+        },
+        "nan_probs": {
+          "lossless": false
+        },
+        "tau_overflow": {
+          "lossless": false
+        },
+        "uncapped_hsd": {
+          "lossless": false
+        }
+      },
+      "fixed_baseline": {
+        "tokenwise_block_efficiency": 3.154572508722202
+      },
+      "results": {
+        "call_dependent": {
+          "block_efficiency": 0.0
+        },
+        "constant": {
+          "block_efficiency": 0.0
+        },
+        "crash": {
+          "block_efficiency": 0.0
+        },
+        "draft_only": {
+          "block_efficiency": 0.0
+        },
+        "empty_outcomes": {
+          "block_efficiency": 0.0
+        },
+        "inflated_hsd": {
+          "block_efficiency": 0.0
+        },
+        "mass_inflation": {
+          "block_efficiency": 0.0
+        },
+        "nan_probs": {
+          "block_efficiency": 0.0
+        },
+        "tau_overflow": {
+          "block_efficiency": 0.0
+        },
+        "uncapped_hsd": {
+          "block_efficiency": 0.0
+        }
+      }
+    },
+    "single_draft_temperature": {
+      "breakdown": {},
+      "constraint": {
+        "call_dependent": {
+          "lossless": false
+        },
+        "constant": {
+          "lossless": false
+        },
+        "crash": {
+          "lossless": false
+        },
+        "draft_only": {
+          "lossless": false
+        },
+        "empty_outcomes": {
+          "lossless": false
+        },
+        "inflated_hsd": {
+          "lossless": false
+        },
+        "mass_inflation": {
+          "lossless": false
+        },
+        "nan_probs": {
+          "lossless": false
+        },
+        "tau_overflow": {
+          "lossless": false
+        },
+        "uncapped_hsd": {
+          "lossless": false
+        }
+      },
+      "fixed_baseline": {
+        "tokenwise_block_efficiency": 3.504090085001725
+      },
+      "results": {
+        "call_dependent": {
+          "block_efficiency": 0.0
+        },
+        "constant": {
+          "block_efficiency": 0.0
+        },
+        "crash": {
+          "block_efficiency": 0.0
+        },
+        "draft_only": {
+          "block_efficiency": 0.0
+        },
+        "empty_outcomes": {
+          "block_efficiency": 0.0
+        },
+        "inflated_hsd": {
+          "block_efficiency": 0.0
+        },
+        "mass_inflation": {
+          "block_efficiency": 0.0
+        },
+        "nan_probs": {
+          "block_efficiency": 0.0
+        },
+        "tau_overflow": {
+          "block_efficiency": 0.0
+        },
+        "uncapped_hsd": {
+          "block_efficiency": 0.0
+        }
+      }
+    }
+  }
+}

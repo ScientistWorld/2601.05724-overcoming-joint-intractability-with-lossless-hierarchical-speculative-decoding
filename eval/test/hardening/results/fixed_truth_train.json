@@ -1,0 +1,153 @@
+{
+  "_meta": {
+    "contexts": {
+      "multi_draft": 18,
+      "single_draft_length": 36,
+      "single_draft_main": 18,
+      "single_draft_temperature": 18
+    },
+    "failed_score": 0.0,
+    "lossless_tolerance": 1e-09,
+    "methods": {
+      "hsd": {
+        "calls": 269071,
+        "failure": null,
+        "seconds": 35.9,
+        "status": "ok",
+        "verifier": "checkpoints/hsd/verifier.py"
+      }
+    },
+    "problems": {
+      "multi_draft": 182040,
+      "single_draft_length": 35100,
+      "single_draft_main": 23328,
+      "single_draft_temperature": 23328
+    },
+    "slice": "train",
+    "stream_seed": 7
+  },
+  "experiments": {
+    "multi_draft": {
+      "breakdown": {
+        "hsd": {
+          "flat/aligned/V3/g3/K3/T1.0": 4.000000000000007,
+          "flat/aligned/V3/g4/K2/T1.0": 5.000000000000003,
+          "flat/aligned/V4/g3/K2/T1.0": 4.000000000000022,
+          "flat/misaligned/V3/g3/K3/T1.0": 4.000000000000039,
+          "flat/misaligned/V3/g4/K2/T1.0": 4.999999999999985,
+          "flat/misaligned/V4/g3/K2/T1.0": 3.999999999999999,
+          "medium/aligned/V3/g3/K3/T1.0": 4.000000000000001,
+          "medium/aligned/V3/g4/K2/T1.0": 4.999999999999989,
+          "medium/aligned/V4/g3/K2/T1.0": 3.999999999999999,
+          "medium/misaligned/V3/g3/K3/T1.0": 4.0000000000000036,
+          "medium/misaligned/V3/g4/K2/T1.0": 5.000000000000023,
+          "medium/misaligned/V4/g3/K2/T1.0": 4.0000000000000036,
+          "peaked/aligned/V3/g3/K3/T1.0": 3.999999999999734,
+          "peaked/aligned/V3/g4/K2/T1.0": 4.999999999999988,
+          "peaked/aligned/V4/g3/K2/T1.0": 4.000000000000005,
+          "peaked/misaligned/V3/g3/K3/T1.0": 3.9999999999997833,
+          "peaked/misaligned/V3/g4/K2/T1.0": 4.999999999999953,
+          "peaked/misaligned/V4/g3/K2/T1.0": 3.9999999999999867
+        }
+      },
+      "constraint": {
+        "hsd": {
+          "lossless": true,
+          "max_completion_tv": 3.9916290389415766e-16
+        }
+      },
+      "fixed_baseline": {
+        "tokenwise_block_efficiency": 4.333333333333295
+      },
+      "results": {
+        "hsd": {
+          "block_efficiency": 4.333333333333307
+        }
+      }
+    },
+    "single_draft_length": {
+      "breakdown": {
+        "hsd": {
+          "flat/aligned/V5/g2/K1/T1.0": 3.0000000000000004,
+          "flat/aligned/V5/g3/K1/T1.0": 4.0,
+          "flat/aligned/V5/g4/K1/T1.0": 5.000000000000001,
+          "flat/aligned/V5/g5/K1/T1.0": 5.999999999999979,
+          "medium/aligned/V5/g2/K1/T1.0": 2.9999999999999996,
+          "medium/aligned/V5/g3/K1/T1.0": 3.999999999999998,
+          "medium/aligned/V5/g4/K1/T1.0": 5.0,
+          "medium/aligned/V5/g5/K1/T1.0": 5.999999999999993,
+          "peaked/aligned/V5/g2/K1/T1.0": 3.0000000000000013,
+          "peaked/aligned/V5/g3/K1/T1.0": 4.000000000000001,
+          "peaked/aligned/V5/g4/K1/T1.0": 4.999999999999994,
+          "peaked/aligned/V5/g5/K1/T1.0": 5.999999999999997
+        }
+      },
+      "constraint": {
+        "hsd": {
+          "lossless": true,
+          "max_completion_tv": 0.0
+        }
+      },
+      "fixed_baseline": {
+        "tokenwise_block_efficiency": 4.4999999999999964
+      },
+      "results": {
+        "hsd": {
+          "block_efficiency": 4.4999999999999964
+        }
+      }
+    },
+    "single_draft_main": {
+      "breakdown": {
+        "hsd": {
+          "flat/aligned/V6/g4/K1/T1.0": 5.0,
+          "flat/misaligned/V6/g4/K1/T1.0": 5.000000000000003,
+          "medium/aligned/V6/g4/K1/T1.0": 4.9999999999999885,
+          "medium/misaligned/V6/g4/K1/T1.0": 5.000000000000001,
+          "peaked/aligned/V6/g4/K1/T1.0": 4.999999999999988,
+          "peaked/misaligned/V6/g4/K1/T1.0": 4.999999999999995
+        }
+      },
+      "constraint": {
+        "hsd": {
+          "lossless": true,
+          "max_completion_tv": 0.0
+        }
+      },
+      "fixed_baseline": {
+        "tokenwise_block_efficiency": 5.0
+      },
+      "results": {
+        "hsd": {
+          "block_efficiency": 4.9999999999999964
+        }
+      }
+    },
+    "single_draft_temperature": {
+      "breakdown": {
+        "hsd": {
+          "flat/aligned/V6/g4/K1/T0.6": 4.999999999999992,
+          "flat/aligned/V6/g4/K1/T0.8": 4.999999999999994,
+          "medium/aligned/V6/g4/K1/T0.6": 4.999999999999971,
+          "medium/aligned/V6/g4/K1/T0.8": 5.000000000000003,
+          "peaked/aligned/V6/g4/K1/T0.6": 4.999999999999968,
+          "peaked/aligned/V6/g4/K1/T0.8": 4.999999999999969
+        }
+      },
+      "constraint": {
+        "hsd": {
+          "lossless": true,
+          "max_completion_tv": 0.0
+        }
+      },
+      "fixed_baseline": {
+        "tokenwise_block_efficiency": 4.999999999999991
+      },
+      "results": {
+        "hsd": {
+          "block_efficiency": 4.999999999999983
+        }
+      }
+    }
+  }
+}

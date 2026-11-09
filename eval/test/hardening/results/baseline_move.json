@@ -1,0 +1,95 @@
+{
+  "_meta": {
+    "contexts": {
+      "multi_draft": 36,
+      "single_draft_length": 48,
+      "single_draft_main": 24,
+      "single_draft_temperature": 24
+    },
+    "failed_score": 0.0,
+    "lossless_tolerance": 1e-09,
+    "methods": {
+      "tokenwise": {
+        "calls": 482549,
+        "failure": "not lossless: completion total variation 1.000e+00 > 1e-09",
+        "seconds": 37.5,
+        "status": "failed",
+        "verifier": "eval/test/hardening/baseline_move/tokenwise/verifier.py"
+      }
+    },
+    "problems": {
+      "multi_draft": 364080,
+      "single_draft_length": 46800,
+      "single_draft_main": 31104,
+      "single_draft_temperature": 31104
+    },
+    "slice": "test",
+    "stream_seed": 4049
+  },
+  "experiments": {
+    "multi_draft": {
+      "breakdown": {},
+      "constraint": {
+        "tokenwise": {
+          "lossless": false
+        }
+      },
+      "fixed_baseline": {
+        "tokenwise_block_efficiency": 3.423254046324328
+      },
+      "results": {
+        "tokenwise": {
+          "block_efficiency": 0.0
+        }
+      }
+    },
+    "single_draft_length": {
+      "breakdown": {},
+      "constraint": {
+        "tokenwise": {
+          "lossless": false
+        }
+      },
+      "fixed_baseline": {
+        "tokenwise_block_efficiency": 3.410852499359343
+      },
+      "results": {
+        "tokenwise": {
+          "block_efficiency": 0.0
+        }
+      }
+    },
+    "single_draft_main": {
+      "breakdown": {},
+      "constraint": {
+        "tokenwise": {
+          "lossless": false
+        }
+      },
+      "fixed_baseline": {
+        "tokenwise_block_efficiency": 3.154572508722202
+      },
+      "results": {
+        "tokenwise": {
+          "block_efficiency": 0.0
+        }
+      }
+    },
+    "single_draft_temperature": {
+      "breakdown": {},
+      "constraint": {
+        "tokenwise": {
+          "lossless": false
+        }
+      },
+      "fixed_baseline": {
+        "tokenwise_block_efficiency": 3.504090085001725
+      },
+      "results": {
+        "tokenwise": {
+          "block_efficiency": 0.0
+        }
+      }
+    }
+  }
+}
