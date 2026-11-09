@@ -1,0 +1,14 @@
+{
+  "cases": 19,
+  "command": "bash /home/user/scripts/run.sh",
+  "completed_at": 1794243226.9319673,
+  "duration": 60.44207954406738,
+  "explicit_rejections": 2,
+  "project_id": "swarm-2601.05724",
+  "returncode": 0,
+  "run_id": "e9ce9711-ed8",
+  "started_at": 1794243166.4898877,
+  "status": "completed",
+  "submitted_at": 1794243151.1413486,
+  "successful_hidden_invocations": 17
+}

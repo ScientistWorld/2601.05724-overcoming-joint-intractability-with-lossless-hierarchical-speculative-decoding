@@ -1,0 +1,26 @@
+{
+  "completion_protocol_exception": "action.yaml is set to done after final validation",
+  "preexisting_dirty_paths_preserved": [
+    " M README.md",
+    " M manifest.json",
+    " D trajectory/session.json",
+    " D trajectory/turn_0001_raw.jsonl",
+    " D trajectory/turn_0002_raw.jsonl",
+    " D trajectory/turn_0003_raw.jsonl",
+    " D trajectory/turn_0004_raw.jsonl",
+    " D trajectory/turn_0005_raw.jsonl"
+  ],
+  "protected_evaluator_sha256": {
+    "eval/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "eval/evaluate.py": "216c277c8325b2c813f28463eb616838d5595fa2f1d438adcc7cee454dbbf6f5",
+    "eval/test/__init__.py": "a91ea3eb1a12cbec23c8317a4e78283403d1af291ae1792ea422dea99ec303d2",
+    "eval/test/evaluate.py": "e8e9ed5d0a890a6b44b1285215c5423c50329635bd10204ac1229469f9c51076",
+    "eval/train/__init__.py": "3943b353b31cc5d7a8d993a814cdae69bd38c8edbd1dc085058a6ddacb201e78",
+    "eval/train/evaluate.py": "2b15b2d475dcce3882fb4389ee467e4c4c44e71cc25d3468de5c639101dcd5b8",
+    "scripts/evaluate_test.sh": "05a3ab3a97090b491fb91b4b94abf8302009d4a5c25ddc5611952948081e27a4"
+  },
+  "removed_system_generated_job_files": true,
+  "restored_job_script": true,
+  "start_commit": "3c937c6846f7a00265b81695deac01211e637bf4",
+  "unchanged_original_files_checked": 228
+}

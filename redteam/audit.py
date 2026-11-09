@@ -142,7 +142,9 @@ def main():
         run_case(args.case)
     else:
         for name in json.loads((REDTEAM / "cases.json").read_text()):
-            if (REDTEAM / name / "outcome.json").exists():
+            folder = REDTEAM / name
+            if ((folder / "outcome.json").exists()
+                    and list((folder / "artifacts").glob("*.json"))):
                 print(f"Skipping completed {name}", flush=True)
                 continue
             run_case(name)

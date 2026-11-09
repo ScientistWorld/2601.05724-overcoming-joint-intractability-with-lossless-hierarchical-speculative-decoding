@@ -1,0 +1,111 @@
+[hive] This stdout log is managed by Hive.
+[hive] job_id: 963c785b
+[hive] host: node
+[hive] node_id: 408388a4b9c5f3c534cc608905ce3598eead440eeb06feb67c0e4676
+[hive] user: nexus/user (remote)
+[hive] resource: gpu-cpu-test
+[hive] gpus: 0
+[hive] cpus: 1
+[hive] workdir: /home/user
+[hive] timeout_sec: 21600
+[hive] started_at: 2026-11-09 11:52:35 EST
+[hive] command: apptainer exec --containall --cleanenv --env HF_HOME=/home/user/shared/hf_cache --env TRANSFORMERS_CACHE=/home/user/shared/hf_cache --env HF_DATASETS_CACHE=/home/user/shared/hf_cache/datasets --env TORCH_HOME=/home/user/shared/hf_cache/torch --bind /home/user/scratch/AgentWorkspaces/workspaces/2601.05724:/home/user --overlay /home/user/scratch/AgentWorkspaces/workspaces/2601.05724/environment/overlay.img:ro --bind /home/user/scratch/AgentWorkspaces/shared/datasets:/home/user/shared/datasets:ro --bind /home/user/scratch/AgentWorkspaces/shared/models:/home/user/shared/models:ro --bind /home/user/scratch/AgentWorkspaces/shared/hf_cache:/home/user/shared/hf_cache /home/user/scratch/AgentWorkspaces/workspaces/2601.05724/environment/container.sif bash -c 'cd /home/user && bash /home/user/scripts/run.sh'
+{"case": "reference_seed1", "config": {"kind": "hsd", "samples": 80000, "seed": 1}, "hidden_command": ["bash", "scripts/evaluate_test.sh"], "process_isolation": "generator exits before train/test; standard environment", "generation_exit": 0, "train_exit": 0, "test_exit": 0, "protected_files_unchanged": true, "seconds": 3.340249676955864}
+{"case": "reference_seed2", "config": {"kind": "hsd", "samples": 80000, "seed": 1000001}, "hidden_command": ["bash", "scripts/evaluate_test.sh"], "process_isolation": "generator exits before train/test; standard environment", "generation_exit": 0, "train_exit": 0, "test_exit": 0, "protected_files_unchanged": true, "seconds": 3.095094304997474}
+{"case": "reference_seed3", "config": {"kind": "hsd", "samples": 80000, "seed": 2000001}, "hidden_command": ["bash", "scripts/evaluate_test.sh"], "process_isolation": "generator exits before train/test; standard environment", "generation_exit": 0, "train_exit": 0, "test_exit": 0, "protected_files_unchanged": true, "seconds": 3.0597730060108006}
+{"case": "better_more_samples", "config": {"kind": "hsd", "samples": 640000, "seed": 3000001}, "hidden_command": ["bash", "scripts/evaluate_test.sh"], "process_isolation": "generator exits before train/test; standard environment", "generation_exit": 0, "train_exit": 0, "test_exit": 0, "protected_files_unchanged": true, "seconds": 18.52664987393655}
+{"case": "weaker_tokenwise", "config": {"kind": "tokenwise", "samples": 80000, "seed": 101}, "hidden_command": ["bash", "scripts/evaluate_test.sh"], "process_isolation": "generator exits before train/test; standard environment", "generation_exit": 0, "train_exit": 0, "test_exit": 0, "protected_files_unchanged": true, "seconds": 3.3046086570248008}
+{"case": "weaker_fewer_samples", "config": {"kind": "hsd", "samples": 5000, "seed": 4000001}, "hidden_command": ["bash", "scripts/evaluate_test.sh"], "process_isolation": "generator exits before train/test; standard environment", "generation_exit": 0, "train_exit": 0, "test_exit": 0, "protected_files_unchanged": true, "seconds": 1.0074180869851261}
+{"case": "counters_shortcut", "config": {"kind": "counters_shortcut"}, "hidden_command": ["bash", "scripts/evaluate_test.sh"], "process_isolation": "generator exits before train/test; standard environment", "generation_exit": 0, "train_exit": 0, "test_exit": 0, "protected_files_unchanged": true, "seconds": 0.7948771750088781}
+{"case": "answers_shortcut", "config": {"kind": "answers_shortcut"}, "hidden_command": ["bash", "scripts/evaluate_test.sh"], "process_isolation": "generator exits before train/test; standard environment", "generation_exit": 0, "train_exit": 0, "test_exit": 0, "protected_files_unchanged": true, "seconds": 0.8107723679859191}
+{"case": "brute_force_shortcut", "config": {"kind": "brute_force_shortcut", "samples": 640000, "seed": 71}, "hidden_command": ["bash", "scripts/evaluate_test.sh"], "process_isolation": "generator exits before train/test; standard environment", "generation_exit": 0, "train_exit": 0, "test_exit": 0, "protected_files_unchanged": true, "seconds": 1.298166800988838}
+{"case": "biased_answers_shortcut", "config": {"kind": "biased_answers_shortcut"}, "hidden_command": ["bash", "scripts/evaluate_test.sh"], "process_isolation": "generator exits before train/test; standard environment", "generation_exit": 0, "train_exit": 0, "test_exit": 0, "protected_files_unchanged": true, "seconds": 0.7841566589195281}
+{"case": "fixed_truth_shortcut", "config": {"kind": "fixed_truth_shortcut"}, "hidden_command": ["bash", "scripts/evaluate_test.sh"], "process_isolation": "generator exits before train/test; standard environment", "generation_exit": 0, "train_exit": 0, "test_exit": 0, "protected_files_unchanged": true, "seconds": 0.7898441280703992}
+{"case": "baseline_move_shortcut", "config": {"kind": "baseline_move_shortcut"}, "hidden_command": ["bash", "scripts/evaluate_test.sh"], "process_isolation": "generator exits before train/test; standard environment", "generation_exit": 0, "train_exit": 0, "test_exit": 0, "protected_files_unchanged": true, "seconds": 0.9208511169999838}
+{"case": "self_fields_shortcut", "config": {"kind": "self_fields_shortcut"}, "hidden_command": ["bash", "scripts/evaluate_test.sh"], "process_isolation": "generator exits before train/test; standard environment", "generation_exit": 0, "train_exit": 0, "test_exit": 0, "protected_files_unchanged": true, "seconds": 0.792554646031931}
+{"case": "draft_only_shortcut", "config": {"kind": "draft_only_shortcut", "samples": 80000, "seed": 91}, "hidden_command": ["bash", "scripts/evaluate_test.sh"], "process_isolation": "generator exits before train/test; standard environment", "generation_exit": 0, "train_exit": 0, "test_exit": 0, "protected_files_unchanged": true, "seconds": 1.1851626129355282}
+{"case": "constant_shortcut", "config": {"kind": "constant_shortcut"}, "hidden_command": ["bash", "scripts/evaluate_test.sh"], "process_isolation": "generator exits before train/test; standard environment", "generation_exit": 0, "train_exit": 0, "test_exit": 0, "protected_files_unchanged": true, "seconds": 0.6839730029460043}
+{"case": "constant_counters_shortcut", "config": {"kind": "constant_counters_shortcut"}, "hidden_command": ["bash", "scripts/evaluate_test.sh"], "process_isolation": "generator exits before train/test; standard environment", "generation_exit": 0, "train_exit": 0, "test_exit": 0, "protected_files_unchanged": true, "seconds": 0.695179209811613}
+{"case": "nonfinite_shortcut", "config": {"kind": "nonfinite_shortcut"}, "hidden_command": ["bash", "scripts/evaluate_test.sh"], "process_isolation": "generator exits before train/test; standard environment", "generation_exit": 0, "train_exit": 0, "test_exit": 0, "protected_files_unchanged": true, "seconds": 0.78980997717008}
+{"case": "empty_shortcut", "config": {"kind": "empty_shortcut"}, "hidden_command": ["bash", "scripts/evaluate_test.sh"], "process_isolation": "generator exits before train/test; standard environment", "generation_exit": 0, "train_exit": 1, "test_exit": 1, "protected_files_unchanged": true, "seconds": 0.555211380822584}
+{"case": "fixed_setting_shortcut", "config": {"kind": "fixed_setting_shortcut"}, "hidden_command": ["bash", "scripts/evaluate_test.sh"], "process_isolation": "generator exits before train/test; standard environment", "generation_exit": 0, "train_exit": 1, "test_exit": 1, "protected_files_unchanged": true, "seconds": 0.5399211400654167}
+honest
+  better_more_samples            +1.001078
+  reference_seed1                +0.000000
+  reference_seed3                -0.720081
+  reference_seed2                -0.840857
+  weaker_fewer_samples           -5.230166
+  weaker_tokenwise               -5.583893
+all_finite
+  counters_shortcut              +8.279779
+  brute_force_shortcut           +0.594351
+  fixed_truth_shortcut           +0.264405
+  answers_shortcut               +0.264403
+  biased_answers_shortcut        +0.241539
+  better_more_samples            +0.167839
+  weaker_tokenwise               +0.003851
+  baseline_move_shortcut         +0.000000
+  reference_seed1                +0.000000
+  self_fields_shortcut           -0.000059
+  reference_seed3                -0.008618
+  reference_seed2                -0.012287
+  weaker_fewer_samples           -0.809122
+  draft_only_shortcut            -1.323283
+  constant_counters_shortcut     -7.501839
+  constant_shortcut              -7.501839
+task_failure
+  better_more_samples            +0.172376
+  draft_only_shortcut            +0.157502
+  reference_seed1                -0.000000
+  reference_seed3                -0.026272
+  reference_seed2                -0.033171
+  weaker_tokenwise               -0.241925
+  weaker_fewer_samples           -0.769617
+  constant_shortcut              -13.303981
+seed rank ranges {'honest': {'values': [1.3054344889827287e-15, -0.840856829407202, -0.7200809375606688], 'range': 0.8408568294072033}, 'all_finite': {'values': [4.64630300121423e-17, -0.012287491366799507, -0.008618439223828846], 'range': 0.012287491366799554}, 'task_failure': {'values': [-2.707912684877101e-16, -0.03317120085201901, -0.0262721980877206], 'range': 0.03317120085201874}}
+rejected or undefined ['nonfinite_shortcut', 'empty_shortcut', 'fixed_setting_shortcut']
+{
+  "finite_ar_gamma3": {
+    "hsd": {
+      "expected_target_steps_per_sequence": 1.2160355109963665,
+      "probability_mass": 1.0,
+      "raw_block_efficiency": 3.289377624114426,
+      "total_variation": 6.667843360785852e-17
+    },
+    "tokenwise": {
+      "expected_target_steps_per_sequence": 1.2723431256085975,
+      "probability_mass": 1.0000000000000004,
+      "raw_block_efficiency": 3.143806037452898,
+      "total_variation": 1.0907073855204175e-16
+    }
+  },
+  "finite_ar_main": {
+    "hsd": {
+      "expected_target_steps_per_sequence": 1.2160355109963663,
+      "probability_mass": 1.0000000000000002,
+      "raw_block_efficiency": 3.2893776241144264,
+      "total_variation": 7.743914016977715e-17
+    },
+    "tokenwise": {
+      "expected_target_steps_per_sequence": 1.2723431256085975,
+      "probability_mass": 1.0000000000000002,
+      "raw_block_efficiency": 3.143806037452898,
+      "total_variation": 1.2709559966961326e-16
+    }
+  },
+  "finite_ar_temp08": {
+    "hsd": {
+      "expected_target_steps_per_sequence": 1.2704439851774114,
+      "probability_mass": 0.9999999999999996,
+      "raw_block_efficiency": 3.148505598569479,
+      "total_variation": 6.015966804578943e-17
+    },
+    "tokenwise": {
+      "expected_target_steps_per_sequence": 1.33825161786039,
+      "probability_mass": 0.9999999999999996,
+      "raw_block_efficiency": 2.9889745296144232,
+      "total_variation": 1.1342109976913983e-16
+    }
+  }
+}
+

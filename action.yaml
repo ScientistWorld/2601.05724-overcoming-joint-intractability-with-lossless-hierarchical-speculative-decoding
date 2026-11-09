@@ -1,4 +1,2 @@
-action: submit
-gpus: 0
-test: false
-notes: "Run bundled benchmark audit: three 80k HSD seeds, 640k/5k HSD and tokenwise quality variants, 13 shortcut cases through the unchanged no-argument hidden test, normalized rank summaries and exact fidelity check."
+action: done
+notes: "Audit complete: honest quality and three-seed checks, 13 shortcut runs, brute-force enumeration, and scoring failures documented in REDTEAM.md; benchmark files restored."

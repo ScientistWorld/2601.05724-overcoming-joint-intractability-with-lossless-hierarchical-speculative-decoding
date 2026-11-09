@@ -11,6 +11,8 @@ The original data module, checkpoints, and scoring files are restored after
 each case. Generated checkpoints and full logs are ignored by git; retained
 scores, small generation diagnostics, failures, and outcome records are audit
 evidence. Delete a case's `artifacts/` directory to regenerate its outputs.
+Batch resumption skips only cases with both an outcome and cached artifacts;
+a fresh clone therefore regenerates every case despite retaining audit scores.
 
 `generate.py` reads only data, baseline, and improve-mode method code plus
 previously generated method outputs. It contains no test selector or test salt.
